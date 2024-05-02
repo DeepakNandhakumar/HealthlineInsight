@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthline Insight</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: #c9d6ff;
+            background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+            position: relative;
+            min-height: 100vh;
+            cursor: pointer; /* Change cursor to pointer */
+            color: #333; /* Set default text color */
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Distribute items evenly */
+            padding: 20px;
+            background-color: #c9d6ff;
+            background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+            width: 100%; /* Set width to fill the entire width */
+            border-bottom: 4px solid #333; /* Add a bottom border with increased size */
+        }
+
+        .logo {
+            width: 80px; /* Reduced logo width */
+            margin-left: 5px; /* Reduced margin for spacing */
+        }
+
+        .header h1 {
+            font-size: 40px; /* Increased font size */
+            font-weight: 700; /* Increased font weight */
+            color: #333;
+            margin-bottom: 5px; /* Reduced margin for spacing */
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav ul li {
+            margin: 0 20px; /* Reduced margin for spacing */
+            position: relative; /* Added relative positioning */
+        }
+
+        nav ul li a {
+            text-transform: uppercase;
+            text-decoration: none;
+            color: #555;
+            font-size: 20px; /* Increased font size */
+            font-weight: 500; /* Increased font weight */
+            transition: color 0.3s;
+            position: relative; /* Added relative positioning */
+            padding-bottom: 5px; /* Added padding for bottom border */
+        }
+
+        nav ul li a:hover {
+            color: #000;
+        }
+
+        nav ul li a.active {
+            border-bottom: 2px solid #000; /* Added bottom border for active link */
+        }
+
+        section {
+            padding: 30px 0;
+            text-align: center;
+            display: none; /* Initially hide all sections */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h2 {
+            font-size: 28px; /* Increased font size */
+            margin-bottom: 15px;
+            font-weight: 600; /* Increased font weight for better visibility */
+        }
+
+        h4 {
+            font-size: 24px; /* Increased font size for h4 */
+            line-height: 1.6;
+            color: #333; /* Set text color */
+            font-weight: 500; /* Increased font weight for better visibility */
+            margin-bottom: 20px; /* Added margin bottom for spacing */
+        }
+		#home {
+                text-align: left; /* Align text and content to the left */
+                padding: 30px 20px; /* Adjust padding for better spacing */
+     }
+
+        .reference-photo {
+    max-width: 100%; /* Set maximum width to prevent photos from exceeding container width */
+    height: 300px; /* Set a fixed height for all photos */
+    margin: 20px auto; /* Center the photos */
+    display: block;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+      #discover {
+             text-align: left; /* Align text and content to the left */
+}
+
+button {
+        padding: 15px 30px; /* Increase padding for larger buttons */
+        font-size: 24px; /* Increase font size for larger buttons */
+    }
+.form-group {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center; /* Align items vertically */
+}
+
+.form-group label {
+    font-weight: bold;
+    margin-right: 10px; /* Add some space between label and input */
+}
+
+input[type="number"] {
+    width: 200px; /* Adjust the width of input fields */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+.bmi-calculator-box {
+    background-color: #f9f9f9; /* Set background color for the box */
+    padding: 20px; /* Add padding to create space around the content */
+    border-radius: 10px; /* Add rounded corners to the box */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for depth */
+    margin: 20px auto; /* Center the box horizontally */
+    max-width: 1000px; /* Limit the maximum width of the box */
+}
+
+.bmi-calculator-box h2 {
+    font-size: 25px; /* Adjust font size for heading */
+    font-weight: bold; /* Make heading bold */
+    margin-bottom: 15px; /* Add spacing below the heading */
+}
+
+.bmi-calculator-box form {
+    text-align: center; /* Center the form elements */
+}
+
+.bmi-calculator-box .form-group {
+    margin-bottom: 20px; /* Add spacing between form elements */
+}
+
+.bmi-calculator-box input[type="number"] {
+    width: 250%; /* Make input fields full width */
+}
+
+.bmi-calculator-box button {
+    display: block; /* Make the button a block element */
+    margin: 0 auto; /* Center the button */
+}
+
+
+   
+
+
+        .full-width-line {
+            width: 100%;
+            height: 4px; /* Adjust the height as needed */
+            background-color: #333; /* Color of the line */
+        }
+
+        footer {
+            padding: 20px;
+            text-align: center;
+            background-color: #f0f0f0; /* Background color of the footer */
+        }
+
+        footer p {
+            font-size: 16px;
+            color: #555; /* Text color of the footer */
+        }
+
+        .contact-form {
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        button[type="submit"] {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #000;
+        }
+		
+		#photo-selection {
+    display: block;
+    margin: 0 auto; /* This will center the select dropdown */
+    width: 250px; /* Adjust width as needed */
+    padding: 15px; /* Adjust padding as needed */
+    font-size: 16px; /* Adjust font size as needed */
+}
+.centered-photos {
+        display: flex;
+        justify-content: center; /* Center align */
+        
+    }
+
+    .centered-photos img {
+        margin: 0 10px; /* Adjust margin as needed */
+    }
+    #health_condition {
+        text-align: left;
+        margin: 0 auto; /* Center the section horizontally and add bottom margin */
+        max-width: 1150px; /* Optionally set a maximum width for better readability */
+    }
+
+<section id="health_condition">
+    <!-- Content goes here -->
+</section>
+
+
+
+
+    </style>
+</head>
+<body>
+<header class="header-container">
+    <img src="healthy1.png" alt="Healthline Foods Logo" class="logo">
+    <div class="header">
+        <h1>Healthline Insight</h1>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="#home" onclick="revealSection('home')" class="active">Home</a></li>
+            <li><a href="#health_condition" onclick="revealSection('health_condition')">Health Condition</a></li>
+            <li><a href="#discover" onclick="revealSection('discover')">Discover</a></li>
+            <li><a href="#tools" onclick="revealSection('tools')">Tools</a></li>
+            <li><a href="#contactus" onclick="revealSection('contactus')">Contact Us</a></li>
+            <li><a href="#aboutus" onclick="revealSection('aboutus')">About Us</a></li>
+
+        </ul>
+    </nav>
+</header>
+
+<div class="container">
+    <section id="home">
+        <h2>Welcome to Healthy Medicine Foods: Nourish Your Body Daily</h2>
+        <h4>In a world where health is paramount, our mission is to guide you towards a balanced and nourished life through the power of medicinal foods. Explore our curated collection of articles, recipes, and expert insights designed to empower you to make informed choices for your well-being.</h4>
+        <img src="https://www.plattershare.com/storage/2023/12/Food-as-Medicine.jpg" alt="Reference Photo 1" class="reference-photo">
+        <h2>The Power of Healthy Medicine Foods in Daily Life</h2>
+        <h4>In today's fast-paced world, where convenience often takes precedence over health, it's crucial to remember the profound impact that our dietary choices can have on our overall well-being. This homepage is dedicated to exploring the realm of healthy medicine foods and their transformative effects on our daily lives.</h4>
+        <img src="https://locable-assets-production.s3.amazonaws.com/uploads/resource/file/828651/food-as-vitamin-sources.jpg?timestamp=1711890968" alt="Reference Photo 2" class="reference-photo">
+        <h2>Discover the Healing Power of Food:</h2>
+        <h4>Dive into the science behind how certain foods can act as medicine, promoting vitality and longevity.</h4>
+        <h4>Learn about the nutritional benefits of incorporating superfoods into your daily diet to boost immunity and overall health.</h4>
+        <img src="https://megunprocessed.com/wp-content/uploads/2017/01/How-To-Heal-Yourself-With-Food.jpg" alt="Reference Photo 3" class="reference-photo">
+        <h2>Nutritious Recipes for Every Meal:</h2>
+        <h4>Explore our diverse range of delicious and nutrient-rich recipes, from energizing breakfast smoothies to wholesome dinner options.</h4>
+        <h4>Find inspiration for incorporating medicinal herbs and spices into your cooking to enhance flavor and wellness.</h4>
+        <img src="https://img.delicious.com.au/bHw5OikO/del/2023/11/smoked-kingfish-salad-with-tamarind-dressing-202998-1.jpg" alt="Reference Photo 4" class="reference-photo">
+        <h2>Expert Guidance for Optimal Health:</h2>
+        <h4>Gain valuable insights from healthcare professionals and nutritionists on how to optimize your diet for vitality and disease prevention.</h4>
+        <h4>Stay informed about the latest research and trends in holistic health and nutrition.</h4>
+        <img src="https://static.wixstatic.com/media/15a72b_1573b56d170c49e48572d41d7cd4c8b4~mv2.png/v1/fill/w_640,h_444,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/15a72b_1573b56d170c49e48572d41d7cd4c8b4~mv2.png" alt="Reference Photo 5" class="reference-photo">
+        <h2>Join Our Community:</h2>
+        <h4>Connect with like-minded individuals who are passionate about harnessing <br>the power of food for health and well-being.</h4>
+        <h4>Share your own journey towards a healthier lifestyle and inspire others to prioritize self-care through nutritious eating habits.</h4>
+        <h4>Start your journey towards a healthier, more vibrant life today with Healthy Medicine Foods.<br>Embrace the transformative potential of food and experience the profound benefits of nourishing your body from within.</h4>
+    </section>
+</div>
+
+
+
+<section id="health_condition" style="text-align: left;">
+    <h2>Health Conditions</h2>
+    <h4>Welcome to our health conditions information page. Here, you can find valuable insights and resources about various health conditions. Explore our website to learn more about these health conditions and discover valuable resources for managing and preventing them. Remember, always consult with a healthcare professional for personalized medical advice and treatment.</h4>
+    <h4>Explore the causes and their solution:</h4>
+    <!-- Health conditions with bullet point descriptions -->
+    <div>
+        <select id="photo-selection" onchange="revealSelectedPhoto()">
+            <option value="Select" hidden>Select</option>
+            <option value="photo1">Autoimmune disease</option>
+            <option value="photo2">Back pain</option>
+            <option value="photo3">Blood pressure</option>
+            <option value="photo4">Brain power</option>
+            <option value="photo5">Breast cancer</option>
+            <option value="photo6">Bronchial asthma</option>
+            <option value="photo7">Cough</option>
+            <option value="photo8">Eyesight</option>
+            <option value="photo9">Food poisoning</option>
+            <option value="photo10">Heart</option>
+            <option value="photo11">Headache</option>
+            <option value="photo12">Human immunodeficiency virus (HIV)</option>
+            <option value="photo13">Indigestion</option>
+            <option value="photo14">Jaundice</option>
+            <option value="photo15">Kidney pain</option>
+            <option value="photo16">Leg pain</option>
+            <option value="photo17">Normal and viral fever</option>
+            <option value="photo18">Shoulder pain</option>
+            <option value="photo19">Stone relief</option>
+            <option value="photo20">Stomach ulcer</option>
+            <option value="photo21">Sugar</option>
+            <option value="photo22">Vomiting</option>
+        </select>
+    </div>
+
+    
+<div id="cause-details" style="display: none;">
+     <div id="photo1-details" style="display: none;">
+            <h2>Autoimmune Disease</h2>
+            <h4>Autoimmune diseases occur when the immune system mistakenly attacks the body's own tissues. Examples include rheumatoid arthritis, lupus, and multiple sclerosis.</h4>
+        </div>
+        <div id="photo2-details" style="display: none;">
+            <h2>Back Pain</h2>
+            <h4>Back pain is a common ailment that can range from mild discomfort to severe, debilitating pain. It can be caused by various factors such as poor posture, muscle strain, or underlying medical conditions.</h4>
+        </div>
+        <div id="photo3-details" style="display: none;">
+            <h2>Blood Pressure</h2>
+            <h4>Blood pressure refers to the force of blood pushing against the walls of the arteries as the heart pumps blood. High blood pressure (hypertension) and low blood pressure (hypotension) can both have significant health implications.</h4>
+        </div>
+        <div id="photo4-details" style="display: none;">
+            <h2>Brain Power</h2>
+            <h4>Maintaining cognitive function and brain health is essential for overall well-being. Strategies such as a balanced diet, regular exercise, mental stimulation, and adequate sleep can help enhance brain power.</h4>
+        </div>   
+		<div id="photo5-details" style="display: none;">
+    <h2>Breast Cancer</h2>
+    <h4>Breast cancer is a type of cancer that forms in the cells of the breasts. Early detection through screening tests like mammograms can improve treatment outcomes.</h4>
+</div>
+<div id="photo6-details" style="display: none;">
+    <h2>Bronchial Asthma</h2>
+    <h4>Bronchial asthma is a chronic respiratory condition characterized by inflammation and narrowing of the airways, leading to symptoms such as wheezing, coughing, and shortness of breath.</h4>
+</div>
+<div id="photo7-details" style="display: none;">
+    <h2>Cough</h2>
+    <h4>Coughing is the body's natural reflex to clear the airways of irritants or mucus. However, persistent or severe coughing may indicate an underlying health issue that requires medical attention.</h4>
+</div>
+<div id="photo8-details" style="display: none;">
+    <h2>Eyesight</h2>
+    <h4>Maintaining good eyesight is essential for performing daily tasks and enjoying a high quality of life. Regular eye exams, wearing protective eyewear, and adopting healthy lifestyle habits can help preserve vision.</h4>
+</div>
+<div id="photo9-details" style="display: none;">
+    <h2>Food Poisoning</h2>
+    <h4>Food poisoning occurs when contaminated food or water is consumed, leading to symptoms such as nausea, vomiting, diarrhea, and abdominal pain. Proper food handling and hygiene practices can help prevent foodborne illnesses.</h4>
+</div>
+<div id="photo10-details" style="display: none;">
+    <h2>Heart</h2>
+    <h4>The heart is a vital organ responsible for pumping oxygen-rich blood throughout the body. Taking steps to maintain heart health, such as eating a balanced diet, exercising regularly, managing stress, and avoiding tobacco use, can reduce the risk of heart disease.</h4>
+</div>
+<div id="photo11-details" style="display: none;">
+    <h2>Headache</h2>
+    <h4>Headaches can be caused by various factors, including tension, stress, dehydration, or underlying health conditions. Identifying triggers and implementing relaxation techniques or medications can help alleviate headache symptoms.</h4>
+</div>
+<div id="photo12-details" style="display: none;">
+    <h2>Human Immunodeficiency Virus (HIV)</h2>
+    <h4>HIV is a virus that attacks the body's immune system, specifically targeting CD4 cells, which play a crucial role in fighting infections. Early diagnosis and proper medical treatment can help manage HIV and prevent its progression to AIDS.</h4>
+</div>
+<div id="photo13-details" style="display: none;">
+    <h2>Indigestion</h2>
+    <h4>Indigestion, also known as dyspepsia, refers to discomfort or pain in the upper abdomen that occurs during or after eating. Lifestyle changes, dietary modifications, and over-the-counter medications can help alleviate indigestion symptoms.</h4>
+</div>
+<div id="photo14-details" style="display: none;">
+    <h2>Jaundice</h2>
+    <h4>Jaundice is a condition characterized by yellowing of the skin and eyes due to elevated levels of bilirubin in the blood. It can be caused by various underlying medical conditions affecting the liver, gallbladder, or bile ducts.</h4>
+</div>
+<div id="photo15-details" style="display: none;">
+    <h2>Kidney Pain</h2>
+    <h4>Kidney pain typically manifests as dull, aching discomfort in the back or side, usually below the ribs. It can be caused by kidney infections, kidney stones, or other kidney-related conditions.</h4>
+</div>
+<div id="photo16-details" style="display: none;">
+    <h2>Leg Pain</h2>
+    <h4>Leg pain can be caused by muscle cramps, injuries, overuse, or underlying medical conditions such as peripheral artery disease or sciatica. Proper diagnosis and treatment are essential for managing leg pain effectively.</h4>
+</div>
+<div id="photo17-details" style="display: none;">
+    <h2>Normal and Viral Fever</h2>
+    <h4>Fever is a temporary increase in body temperature, often indicating that the body is fighting off an infection or illness. While most fevers are caused by viral or bacterial infections and resolve on their own, persistent or high fevers may require medical attention.</h4>
+</div>
+<div id="photo18-details" style="display: none;">
+    <h2>Shoulder Pain</h2>
+    <h4>Shoulder pain can result from various factors, including rotator cuff injuries, tendonitis, arthritis, or shoulder impingement syndrome. Physical therapy, medication, and in some cases, surgical intervention may be necessary to alleviate shoulder pain and restore mobility.</h4>
+</div>
+<div id="photo19-details" style="display: none;">
+    <h2>Stone Relief</h2>
+    <h4>Kidney stones are hard deposits that form in the kidneys and can cause severe pain when passing through the urinary tract. Drinking plenty of water, dietary modifications, and certain medications can help prevent and alleviate kidney stones.</h4>
+</div>
+<div id="photo20-details" style="display: none;">
+    <h2>Stomach Ulcer</h2>
+    <h4>Stomach ulcers, also known as peptic ulcers, are open sores that develop on the inner lining of the stomach or the upper part of the small intestine. Treatment typically involves medications to reduce stomach acid production and promote ulcer healing.</h4>
+</div>
+<div id="photo21-details" style="display: none;">
+    <h2>Sugar</h2>
+    <h4>Maintaining healthy blood sugar levels is crucial for overall health, especially for individuals with diabetes. Monitoring carbohydrate intake, regular physical activity, and medication adherence are key components of diabetes management.</h4>
+</div>
+<div id="photo22-details" style="display: none;">
+    <h2>Vomiting</h2>
+    <h4>Vomiting, or emesis, is the forceful expulsion of stomach contents through the mouth and sometimes the nose. It can be caused by various factors such as infections, food poisoning, motion sickness, or underlying medical conditions.</h4>
+</div>
+
+		
+</div>
+    <div class="centered-photos">
+    <img id="photo1" src="https://static.wixstatic.com/media/8be72a_21cc2685dfa741dc8015075a6ed61bc3~mv2.jpg/v1/fill/w_480,h_470,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/8be72a_21cc2685dfa741dc8015075a6ed61bc3~mv2.jpg" alt="Hidden Photo 1" style="display: none; width: 360px; height: 360px;">
+    <img id="photo2" src="https://freshclub.co.in/cdn/shop/products/cumin_seeds_100g-850x850.jpg?v=1660189247" alt="Hidden Photo 2" style="display: none; width: 360px; height: 360px;">
+    <img id="photo3" src="https://ministryofcurry.com/wp-content/uploads/2018/11/pomegranate-juice-1.jpg" alt="Hidden Photo 3" style="display: none; width: 360px; height: 360px;">
+    <img id="photo4" src="https://upload.wikimedia.org/wikipedia/commons/c/cb/Centella_asiatica_2zz.jpg" alt="Hidden Photo 4" style="display: none; width: 360px; height: 360px;">
+    <img id="photo5" src="https://static.toiimg.com/photo/76891362.cms" alt="Hidden Photo 5" style="display: none; width: 360px; height: 360px;">
+    <img id="photo6" src="https://static.toiimg.com/thumb/msid-105708696,width-1280,height-720,resizemode-4/105708696.jpg" alt="Hidden Photo 6" style="display: none; width: 360px; height: 360px;">
+    <img id="photo7" src="https://janescafemissionvalley.com/wp-content/uploads/2022/08/different-kinds-of-grapes-for-eating-hdr.webp" alt="Hidden Photo 7" style="display: none; width: 360px; height: 360px;">
+    <img id="photo8" src="https://images.everydayhealth.com/images/diet-nutrition/all-about-zucchini-nutrition-benefits-side-effects-1440x810.jpg" alt="Hidden Photo 8" style="display: none; width: 360px; height: 360px;">
+    <img id="photo9" src="https://images.herzindagi.info/image/2023/Nov/ginger-tea-recipe.jpg" alt="Hidden Photo 9" style="display: none; width: 360px; height: 360px;">
+    <img id="photo10" src="https://www.indianhealthyrecipes.com/wp-content/uploads/2022/02/apple-juice-recipe.jpg" alt="Hidden Photo 10" style="display: none; width: 360px; height: 360px;">
+    <img id="photo11" src="https://upload.wikimedia.org/wikipedia/commons/9/99/Piper_betle_plant.jpg" alt="Hidden Photo 11" style="display: none; width: 360px; height: 360px;">
+    <img id="photo12" src="https://cdn.wikifarmer.com/wp-content/uploads/2023/09/iStock-1068858270.jpg" alt="Hidden Photo 12" style="display: none; width: 360px; height: 360px;">
+    <img id="photo13" src="https://cdn-prod.medicalnewstoday.com/content/images/articles/275/275944/mint-on-a-wooden-table.jpg" alt="Hidden Photo 13" style="display: none; width: 360px; height: 360px;">
+    <img id="photo14" src="https://www.wildturmeric.net/wp-content/uploads/2014/12/chanca-piedra-health-benefits-1440x954.jpg" alt="Hidden Photo 14" style="display: none; width: 360px; height: 360px;">
+    <img id="photo15" src="https://www.tastingtable.com/img/gallery/is-cauliflower-flour-actually-worth-stocking-in-your-kitchen/l-intro-1704736309.jpg" alt="Hidden Photo 15" style="display: none; width: 360px; height: 360px;">
+    <img id="photo16" src="https://nawon.com.vn/wp-content/uploads/2023/10/Avocado-juice-for-Weight-Loss-1224x800.jpg" alt="Hidden Photo 16" style="display: none; width: 360px; height: 360px;">
+    <img id="photo17" src="https://zestysouthindiankitchen.com/wp-content/uploads/2013/11/papaya-juice-5.jpg" alt="Hidden Photo 17" style="display: none; width: 360px; height: 360px;">
+    <img id="photo18" src="https://post.healthline.com/wp-content/uploads/2021/04/pineapple-juice-1296x728-header-.jpg" alt="Hidden Photo 18" style="display: none; width: 360px; height: 360px;">
+    <img id="photo19" src="https://tamil.cdn.zeenews.com/tamil/sites/default/files/2023/03/03/276613-mar303.png" alt="Hidden Photo 19" style="display: none; width: 360px; height: 360px;">
+    <img id="photo20" src="https://media.post.rvohealth.io/wp-content/uploads/2020/08/blueberries-1200x628-facebook-1200x628.jpg" alt="Hidden Photo 20" style="display: none; width: 360px; height: 360px;">
+    <img id="photo21" src="https://5.imimg.com/data5/SELLER/Default/2023/7/324514603/NM/PY/QZ/11104951/indian-fenugreek-seeds.jpg" alt="Hidden Photo 21" style="display: none; width: 360px; height: 360px;">
+    <img id="photo22" src="https://cdn.britannica.com/84/188484-050-F27B0049/lemons-tree.jpg" alt="Hidden Photo 22" style="display: none; width: 360px; height: 360px;">
+</div>
+</section>
+
+
+ 
+<section id="discover">
+    <div class="container">
+        <h2>Discover What We Do</h2>
+        <h4>At Healthline Foods, we are dedicated to helping individuals achieve optimal health through nutritious eating habits and lifestyle choices. Here's what we offer:</h4>
+        
+        <h4>Whether you're looking to improve your eating habits, manage a health condition, or simply live a healthier life, Healthline Foods is here to support you every step of the way.</h4>
+        <p><a href="cb2431en.pdf" target="_blank">Cost and affordability of healthy diets</a></p>
+		<p>                                           <br>                                                 </p>
+        <p><a href="_var_www_nin.res.in_downloads_DietaryGuidelinesforNINwebsite (1).pdf" target="_blank">Dietary guidelines for indians</a></p> 
+        <p>                                           <br>                                                 </p>
+		<p><a href="Etile_FoodConsumptionandHealth_OHAE_Chapter30_2010.pdf" target="_blank">Food consumption and health</a></p>	
+		<p>                                           <br>                                                 </p>
+        <p><a href="FigueroaHoughtalingibae005.pdf" target="_blank">Food is Medicine and implementation science</a></p>
+		<p>                                           <br>                                                 </p>
+		<p><a href="EMROPUB_2019_en_23536.pdf" target="_blank">Healthy diet</a></p>
+		<p>                                           <br>                                                 </p>
+		<p><a href="s41598-017-17262-9.pdf" target="_blank">Healthy food choices are happy food choices</a></p>
+		<p>                                           <br>                                                 </p>
+        <p><a href="Healthy_food_to_support_healthy_life.pdf" target="_blank">Healthy food to support healthy life</a></p>
+		<p>                                           <br>                                                 </p>
+        <p><a href="Nutrients_Foods_Diets_People_Promoting_Healthy_Eat.pdf" target="_blank">Nutrients, Foods, Diets, People: Promoting Healthy Eating</a></p>	
+    </div>
+</section>
+
+<section id="tools">
+    <div class="container">
+        <h2>Tools</h2>
+        <!-- Add buttons for BMI calculator and sleep calculator -->
+        <button onclick="showBMI()">BMI Calculator</button>
+        <button onclick="showSleep()">Sleep Calculator</button>
+
+        <!-- Section for BMI calculator -->
+    <section id="bmiCalculator" style="display: none; text-align: left;">
+    <h2 style="font-weight: bold;">BMI Calculator:</h2>
+    <h4>Body mass index (BMI) uses a person’s height and weight to help determine if they are a moderate weight. BMI charts also display the ranges for the categories of underweight, overweight, and obesity.</h4>
+    <h4>Carrying too much or too little weight can increase a person’s risk of health problems, either in the present or the future.</h4>
+    <h4>A person’s BMI is not the only factor that affects this risk. Other tools for assessing whether or not a person has a healthy weight or body composition for them include waist-to-hip ratio, waist-to-height ratio, and body fat percentage.</h4>
+    <h4>However, BMI may be a useful starting point. This article provides some tools for people to work out their BMI.</h4>
+	<div class="bmi-calculator-box">
+    <h2>BMI Calculator</h2>
+    <form id="bmi-form">
+        <div class="form-group">
+            <label for="height-cm">Height in cm:</label>
+            <input type="number" id="height-cm" placeholder="Enter your height in cm" required>
+            <label for="weight-kg">Weight in kg:</label>
+            <input type="number" id="weight-kg" placeholder="Enter your weight in kg" required>
+        </div>
+        <button type="button" onclick="calculateBMI()">Calculate BMI</button>
+    </form>
+    <div id="bmi-result"></div>
+</div>
+    
+    <h2 style="font-weight: bold;">The flaws of BMI</h2>
+    <h4>BMI is a calculation of a person’s body fat based on their height and weight. However, studies suggest it is a poor indicator of a person’s body fat percentage.</h4>
+    <h4>It can be misleading because the measure does not account for overall body composition. The BMI measurement overlooks bone density, muscle mass, and other considerations.</h4>
+    <h4>For additional information, talk with your doctor about other body fat assessment methods.</h4>
+    
+    <h2 style="font-weight: bold;">BMI charts</h2>
+    <h4>To use the charts below, a person can find their weight in pounds along the top and their height in feet and inches down the side. They can then look across to find their BMI.</h4>
+    <h4>There are two charts. If a person’s weight is 245 pounds (lb) or under, they should use the first chart. If their weight is over 250 lb, they should look at the second one.</h4>
+    <h4>The shaded areas correspond to BMI values that indicate either a moderate weight, overweight, or obesity.</h4>
+	<h4>Researchers and doctors divide obesity into three categories:</h4>
+    <ul>
+        <li><h4><strong>Class 1: BMI is 30–34.9.</strong></h4></li>
+        <li><h4><strong>Class 2: BMI is 35–39.9.</strong></h4></li>
+        <li><h4><strong>Class 3: BMI is 40 and above.</strong></h4></li>
+    </ul><br>
+	<h4><strong>BMI chart: Weight of 95–245 lb</strong></h4>
+    <img src="https://cdn-prod.medicalnewstoday.com/content/images/info/obesity/bmi-chart-underweight-to-overweight.png" alt="BMI Chart: Weight of 95–245 lb">
+	<h4>Adult BMI chart showing ranges “under healthy weight: BMI < 18.5,” “healthy weight: BMI 18.5–24.9,” and “overweight: BMI 25–29.9.”</h4>
+    
+    <h4><strong>BMI chart: Weight of 250–400 lb</strong></h4>
+    <img src="https://cdn-prod.medicalnewstoday.com/content/images/info/obesity/obese-bmi-chart.png" alt="BMI Chart: Weight of 250–400 lb">
+	<h4>Adult BMI chart showing ranges “obese 1: BMI 30–34.9,” “obese 2: BMI 35–39.9,” and “obese 3: BMI ≥ 40.”</h4>
+
+    
+    
+    
+    
+    <!-- Include BMI charts images here -->
+    
+    <h2 style="font-weight: bold;">BMI categories</h2>
+    <h4>The following table shows the standard weight status categories associated with BMI ranges for adults:</h4>
+    <table style="font-size: 1.2em; border-collapse: collapse; width: 50%;">
+    <tr>
+        <th style="border: 1px solid #333;">BMI Range</th>
+        <th style="border: 1px solid #333;">Weight Status</th>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #333;">Below 18.5</td>
+        <td style="border: 1px solid #333;">Underweight</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #333;">18.5–24.9</td>
+        <td style="border: 1px solid #333;">Healthy</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #333;">25–29.9</td>
+        <td style="border: 1px solid #333;">Overweight</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #333;">30 and above</td>
+        <td style="border: 1px solid #333;">Obese</td>
+    </tr>
+    
+</table>
+
+
+    <h4 style="font-weight: bold;">BMI of under 18.5</h4>
+    <h4>A BMI of under 18.5 indicates that a person has insufficient weight, so they may need to put on some weight. They should ask a doctor or dietitian for advice.</h4>
+    
+    <h4 style="font-weight: bold;">BMI of 18.5–24.9</h4>
+    <h4>A BMI of 18.5–24.9 indicates that a person has a healthy weight for their height. By maintaining a healthy weight, they can lower their risk of developing serious health problems.</h4>
+    
+    <h4 style="font-weight: bold;">BMI of 25–29.9</h4>
+    <h4>A BMI of 25–29.9 indicates that a person is slightly overweight. A doctor may advise them to lose some weight for health reasons. They should talk with a doctor or dietitian for advice.</h4>
+    
+    <h4 style="font-weight: bold;">BMI of over 30</h4>
+    <h4>A BMI of over 30 indicates that a person has obesity. Their health may be at risk if they do not lose weight. They should talk with a doctor or dietitian for advice.</h4>
+    
+	<h2 style="font-weight: bold;">Varying cutoff points</h2>
+    <h4>Some evidence suggests that the associations between BMI, body fat percentage, and body fat distribution may differ across populations due to variations in sex, race, and ethnicity.</h4>
+    <h4>A Brazilian study from 2017 looked at the correlation between BMI and body fat percentage in 856 adult males and females.</h4>
+    <h4>They concluded that to predict obesity-type body fat percentage, the standard BMI threshold of 29.9 kilograms per square meter (kg/m2) was appropriate for males but that a more suitable cutoff point for females appeared to be 24.9 kg/m2.</h4>
+    <h4>In 2017, Korean researchers pointed out that people in the Asia-Pacific region often have a higher risk of type 2 diabetes and cardiovascular disease at a BMI below the existing World Health Organization (WHO) cutoff point of 25 kg/m2.</h4>
+    <h4>In Korea, they added, there is evidence to suggest that almost twice as many people have features of metabolic obesity but a moderate weight compared with the United States.</h4>
+    <h4>The results of one 2011 study found that Asian American people within the healthy weight range were more likely to have symptoms of metabolic syndrome than their non-Hispanic white counterparts.</h4>
+    <h4>The following table by the WHO shows some comparisons and cutoff points that may apply. Doctors may use these variations when advising or treating conditions in specific people.</h4>
+    <table style="font-size: 1.5em; border-collapse: collapse; border: 1px solid #333; width: 100%;">
+    <tr>
+        <th style="border: 1px solid #333;">Weight Status</th>
+        <th style="border: 1px solid #333;">Male</th>
+        <th style="border: 1px solid #333;">Female</th>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #333;">Underweight</td>
+        <td style="border: 1px solid #333;">&lt; 18.50</td>
+        <td style="border: 1px solid #333;">&lt; 18.50</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #333;">Severe thinness</td>
+        <td style="border: 1px solid #333;">&lt; 16</td>
+        <td style="border: 1px solid #333;">&lt; 16</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #333;">Moderate thinness</td>
+        <td style="border: 1px solid #333;">16–16.99</td>
+        <td style="border: 1px solid #333;">16–16.99</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #333;">Mild thinness</td>
+        <td style="border: 1px solid #333;">17–18.49</td>
+        <td style="border: 1px solid #333;">17–18.49</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #333;">Normal range</td>
+        <td style="border: 1px solid #333;">18.5–24.99</td>
+        <td style="border: 1px solid #333;">18.5–22.99</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #333;">Overweight</td>
+        <td style="border: 1px solid #333;">≥ 25</td>
+        <td style="border: 1px solid #333;">≥ 25</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #333;">Pre-obese</td>
+        <td style="border: 1px solid #333;">25–29.99</td>
+        <td style="border: 1px solid #333;">25–27.49</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #333;">Obese</td>
+        <td style="border: 1px solid #333;">≥ 30</td>
+        <td style="border: 1px solid #333;">≥ 30</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #333;">Obese class 1</td>
+        <td style="border: 1px solid #333;">30–34.99</td>
+        <td style="border: 1px solid #333;">30–32.49</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #333;">Obese class 2</td>
+        <td style="border: 1px solid #333;">35–39.99</td>
+        <td style="border: 1px solid #333;">35–37.49</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #333;">Obese class 3</td>
+        <td style="border: 1px solid #333;">≥ 40</td>
+        <td style="border: 1px solid #333;">≥ 40</td>
+    </tr>
+</table>
+
+
+    <h2 style="font-weight: bold;">Summary:</h2>
+    <h4>BMI is a useful tool that gives a general idea about whether or not a person’s weight is healthy for them. However, it is a simple tool that does not tell the whole story about people’s individual weight and health risks. Anyone who is concerned about their weight should speak with a doctor, who may also consider their body fat distribution and the ratio of their waist size to their height. The doctor will also be able to offer advice to suit every individual.</h4>
+</section>
+
+
+
+
+        <!-- Section for Sleep Calculator -->
+<section id="sleepCalculator" style="display: none; text-align: left;">
+    <h2 style="font-weight: bold;">Sleep Calculator: </h2>
+    <h4>Different factors influence how much sleep a person requires. Guidelines can help a person figure out how much sleep they need, which can help them determine a sleep routine for optimal health.</h4>
+    <h4>Experts believe that sleep is just as important to a person’s health as food and water. Getting the right amount of sleep can help prevent disease, boost immunity, and improve mental health.</h4>
+    <h4>Still, many of us are not getting enough sleep. The Centers for Disease Control and Prevention (CDC) estimate that about one-third of adults consistently do not get the sleep that they need.</h4>
+    <h4>Building a healthy sleep pattern may require tweaking the schedule or lifestyle. While this can be challenging at first, the benefits of proper sleep are worth the effort.</h4>
+    
+    <h2>How much should you sleep?</h2>
+    <img src="https://1.bp.blogspot.com/-Qm28FE-if6E/XS3r5cQIbPI/AAAAAAAARyE/4tfcWapWaUoANX6aTPeOygKN9FJoyHm4wCLcBGAs/s1600/OLDER%2BADULT%2BSLEEPING%2BiStock-1029339248.jpg" style="width: 1000px;" alt="Image Description"><h4>A person’s age can affect the amount of sleep that they need.</h4>
+<h4>Though there are general guidelines, some people need more sleep than others, due to their lifestyle, any health conditions, and their genetic makeup.</h4>
+<h4>The National Sleep Foundation (NSF) recommend that people of different ages get the following amounts of sleep every 24 hours:</h4>
+<table style="border-collapse: collapse; width: 100%;">
+    <tr>
+        <th style="border: 1px solid black; padding: 8px;">Age Group</th>
+        <th style="border: 1px solid black; padding: 8px;">Hours of Sleep</th>
+    </tr>
+    <tr>
+        <td style="border: 1px solid black; padding: 8px;">Newborns (0–3 months)</td>
+        <td style="border: 1px solid black; padding: 8px;">14–17 hours</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid black; padding: 8px;">Infants (4–11 months)</td>
+        <td style="border: 1px solid black; padding: 8px;">12–15 hours</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid black; padding: 8px;">Toddlers (1–2 years)</td>
+        <td style="border: 1px solid black; padding: 8px;">11–14 hours</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid black; padding: 8px;">Preschoolers (3–5 years)</td>
+        <td style="border: 1px solid black; padding: 8px;">10–13 hours</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid black; padding: 8px;">School-age Children (6–13 years)</td>
+        <td style="border: 1px solid black; padding: 8px;">9–11 hours</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid black; padding: 8px;">Teenagers (14–17 years)</td>
+        <td style="border: 1px solid black; padding: 8px;">8–10 hours</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid black; padding: 8px;">Younger Adults (18–25 years)</td>
+        <td style="border: 1px solid black; padding: 8px;">7–9 hours</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid black; padding: 8px;">Adults (26–64 years)</td>
+        <td style="border: 1px solid black; padding: 8px;">7–9 hours</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid black; padding: 8px;">Older Adults (65 years and above)</td>
+        <td style="border: 1px solid black; padding: 8px;">7–8 hours</td>
+    </tr>
+</table>
+
+    
+    <h2>How to get the right amount</h2>
+<h4>The following chart can help a person figure out when they need to be going to bed to get 8 hours of sleep a night:</h4>
+<table style="border-collapse: collapse; width: 100%;">
+    <tr>
+        <th style="border: 1px solid black; padding: 8px;">Wake-up time</th>
+        <th style="border: 1px solid black; padding: 8px;">Bedtime (to get 8 hours of sleep)</th>
+    </tr>
+    <tr>
+        <td style="border: 1px solid black; padding: 8px;">4:00 a.m.</td>
+        <td style="border: 1px solid black; padding: 8px;">7:45 p.m.</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid black; padding: 8px;">4:30 a.m.</td>
+        <td style="border: 1px solid black; padding: 8px;">8:15 p.m.</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid black; padding: 8px;">5:00 a.m.</td>
+        <td style="border: 1px solid black; padding: 8px;">8:45 p.m.</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid black; padding: 8px;">5:30 a.m.</td>
+        <td style="border: 1px solid black; padding: 8px;">9:15 p.m.</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid black; padding: 8px;">6:00 a.m.</td>
+        <td style="border: 1px solid black; padding: 8px;">9:45 p.m.</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid black; padding: 8px;">6:30 a.m.</td>
+        <td style="border: 1px solid black; padding: 8px;">10:15 p.m.</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid black; padding: 8px;">7:00 a.m.</td>
+        <td style="border: 1px solid black; padding: 8px;">10:45 p.m.</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid black; padding: 8px;">7:30 a.m.</td>
+        <td style="border: 1px solid black; padding: 8px;">11:15 p.m.</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid black; padding: 8px;">8:00 a.m.</td>
+        <td style="border: 1px solid black; padding: 8px;">11:45 p.m.</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid black; padding: 8px;">8:30 a.m.</td>
+        <td style="border: 1px solid black; padding: 8px;">12:15 a.m.</td>
+    </tr>
+</table>
+
+<h2>Sleep cycles</h2>
+<h4>To be properly rested, the body must go through several sleep cycles per night, including rapid eye movement (REM) sleep and non-REM sleep.</h4>
+<h4>The stages of sleep include:</h4>
+<ul>
+    <li><h4><strong>Stage 1 non-REM:</strong> This lasts for only a few minutes. Breathing, heart rate, and brain waves begin to slow.</h4></li>
+    <li><h4><strong>Stage 2 non-REM:</strong> This stage occurs before the body enters deep sleep. The muscles relax even more, and body temperature drops.</h4></li>
+    <li><h4><strong>Stage 3 non-REM:</strong> A person needs to reach this stage of deep sleep to feel rested, and it lasts longer in the first half of the night. Breathing and heart rate slow to their lowest levels.</h4></li>
+    <li><h4><strong>REM sleep:</strong> Within 90 minutes of falling asleep, a person enters REM sleep. The brain becomes more active, the most dreaming occurs, and the arms and legs become temporarily paralyzed.</h4></li>
+</ul>
+
+<h4>If the body does not go through these stages several times a night, the person may wake feeling fatigued and unfocused.</h4>
+
+   <h2>How to get better sleep</h2>
+<h4>Getting quality sleep sometimes requires only simple tweaks in a routine. Other times, a person may need to put sleep ahead of other activities.</h4>
+<h4>Here are some ways to improve the quality and quantity of sleep:</h4>
+<ul>
+    <li><h4><strong>Be consistent:</strong> Going to bed and waking up at the same times every day helps the body develop a rhythm, which may make it easier to fall asleep and wake up feeling rested.</h4></li>
+    <li><h4><strong>Get exercise each day:</strong> Exercise may improve sleep quality and help people who have chronic insomnia.</h4></li>
+    <li><h4><strong>Avoid caffeine and nicotine:</strong> Avoid these stimulants later in the day, as both can take several hours or longer to leave the bloodstream, potentially interfering with sleep.</h4></li>
+    <li><h4><strong>Drown out sound and light:</strong> Using earplugs, a white noise machine, and room-darkening curtains or window treatments can help. Various white noise machines are available for purchase online.</h4></li>
+    <li><h4><strong>Turn off TVs, smartphones, and tablets at least 2 hours before bed:</strong> The blue light that these devices can emit can suppress melatonin, a hormone necessary for sleep.</h4></li>
+    <li><h4><strong>Try relaxing alternatives:</strong> Instead of looking at screens, try taking a warm bath, reading a book, or meditating.</h4></li>
+</ul>
+<h2>Summary</h2>
+<h4>Sleep is vital to health — being well-rested can help people lose weight and prevent certain health conditions.</h4>
+
+<h4>To get the recommended 7–9 hours each night, it is important to get to bed at the right time, which may involve rearranging a routine. For many people, this can make a big difference.</h4>
+
+<h4>If a person has tried various recommendations and strategies and exhaustion or trouble sleeping persists, they should see a doctor.</h4>
+
+</section>
+
+    </div>
+</section>
+
+<section id="contactus" style="background-color: #f9f9f9; padding: 50px 0;">
+    <div class="container" style="max-width: 800px; margin: 0 auto; text-align: center;">
+        <h2>Contact Us</h2>
+        <p style="font-size: 25px; margin-bottom: 30px;">We value your feedback and inquiries. Please feel free to reach out to us using the form below.</p>
+        
+        <!-- Contact Form -->
+        <form action="#" method="post" class="contact-form" style="max-width: 600px; margin: 0 auto;" onsubmit="return false;">
+            <div class="form-group" style="margin-bottom: 20px;">
+                <input type="text" id="name" name="name" placeholder="Your Name" style="width: 100%; padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px;" required>
+            </div>
+            <div class="form-group" style="margin-bottom: 20px;">
+                <input type="email" id="email" name="email" placeholder="Your Email" style="width: 100%; padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px;" required>
+            </div>
+            <div class="form-group" style="margin-bottom: 20px;">
+                <textarea id="message" name="message" placeholder="Your Message" rows="4" style="width: 100%; padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px;" required></textarea>
+            </div>
+            <button type="submit" style="background-color: #ADD8E6; color: #000; padding: 14px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;" onclick="submitForm()">Submit</button>
+        </form>
+    </div>
+</section>
+
+<section id="aboutus">
+    <div class="container">
+        <h2 style="text-align: left;">About Us</h2>
+                
+        <h4 style="text-align: left;">At Healthline Insight, we understand the importance of nutrition in promoting overall well-being. Our platform offers personalized recommendations and curated resources to support you in adopting healthier eating habits and lifestyle choices.</h4>
+        
+        <h4 style="text-align: left;">With a focus on evidence-based content, we provide informative articles, expert advice, and actionable tips tailored to your specific health needs. Whether you're looking to manage a health condition, improve your diet, or simply enhance your well-being, [Your Website Name] is here to guide you every step of the way.</h4>
+        
+        <h4 style="text-align: left;">In addition to our comprehensive articles and resources, we offer a convenient health calculator tool to help you assess your current health status and track your progress towards your wellness goals.</h4>
+        
+        <h4 style="text-align: left;">Explore our website to discover our curated selection of foods to address various health concerns, dive into informative articles relevant to your interests, and utilize our health calculator to take charge of your well-being.</h4>
+        
+        <h4 style="text-align: left;">Join our community today and embark on a journey towards a healthier and happier you with Healthline Insight.</h4>
+        
+        <h3>Follow Us</h3>
+        <div class="app-icons">
+            <a href="https://www.facebook.com/" target="_blank"><img src="icons8-facebook-48.png" alt="Facebook" style="width: 40px; height: 40px;"></a>
+            <a href="https://www.instagram.com/" target="_blank"><img src="icons8-instagram-48.png" alt="Instagram" style="width: 40px; height: 40px;"></a>
+            <a href="https://twitter.com/" target="_blank"><img src="icons8-twitter-48.png" alt="Twitter" style="width: 40px; height: 40px;"></a>
+            <a href="https://www.linkedin.com/" target="_blank"><img src="icons8-linkedin-48.png" alt="LinkedIn" style="width: 40px; height: 40px;"></a>
+        </div>
+    </div>
+</section>
+
+
+
+
+<div class="full-width-line"></div>
+
+<footer>
+    <p>© 2024 Healthline Insight Private Limited. All rights reserved.</p>
+</footer>
+<script>
+    // Function to show BMI calculator content and hide sleep calculator content
+    function showBMI() {
+        document.getElementById("bmiCalculator").style.display = "block";
+        document.getElementById("sleepCalculator").style.display = "none";
+    }
+
+    // Function to show sleep calculator content and hide BMI calculator content
+    function showSleep() {
+        document.getElementById("bmiCalculator").style.display = "none";
+        document.getElementById("sleepCalculator").style.display = "block";
+    }
+</script>
+<script>
+    function calculateBMI() {
+        var heightCm = parseFloat(document.getElementById('height-cm').value);
+        var weightKg = parseFloat(document.getElementById('weight-kg').value);
+
+        var bmi = calculateBMIMetric(heightCm, weightKg);
+        var bmiCategory = getBMICategory(bmi);
+        var weightRange = getNormalWeightRange(heightCm);
+
+        displayBMIResult(bmi, bmiCategory, weightRange);
+    }
+
+    function calculateBMIMetric(heightCm, weightKg) {
+        var heightInMeters = heightCm / 100;
+        var bmi = weightKg / (heightInMeters * heightInMeters);
+        return bmi;
+    }
+
+    function getBMICategory(bmi) {
+        if (bmi < 18.5) {
+            return "Underweight";
+        } else if (bmi >= 18.5 && bmi < 25) {
+            return "Normal";
+        } else if (bmi >= 25 && bmi < 30) {
+            return "Overweight";
+        } else {
+            return "Obese";
+        }
+    }
+
+    function getNormalWeightRange(heightCm) {
+        var minHeight = 160; // Minimum height for reference weight range in cm
+        var normalWeightLower = 18.5 * (minHeight * minHeight) / 10000;
+        var normalWeightUpper = 24.9 * (minHeight * minHeight) / 10000;
+        return { lower: normalWeightLower.toFixed(1), upper: normalWeightUpper.toFixed(1) };
+    }
+
+    function displayBMIResult(bmi, bmiCategory, weightRange) {
+        var result = "<h3>BMI: " + bmi.toFixed(1) + " (" + bmiCategory + ")</h3>";
+        
+        switch (bmiCategory) {
+            case "Underweight":
+                result += "<h4>This BMI is considered underweight. Being underweight may pose certain health risks, including nutrient deficiencies and hormonal changes. Waist-to-hip ratio, waist-to-height ratio, and body fat percentage measurements can provide a more complete picture of any health risks. A person should consult with their healthcare provider and consider making lifestyle changes through healthy eating and fitness to improve their health indicators.</h4>";
+                result += "<h4>For this height, a weight range of " + weightRange.lower + "–" + weightRange.upper + " kg is a normal BMI.</h4>";
+                break;
+            case "Normal":
+                result += "<h4>This BMI is within the normal range. Individuals with a normal BMI typically have a lower risk of developing weight-related health problems. However, maintaining a balanced diet and regular exercise routine is essential for overall health and well-being.</h4>";
+                break;
+            case "Overweight":
+                result += "<h4>This BMI is considered overweight. Individuals with an overweight BMI may be at increased risk for various health issues, such as heart disease, diabetes, and certain cancers. It's advisable to consult with a healthcare professional to develop a plan for achieving a healthier weight through diet and exercise.</h4>";
+                break;
+            case "Obese":
+                result += "<h4>This BMI is categorized as obese. Obesity is associated with a higher risk of developing serious health conditions, including cardiovascular disease, stroke, type 2 diabetes, and certain cancers. It's crucial to seek guidance from a healthcare provider to address weight management and reduce health risks.</h4>";
+                break;
+            default:
+                break;
+        }
+
+        document.getElementById('bmi-result').innerHTML = result;
+    }
+</script>
+
+<script>
+    // Function to handle form submission
+    function submitForm() {
+        // Get form input values
+        var name = document.getElementById('name').value;
+        var email = document.getElementById('email').value;
+        var message = document.getElementById('message').value;
+        
+        // Here you can add code to send the form data to a server using AJAX
+        
+        // Display a message or animation to indicate that the form is being submitted
+        alert("Thank you, " + name + "! Your message has been submitted.");
+        
+        // Clear form fields after submission
+        document.getElementById('name').value = '';
+        document.getElementById('email').value = '';
+        document.getElementById('message').value = '';
+    }
+    
+    // Add event listener to submit button
+    document.getElementById('submitBtn').addEventListener('click', submitForm);
+</script>
+
+<script>
+    function revealSection(sectionId) {
+        // Hide all sections
+        var sections = document.querySelectorAll('section');
+        sections.forEach(function (section) {
+            section.style.display = 'none';
+        });
+
+        // Deactivate all navigation links
+        var navLinks = document.querySelectorAll('nav ul li a');
+        navLinks.forEach(function (link) {
+            link.classList.remove('active');
+        });
+
+        // Display the selected section
+        document.getElementById(sectionId).style.display = 'block';
+
+        // Scroll to the top of the page
+        window.scrollTo(0, 0);
+
+        // Activate the corresponding navigation link
+        var activeLink = document.querySelector('nav ul li a[href="#' + sectionId + '"]');
+        activeLink.classList.add('active');
+    }
+
+    // Show only the home section initially
+    window.onload = function() {
+        revealSection('home');
+    };
+
+    // Scroll to the top of the page when the window is refreshed
+    window.onbeforeunload = function() {
+        window.scrollTo(0, 0);
+    };
+</script>
+<script>
+    function revealSelectedPhoto() {
+        var selectedValue = document.getElementById("photo-selection").value;
+        var causeDetails = document.getElementById("cause-details");
+
+        // Hide all cause details and images
+        var allCauseDetails = document.querySelectorAll("#cause-details > *");
+        allCauseDetails.forEach(function (cause) {
+            cause.style.display = "none";
+        });
+
+        // Hide all images
+        var allImages = document.querySelectorAll("img[id^='photo']");
+        allImages.forEach(function (img) {
+            img.style.display = "none";
+        });
+
+        // Show the selected cause details and image
+        if (selectedValue !== "Select") {
+            var selectedCause = document.getElementById(selectedValue);
+            var selectedCauseDetails = document.getElementById(selectedValue + "-details");
+            if (selectedCause && selectedCauseDetails) {
+                selectedCause.style.display = "block";
+                selectedCauseDetails.style.display = "block";
+                causeDetails.style.display = "block";
+            }
+        } else {
+            causeDetails.style.display = "none";
+        }
+    }
+</script>
+
+</body>
+</html>
