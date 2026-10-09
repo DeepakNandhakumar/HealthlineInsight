@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthline Insight</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: #c9d6ff;
+            background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+            position: relative;
+            min-height: 100vh;
+            cursor: pointer; /* Change cursor to pointer */
+            color: #333; /* Set default text color */
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Distribute items evenly */
+            padding: 20px;
+            background-color: #c9d6ff;
+            background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+            width: 100%; /* Set width to fill the entire width */
+            border-bottom: 4px solid #333; /* Add a bottom border with increased size */
+        }
+
+        .logo {
+            width: 80px; /* Reduced logo width */
+            margin-left: 5px; /* Reduced margin for spacing */
+        }
+
+        .header h1 {
+            font-size: 40px; /* Increased font size */
+            font-weight: 700; /* Increased font weight */
+            color: #333;
+            margin-bottom: 5px; /* Reduced margin for spacing */
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav ul li {
+            margin: 0 20px; /* Reduced margin for spacing */
+            position: relative; /* Added relative positioning */
+        }
+
+        nav ul li a {
+            text-transform: uppercase;
+            text-decoration: none;
+            color: #555;
+            font-size: 20px; /* Increased font size */
+            font-weight: 500; /* Increased font weight */
+            transition: color 0.3s;
+            position: relative; /* Added relative positioning */
+            padding-bottom: 5px; /* Added padding for bottom border */
+        }
+
+        nav ul li a:hover {
+            color: #000;
+        }
+
+        nav ul li a.active {
+            border-bottom: 2px solid #000; /* Added bottom border for active link */
+        }
+
+        section {
+            padding: 30px 0;
+            text-align: center;
+            display: none; /* Initially hide all sections */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h2 {
+            font-size: 28px; /* Increased font size */
+            margin-bottom: 15px;
+            font-weight: 600; /* Increased font weight for better visibility */
+        }
+
+        h4 {
+            font-size: 24px; /* Increased font size for h4 */
+            line-height: 1.6;
+            color: #333; /* Set text color */
+            font-weight: 500; /* Increased font weight for better visibility */
+            margin-bottom: 20px; /* Added margin bottom for spacing */
+        }
+		#home {
+                text-align: left; /* Align text and content to the left */
+                padding: 30px 20px; /* Adjust padding for better spacing */
+     }
+	 .reference-photo {
+    max-width: 100%; /* Set maximum width to prevent photos from exceeding container width */
+    height: 300px; /* Set a fixed height for all photos */
+    margin: 20px auto; /* Center the photos */
+    display: block;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+     .full-width-line {
+            width: 100%;
+            height: 4px; /* Adjust the height as needed */
+            background-color: #333; /* Color of the line */
+        }
+
+
+        footer {
+            padding: 20px;
+            text-align: center;
+            background-color: #f0f0f0; /* Background color of the footer */
+        }
+
+        footer p {
+            font-size: 16px;
+            color: #555; /* Text color of the footer */
+        }
+
+       
+
+    </style>
+</head>
+<body>
+<header class="header-container">
+    <img src="healthy1.png" alt="Healthline Foods Logo" class="logo">
+    <div class="header">
+        <h1>Healthline Insight</h1>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="#home" onclick="revealSection('home')" class="active">Home</a></li>
+            <li><a href="#health_condition" onclick="revealSection('health_condition')">Health Condition</a></li>
+            <li><a href="#discover" onclick="revealSection('discover')">Discover</a></li>
+            <li><a href="#tools" onclick="revealSection('tools')">Tools</a></li>
+            <li><a href="#contactus" onclick="revealSection('contactus')">Contact Us</a></li>
+            <li><a href="#aboutus" onclick="revealSection('aboutus')">About Us</a></li>
+
+        </ul>
+    </nav>
+</header>
+
+<div class="container">
+    <section id="home">
+        <h2>Welcome to Healthy Medicine Foods: Nourish Your Body Daily</h2>
+        <h4>In a world where health is paramount, our mission is to guide you towards a balanced and nourished life through the power of medicinal foods. Explore our curated collection of articles, recipes, and expert insights designed to empower you to make informed choices for your well-being.</h4>
+        <img src="https://www.plattershare.com/storage/2023/12/Food-as-Medicine.jpg" alt="Reference Photo 1" class="reference-photo">
+        <h2>The Power of Healthy Medicine Foods in Daily Life</h2>
+        <h4>In today's fast-paced world, where convenience often takes precedence over health, it's crucial to remember the profound impact that our dietary choices can have on our overall well-being. This homepage is dedicated to exploring the realm of healthy medicine foods and their transformative effects on our daily lives.</h4>
+        <img src="https://locable-assets-production.s3.amazonaws.com/uploads/resource/file/828651/food-as-vitamin-sources.jpg?timestamp=1711890968" alt="Reference Photo 2" class="reference-photo">
+        <h2>Discover the Healing Power of Food:</h2>
+        <h4>Dive into the science behind how certain foods can act as medicine, promoting vitality and longevity.</h4>
+        <h4>Learn about the nutritional benefits of incorporating superfoods into your daily diet to boost immunity and overall health.</h4>
+        <img src="https://megunprocessed.com/wp-content/uploads/2017/01/How-To-Heal-Yourself-With-Food.jpg" alt="Reference Photo 3" class="reference-photo">
+        <h2>Nutritious Recipes for Every Meal:</h2>
+        <h4>Explore our diverse range of delicious and nutrient-rich recipes, from energizing breakfast smoothies to wholesome dinner options.</h4>
+        <h4>Find inspiration for incorporating medicinal herbs and spices into your cooking to enhance flavor and wellness.</h4>
+        <img src="https://img.delicious.com.au/bHw5OikO/del/2023/11/smoked-kingfish-salad-with-tamarind-dressing-202998-1.jpg" alt="Reference Photo 4" class="reference-photo">
+        <h2>Expert Guidance for Optimal Health:</h2>
+        <h4>Gain valuable insights from healthcare professionals and nutritionists on how to optimize your diet for vitality and disease prevention.</h4>
+        <h4>Stay informed about the latest research and trends in holistic health and nutrition.</h4>
+        <img src="https://static.wixstatic.com/media/15a72b_1573b56d170c49e48572d41d7cd4c8b4~mv2.png/v1/fill/w_640,h_444,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/15a72b_1573b56d170c49e48572d41d7cd4c8b4~mv2.png" alt="Reference Photo 5" class="reference-photo">
+        <h2>Join Our Community:</h2>
+        <h4>Connect with like-minded individuals who are passionate about harnessing <br>the power of food for health and well-being.</h4>
+        <h4>Share your own journey towards a healthier lifestyle and inspire others to prioritize self-care through nutritious eating habits.</h4>
+        <h4>Start your journey towards a healthier, more vibrant life today with Healthy Medicine Foods.<br>Embrace the transformative potential of food and experience the profound benefits of nourishing your body from within.</h4>
+    </section>
+</div>
+
+<div class="full-width-line"></div>
+
+<footer>
+    <p>© 2024 Healthline Insight Private Limited. All rights reserved.</p>
+</footer>
+
+
+<script>
+    function revealSection(sectionId) {
+        // Define the URLs for each section except for 'home'
+        var sectionURLs = {
+            'health_condition': 'login page.html',
+            'discover': 'login page.html',
+            'tools': 'login page.html',
+            'contactus': 'login page.html',
+            'aboutus': 'login page.html'
+        };
+
+        // Redirect to the corresponding URL if it's not 'home'
+        if (sectionId !== 'home' && sectionURLs.hasOwnProperty(sectionId)) {
+            window.location.href = sectionURLs[sectionId];
+        } else {
+            // Hide all sections
+            var sections = document.querySelectorAll('section');
+            sections.forEach(function (section) {
+                section.style.display = 'none';
+            });
+
+            // Deactivate all navigation links
+            var navLinks = document.querySelectorAll('nav ul li a');
+            navLinks.forEach(function (link) {
+                link.classList.remove('active');
+            });
+
+            // Display the selected section
+            document.getElementById(sectionId).style.display = 'block';
+
+            // Scroll to the top of the page
+            window.scrollTo(0, 0);
+
+            // Activate the corresponding navigation link
+            var activeLink = document.querySelector('nav ul li a[href="#' + sectionId + '"]');
+            activeLink.classList.add('active');
+        }
+    }
+
+    // Show only the home section initially
+    window.onload = function() {
+        revealSection('home');
+    };
+
+    // Scroll to the top of the page when the window is refreshed
+    window.onbeforeunload = function() {
+        window.scrollTo(0, 0);
+    };
+</script>
+
