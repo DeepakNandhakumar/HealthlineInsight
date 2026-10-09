@@ -239,23 +239,23 @@
         <div class="form-container sign-up">
             <form action="#">
                 <div class="header">Healthline Insight</div>
-                <img src="healthy1.png" alt="Healthline Foods Logo" width="100px">
+                <img src="healthline-logo.svg" alt="Healthline Foods Logo" width="100px">
                 <h1>Create Account</h1>
-                <input type="text" placeholder="Name">
-                <input type="email" id="email" placeholder="Email">
-                <input type="password" id="password" placeholder="Password">
-                <button onclick="handleSignUp()">Sign Up</button>
+                <input type="text" id="signupName" placeholder="Name" required>
+                <input type="email" id="email" placeholder="Email" required>
+                <input type="password" id="password" placeholder="Password" minlength="4" required>
+                <button type="button" onclick="handleSignUp(event)">Sign Up</button>
             </form>
         </div>
         <div class="form-container sign-in">
             <form action="#">
                 <div class="header">Healthline Insight</div>
-                <img src="healthy1.png" alt="Healthline Foods Logo" width="100px"> 
+                <img src="healthline-logo.svg" alt="Healthline Foods Logo" width="100px"> 
                 <h1>Sign in</h1>
                 <input type="email" id="loginEmail" placeholder="Email">
                 <input type="password" id="loginPassword" placeholder="Password">
                 <a href="#">Forgot your password?</a>
-                <button onclick="handleLogin(event)">Sign In</button>
+                <button type="button" onclick="handleLogin(event)">Sign In</button>
 
             </form>
         </div>
@@ -287,20 +287,59 @@
             container.classList.remove("active");
         });
 
+        function handleSignUp(event) {
+            if (event) event.preventDefault();
+            const name = document.getElementById('signupName').value.trim();
+            const email = document.getElementById('email').value.trim().toLowerCase();
+            const password = document.getElementById('password').value;
+
+            if (!name || !email || !password) {
+                alert('Please fill in all fields.');
+                return;
+            }
+            if (password.length < 4) {
+                alert('Please use a password with at least 4 characters.');
+                return;
+            }
+            if (localStorage.getItem('healthlineUser_' + email)) {
+                alert('An account with this email already exists. Please sign in.');
+                return;
+            }
+
+            localStorage.setItem('healthlineUser_' + email, JSON.stringify({ name: name, password: password }));
+            alert('Demo account created in this browser. You can now sign in.');
+            document.getElementById('loginEmail').value = email;
+            document.getElementById('loginPassword').value = '';
+            container.classList.remove('active');
+        }
+
         function handleLogin(event) {
-    event.preventDefault(); // Prevent default form submission
+            if (event) event.preventDefault();
+            const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+            const password = document.getElementById('loginPassword').value;
+            const saved = localStorage.getItem('healthlineUser_' + email);
+            let valid = false;
 
-    var email = document.getElementById('loginEmail').value;
-    var password = document.getElementById('loginPassword').value;
+            if (saved) {
+                try {
+                    const user = JSON.parse(saved);
+                    valid = user.password === password;
+                } catch (error) {
+                    valid = false;
+                }
+            }
 
-    if (email === "deepakdeepak01452@gmail.com" && password === "deepak") {
-        // Redirect user to the next page upon successful login
-        window.location.href = "second page.html"; 
-    } else {
-        alert("Invalid email or password. Please try again.");
-    }
-}
+            // Preserve the original demo credentials.
+            if (email === 'deepakdeepak01452@gmail.com' && password === 'deepak') {
+                valid = true;
+            }
 
+            if (valid) {
+                window.location.href = 'second%20page.html';
+            } else {
+                alert('Invalid email or password. First-time users can choose Sign Up to create a demo account.');
+            }
+        }
     </script>
 </body>
 </html>
