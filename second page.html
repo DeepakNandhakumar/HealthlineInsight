@@ -3,1025 +3,2161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Healthline Insight</title>
+    <title>Member Clinical Portal — Healthline Insight</title>
+    <meta name="description" content="Access 22 clinical condition remedy protocols, metric BMI assessment, 90-minute REM sleep cycle calculator, and peer-reviewed research library.">
+    <link rel="icon" type="image/svg+xml" href="healthline-logo.svg">
+
+    <!-- Strict Pre-Flight Route Guard -->
+    <script>
+        (function() {
+            try {
+                const session = localStorage.getItem('healthlineCurrentSession');
+                if (!session) {
+                    window.location.replace('login%20page.html?auth_required=true');
+                }
+            } catch (e) {
+                window.location.replace('login%20page.html?auth_required=true');
+            }
+        })();
+    </script>
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap');
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        :root {
+            --primary: #059669;
+            --primary-light: #10b981;
+            --primary-glow: rgba(16, 185, 129, 0.25);
+            --secondary: #0284c7;
+            --secondary-light: #38bdf8;
+            --secondary-dark: #0369a1;
+            --dark: #0f172a;
+            --surface: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --bg-mesh: radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.08) 0px, transparent 50%),
+                       radial-gradient(at 100% 0%, rgba(56, 189, 248, 0.12) 0px, transparent 50%),
+                       radial-gradient(at 50% 100%, rgba(99, 102, 241, 0.06) 0px, transparent 50%),
+                       #f8fafc;
+            --card-shadow: 0 12px 35px -5px rgba(15, 23, 42, 0.06), 0 4px 10px -2px rgba(15, 23, 42, 0.02);
+            --card-shadow-hover: 0 24px 50px -10px rgba(2, 132, 199, 0.16), 0 10px 20px -5px rgba(16, 185, 129, 0.1);
+            --radius-xl: 24px;
+            --radius-lg: 16px;
+            --radius-md: 12px;
         }
 
         body {
-            background-color: #c9d6ff;
-            background: linear-gradient(to right, #e2e2e2, #c9d6ff);
-            position: relative;
+            background: var(--bg-mesh);
+            color: var(--text-main);
+            line-height: 1.65;
             min-height: 100vh;
-            cursor: pointer; /* Change cursor to pointer */
-            color: #333; /* Set default text color */
         }
 
-        .header-container {
+        /* Top Notification Banner */
+        .announcement-bar {
+            background: linear-gradient(90deg, #059669 0%, #0284c7 50%, #4f46e5 100%);
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 8px 20px;
+            text-align: center;
             display: flex;
             align-items: center;
-            justify-content: space-between; /* Distribute items evenly */
-            padding: 20px;
-            background-color: #c9d6ff;
-            background: linear-gradient(to right, #e2e2e2, #c9d6ff);
-            width: 100%; /* Set width to fill the entire width */
-            border-bottom: 4px solid #333; /* Add a bottom border with increased size */
+            justify-content: center;
+            gap: 10px;
+            letter-spacing: 0.3px;
         }
 
-        .logo {
-            width: 80px; /* Reduced logo width */
-            margin-left: 5px; /* Reduced margin for spacing */
+        .announcement-bar .badge-active {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11.5px;
+            text-transform: uppercase;
         }
 
-        .header h1 {
-            font-size: 40px; /* Increased font size */
-            font-weight: 700; /* Increased font weight */
-            color: #333;
-            margin-bottom: 5px; /* Reduced margin for spacing */
+        /* Header Navbar */
+        .portal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 44px;
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(16px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+        }
+
+        .brand-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .brand-logo {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .brand-link:hover .brand-logo {
+            transform: scale(1.08) rotate(-2deg);
+        }
+
+        .brand-name {
+            font-family: 'Outfit', sans-serif;
+            font-size: 22px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #059669 0%, #0284c7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .portal-nav-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 20px;
         }
 
         nav ul {
             list-style: none;
             display: flex;
-        }
-
-        nav ul li {
-            margin: 0 20px; /* Reduced margin for spacing */
-            position: relative; /* Added relative positioning */
+            align-items: center;
+            gap: 6px;
         }
 
         nav ul li a {
-            text-transform: uppercase;
             text-decoration: none;
-            color: #555;
-            font-size: 20px; /* Increased font size */
-            font-weight: 500; /* Increased font weight */
-            transition: color 0.3s;
-            position: relative; /* Added relative positioning */
-            padding-bottom: 5px; /* Added padding for bottom border */
+            color: #475569;
+            font-size: 14.5px;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 10px;
+            transition: all 0.25s ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        nav ul li a:hover {
-            color: #000;
-        }
-
+        nav ul li a:hover,
         nav ul li a.active {
-            border-bottom: 2px solid #000; /* Added bottom border for active link */
+            color: var(--secondary);
+            background: rgba(2, 132, 199, 0.08);
         }
 
-        section {
-            padding: 30px 0;
-            text-align: center;
-            display: none; /* Initially hide all sections */
+        .user-account-chip {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #ffffff;
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 13.5px;
+            font-weight: 700;
+            color: #334155;
+            border: 1.5px solid #cbd5e1;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+        .user-avatar-badge {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: #ffffff;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 800;
         }
 
-        h2 {
-            font-size: 28px; /* Increased font size */
-            margin-bottom: 15px;
-            font-weight: 600; /* Increased font weight for better visibility */
+        .btn-signout {
+            background: none;
+            border: none;
+            color: #ef4444;
+            font-size: 12.5px;
+            font-weight: 800;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
         }
 
-        h4 {
-            font-size: 24px; /* Increased font size for h4 */
-            line-height: 1.6;
-            color: #333; /* Set text color */
-            font-weight: 500; /* Increased font weight for better visibility */
-            margin-bottom: 20px; /* Added margin bottom for spacing */
+        .btn-signout:hover {
+            background: #fee2e2;
+            color: #b91c1c;
         }
-		#home {
-                text-align: left; /* Align text and content to the left */
-                padding: 30px 20px; /* Adjust padding for better spacing */
-     }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 26px;
+            cursor: pointer;
+            color: var(--dark);
+        }
+
+        /* Container */
+        .portal-container {
+            max-width: 1240px;
+            margin: 36px auto 60px;
+            padding: 0 24px;
+        }
+
+        .portal-section {
+            display: none;
+            animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .content-card {
+            background: var(--surface);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--card-shadow);
+            padding: 44px;
+            margin-bottom: 36px;
+            border: 1px solid var(--border);
+        }
+
+        .section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title::before {
+            content: '';
+            display: inline-block;
+            width: 6px;
+            height: 28px;
+            background: linear-gradient(180deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 4px;
+        }
+
+        h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--dark);
+            margin: 28px 0 12px;
+        }
+
+        p {
+            font-size: 16px;
+            color: #475569;
+            line-height: 1.8;
+            font-weight: 400;
+            margin-bottom: 16px;
+        }
 
         .reference-photo {
-    max-width: 100%; /* Set maximum width to prevent photos from exceeding container width */
-    height: 300px; /* Set a fixed height for all photos */
-    margin: 20px auto; /* Center the photos */
-    display: block;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-      #discover {
-             text-align: left; /* Align text and content to the left */
-}
-
-button {
-        padding: 15px 30px; /* Increase padding for larger buttons */
-        font-size: 24px; /* Increase font size for larger buttons */
-    }
-.form-group {
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center; /* Align items vertically */
-}
-
-.form-group label {
-    font-weight: bold;
-    margin-right: 10px; /* Add some space between label and input */
-}
-
-input[type="number"] {
-    width: 200px; /* Adjust the width of input fields */
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-}
-.bmi-calculator-box {
-    background-color: #f9f9f9; /* Set background color for the box */
-    padding: 20px; /* Add padding to create space around the content */
-    border-radius: 10px; /* Add rounded corners to the box */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for depth */
-    margin: 20px auto; /* Center the box horizontally */
-    max-width: 1000px; /* Limit the maximum width of the box */
-}
-
-.bmi-calculator-box h2 {
-    font-size: 25px; /* Adjust font size for heading */
-    font-weight: bold; /* Make heading bold */
-    margin-bottom: 15px; /* Add spacing below the heading */
-}
-
-.bmi-calculator-box form {
-    text-align: center; /* Center the form elements */
-}
-
-.bmi-calculator-box .form-group {
-    margin-bottom: 20px; /* Add spacing between form elements */
-}
-
-.bmi-calculator-box input[type="number"] {
-    width: 250%; /* Make input fields full width */
-}
-
-.bmi-calculator-box button {
-    display: block; /* Make the button a block element */
-    margin: 0 auto; /* Center the button */
-}
-
-
-   
-
-
-        .full-width-line {
             width: 100%;
-            height: 4px; /* Adjust the height as needed */
-            background-color: #333; /* Color of the line */
+            max-height: 420px;
+            object-fit: cover;
+            border-radius: var(--radius-lg);
+            margin: 22px 0;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
         }
 
-        footer {
-            padding: 20px;
-            text-align: center;
-            background-color: #f0f0f0; /* Background color of the footer */
+        /* Member Hero Welcome Banner */
+        .member-hero-banner {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(240, 253, 244, 0.95) 100%);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: var(--radius-xl);
+            padding: 36px 40px;
+            margin-bottom: 32px;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 24px;
         }
 
-        footer p {
+        .member-hero-text h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .member-hero-text h1 span {
+            background: linear-gradient(135deg, #059669 0%, #0284c7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .member-hero-text p {
             font-size: 16px;
-            color: #555; /* Text color of the footer */
+            color: var(--text-muted);
+            margin-bottom: 0;
+            max-width: 680px;
         }
 
-        .contact-form {
-            margin-top: 20px;
+        .member-badge-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(16, 185, 129, 0.12);
+            color: #047857;
+            font-size: 13px;
+            font-weight: 800;
+            padding: 8px 18px;
+            border-radius: 30px;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .form-group {
-            margin-bottom: 20px;
+        /* Quick Action Feature Cards */
+        .quick-action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+            margin-bottom: 36px;
         }
 
-        label {
-            display: block;
-            font-weight: bold;
-        }
-
-        input[type="text"],
-        input[type="email"],
-        textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-
-        textarea {
-            resize: vertical;
-        }
-
-        button[type="submit"] {
-            background-color: #333;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
+        .quick-action-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
             cursor: pointer;
-            transition: background-color 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
-        button[type="submit"]:hover {
-            background-color: #000;
+        .quick-action-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--secondary-light);
+            box-shadow: var(--card-shadow-hover);
         }
-		
-		#photo-selection {
-    display: block;
-    margin: 0 auto; /* This will center the select dropdown */
-    width: 250px; /* Adjust width as needed */
-    padding: 15px; /* Adjust padding as needed */
-    font-size: 16px; /* Adjust font size as needed */
-}
-.centered-photos {
-        display: flex;
-        justify-content: center; /* Center align */
-        
-    }
 
-    .centered-photos img {
-        margin: 0 10px; /* Adjust margin as needed */
-    }
-    #health_condition {
-        text-align: left;
-        margin: 0 auto; /* Center the section horizontally and add bottom margin */
-        max-width: 1150px; /* Optionally set a maximum width for better readability */
-    }
+        .action-card-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 12px;
+        }
 
-<section id="health_condition">
-    <!-- Content goes here -->
-</section>
+        .action-card-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: rgba(2, 132, 199, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
 
+        .action-card-header h4 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--dark);
+            margin: 0;
+        }
 
+        .quick-action-card p {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
 
+        .action-link-text {
+            color: var(--secondary);
+            font-weight: 800;
+            font-size: 13.5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
 
+        /* Health Conditions Filter & Search */
+        .explorer-filter-box {
+            background: linear-gradient(135deg, #f8fafc 0%, #f0fdf4 100%);
+            border: 1px solid #cbd5e1;
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            text-align: center;
+            margin: 24px 0 32px;
+        }
+
+        .explorer-filter-box label {
+            display: block;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 18px;
+            color: var(--dark);
+            margin-bottom: 14px;
+        }
+
+        .search-control-wrap {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            max-width: 680px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+
+        #conditionSearchInput {
+            flex: 1;
+            min-width: 240px;
+            padding: 13px 20px;
+            font-size: 15.5px;
+            font-weight: 600;
+            color: var(--dark);
+            background: #ffffff;
+            border: 2px solid #cbd5e1;
+            border-radius: 12px;
+            outline: none;
+            transition: all 0.25s ease;
+        }
+
+        #conditionSearchInput:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+        }
+
+        #photo-selection {
+            width: 100%;
+            max-width: 320px;
+            padding: 13px 18px;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--dark);
+            background: #ffffff;
+            border: 2px solid var(--secondary);
+            border-radius: 12px;
+            outline: none;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.1);
+            transition: all 0.25s ease;
+        }
+
+        #photo-selection:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2);
+        }
+
+        /* Category Filter Chips */
+        .category-chips-row {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 18px;
+        }
+
+        .cat-chip {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            padding: 7px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #475569;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .cat-chip:hover, .cat-chip.active {
+            background: var(--secondary);
+            color: #ffffff;
+            border-color: var(--secondary);
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.2);
+        }
+
+        .condition-detail-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 36px;
+            box-shadow: var(--card-shadow);
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 36px;
+            align-items: center;
+            margin-top: 28px;
+            animation: fadeIn 0.35s ease;
+        }
+
+        .condition-img-wrapper {
+            width: 100%;
+            height: 280px;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .condition-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .condition-detail-card:hover .condition-img-wrapper img {
+            transform: scale(1.04);
+        }
+
+        .condition-text h3 {
+            color: var(--secondary-dark);
+            font-size: 26px;
+            margin-top: 0;
+            margin-bottom: 12px;
+        }
+
+        .evidence-tag {
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.12);
+            color: var(--primary);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12.5px;
+            font-weight: 800;
+            margin-bottom: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
+
+        .nutrition-dosage-box {
+            background: #f8fafc;
+            border-left: 4px solid var(--primary);
+            padding: 14px 20px;
+            border-radius: 8px;
+            font-size: 15px;
+            color: #334155;
+            margin-top: 16px;
+            line-height: 1.6;
+        }
+
+        /* 22 Conditions Directory Grid */
+        .conditions-directory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 32px;
+        }
+
+        .condition-grid-item {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .condition-grid-item:hover {
+            transform: translateY(-4px);
+            border-color: var(--secondary);
+            box-shadow: var(--card-shadow-hover);
+        }
+
+        .condition-grid-img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+        }
+
+        .condition-grid-body {
+            padding: 16px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .condition-grid-body h5 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 6px;
+        }
+
+        .condition-grid-body span {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* Research Cards Grid */
+        .research-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 28px;
+            margin-top: 28px;
+        }
+
+        .research-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+        }
+
+        .research-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--secondary-light);
+            box-shadow: var(--card-shadow-hover);
+        }
+
+        .research-card h3 {
+            font-size: 20px;
+            margin: 0 0 12px;
+            color: var(--dark);
+        }
+
+        .research-card p {
+            font-size: 14.5px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .research-btn-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--secondary);
+            font-weight: 800;
+            font-size: 14px;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .research-btn-link:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        /* Tools Tab Bar */
+        .tools-tab-bar {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+
+        .tool-tab {
+            background: #ffffff;
+            border: 2px solid var(--border);
+            padding: 13px 28px;
+            font-size: 15.5px;
+            font-weight: 700;
+            color: #475569;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tool-tab:hover {
+            border-color: var(--secondary);
+            color: var(--secondary);
+        }
+
+        .tool-tab.active {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: #ffffff;
+            border-color: transparent;
+            box-shadow: 0 6px 18px rgba(2, 132, 199, 0.28);
+        }
+
+        /* Calculator Panels */
+        .calculator-card {
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 36px;
+            margin: 20px 0 36px;
+        }
+
+        .form-grid-2col {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .input-field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            text-align: left;
+        }
+
+        .input-field label {
+            font-weight: 800;
+            font-size: 14.5px;
+            color: #334155;
+        }
+
+        .input-field input, .input-field select {
+            padding: 13px 18px;
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+            font-size: 15.5px;
+            outline: none;
+            background: #ffffff;
+            transition: all 0.2s ease;
+        }
+
+        .input-field input:focus, .input-field select:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.15);
+        }
+
+        .btn-calc {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: #ffffff;
+            border: none;
+            padding: 14px 36px;
+            font-size: 15.5px;
+            font-weight: 800;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 18px rgba(16, 185, 129, 0.25);
+        }
+
+        .btn-calc:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.38);
+        }
+
+        .results-card {
+            margin-top: 28px;
+            padding: 28px;
+            border-radius: var(--radius-md);
+            background: #ffffff;
+            border: 1px solid var(--border);
+            display: none;
+            animation: fadeIn 0.35s ease-in-out;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+        }
+
+        .results-header-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-bottom: 16px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        /* Interactive Graphical BMI Meter Bar */
+        .bmi-meter-container {
+            margin: 24px 0;
+        }
+
+        .bmi-meter-track {
+            height: 18px;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #38bdf8 0%, #4ade80 25%, #fb923c 65%, #f87171 100%);
+            position: relative;
+        }
+
+        .bmi-meter-pointer {
+            position: absolute;
+            top: -8px;
+            transform: translateX(-50%);
+            width: 14px;
+            height: 34px;
+            background: #0f172a;
+            border: 2px solid #ffffff;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+            transition: left 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .bmi-meter-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11.5px;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+
+        .badge-pill {
+            display: inline-block;
+            padding: 7px 20px;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 13.5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-underweight { background: #e0f2fe; color: #0369a1; }
+        .badge-normal { background: #dcfce7; color: #166534; }
+        .badge-overweight { background: #fed7aa; color: #9a3412; }
+        .badge-obese { background: #fee2e2; color: #991b1b; }
+
+        .sleep-timeline-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+            margin-top: 22px;
+        }
+
+        .sleep-card {
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 22px;
+            text-align: center;
+            transition: all 0.25s ease;
+        }
+
+        .sleep-card.highlight {
+            border-color: var(--primary);
+            background: #f0fdf4;
+            box-shadow: 0 6px 18px rgba(16, 185, 129, 0.12);
+        }
+
+        .sleep-time-digit {
+            font-family: 'Outfit', sans-serif;
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--dark);
+            margin: 8px 0;
+        }
+
+        /* FAQ Accordion */
+        .faq-accordion {
+            margin: 24px 0;
+        }
+
+        .faq-item {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            background: #ffffff;
+        }
+
+        .faq-question {
+            padding: 18px 24px;
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--dark);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8fafc;
+            transition: background 0.2s ease;
+        }
+
+        .faq-question:hover {
+            background: #f1f5f9;
+        }
+
+        .faq-answer {
+            padding: 20px 24px;
+            font-size: 15px;
+            color: #475569;
+            line-height: 1.7;
+            display: none;
+            border-top: 1px solid var(--border);
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        /* Contact Form */
+        .contact-form-container {
+            max-width: 720px;
+            margin: 28px auto 0;
+            text-align: left;
+        }
+
+        .form-row {
+            margin-bottom: 22px;
+        }
+
+        .form-row label {
+            display: block;
+            font-weight: 800;
+            font-size: 14.5px;
+            color: #334155;
+            margin-bottom: 8px;
+        }
+
+        .form-row input, .form-row textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+            font-size: 15.5px;
+            outline: none;
+            transition: all 0.2s ease;
+            background: #ffffff;
+        }
+
+        .form-row input:focus, .form-row textarea:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.15);
+        }
+
+        /* Social Icons */
+        .social-channel-strip {
+            display: flex;
+            gap: 16px;
+            margin-top: 22px;
+        }
+
+        .social-channel-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #ffffff;
+            border: 1px solid var(--border);
+            color: #475569;
+            transition: all 0.25s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .social-channel-btn:hover {
+            color: var(--secondary);
+            border-color: var(--secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 18px rgba(2, 132, 199, 0.18);
+        }
+
+        /* Advisory Disclaimer */
+        .advisory-box {
+            background: #fffbeb;
+            border: 1px solid #fef3c7;
+            border-left: 6px solid #f59e0b;
+            padding: 20px 26px;
+            border-radius: var(--radius-md);
+            margin: 32px 0;
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .advisory-box p {
+            font-size: 14.5px;
+            color: #92400e;
+            margin: 0;
+            line-height: 1.65;
+        }
+
+        /* Footer */
+        footer {
+            background: #0f172a;
+            color: #94a3b8;
+            padding: 48px 44px 30px;
+            border-top: 1px solid #1e293b;
+        }
+
+        .footer-content {
+            max-width: 1240px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 36px;
+        }
+
+        .footer-about h4 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 20px;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 14px;
+        }
+
+        .footer-about p {
+            font-size: 14px;
+            color: #94a3b8;
+            line-height: 1.7;
+        }
+
+        .footer-nav-col h5 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: #f1f5f9;
+            margin-bottom: 16px;
+        }
+
+        .footer-nav-col ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .footer-nav-col ul li a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s ease;
+            cursor: pointer;
+        }
+
+        .footer-nav-col ul li a:hover {
+            color: var(--secondary-light);
+        }
+
+        .footer-bottom-bar {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding-top: 24px;
+            border-top: 1px solid #1e293b;
+            text-align: center;
+            font-size: 13.5px;
+            color: #64748b;
+        }
+
+        @media (max-width: 980px) {
+            .portal-header {
+                padding: 14px 20px;
+                flex-wrap: wrap;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .portal-nav-wrapper {
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                align-items: flex-start;
+                margin-top: 16px;
+                gap: 14px;
+            }
+
+            .portal-nav-wrapper.active {
+                display: flex;
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: flex-start;
+                width: 100%;
+                gap: 4px;
+            }
+
+            nav ul li {
+                width: 100%;
+            }
+
+            nav ul li a {
+                width: 100%;
+            }
+
+            .condition-detail-card {
+                grid-template-columns: 1fr;
+            }
+
+            .content-card {
+                padding: 28px 20px;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 28px;
+            }
+        }
     </style>
 </head>
 <body>
-<header class="header-container">
-    <img src="healthline-logo.svg" alt="Healthline Foods Logo" class="logo">
-    <div class="header">
-        <h1>Healthline Insight</h1>
-    </div>
-    <nav>
-        <ul>
-            <li><a href="#home" onclick="revealSection('home')" class="active">Home</a></li>
-            <li><a href="#health_condition" onclick="revealSection('health_condition')">Health Condition</a></li>
-            <li><a href="#discover" onclick="revealSection('discover')">Discover</a></li>
-            <li><a href="#tools" onclick="revealSection('tools')">Tools</a></li>
-            <li><a href="#contactus" onclick="revealSection('contactus')">Contact Us</a></li>
-            <li><a href="#aboutus" onclick="revealSection('aboutus')">About Us</a></li>
 
-        </ul>
-    </nav>
+<!-- Top Announcement Bar -->
+<div class="announcement-bar">
+    <span>✨ Healthline Member Portal — Evidence-Based Clinical Nutrition & Wellness Intelligence</span>
+    <span class="badge-active">Active Session</span>
+</div>
+
+<!-- Header Navbar -->
+<header class="portal-header">
+    <a href="index.html" class="brand-link">
+        <img src="healthline-logo.svg" alt="Healthline Insight" class="brand-logo">
+        <span class="brand-name">Healthline Insight</span>
+    </a>
+    <button class="mobile-menu-btn" id="portalMenuToggle" aria-label="Toggle Navigation Menu">☰</button>
+    <div class="portal-nav-wrapper" id="portalNavWrapper">
+        <nav>
+            <ul>
+                <li><a onclick="showSection('home')" id="nav-home" class="active">Home</a></li>
+                <li><a onclick="showSection('conditions')" id="nav-conditions">Health Conditions</a></li>
+                <li><a onclick="showSection('research')" id="nav-research">Research Library</a></li>
+                <li><a onclick="showSection('tools')" id="nav-tools">Clinical Tools</a></li>
+                <li><a onclick="showSection('about')" id="nav-about">About Us</a></li>
+                <li><a onclick="showSection('contact')" id="nav-contact">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="user-account-chip">
+            <span class="user-avatar-badge" id="avatarInitial">D</span>
+            <span id="memberDisplay">Deepak Nandhakumar</span>
+            <button class="btn-signout" onclick="signOutMember()" title="Sign Out of Healthline">Sign Out</button>
+        </div>
+    </div>
 </header>
 
-<div class="container">
-    <section id="home">
-        <h2>Welcome to Healthy Medicine Foods: Nourish Your Body Daily</h2>
-        <h4>In a world where health is paramount, our mission is to guide you towards a balanced and nourished life through the power of medicinal foods. Explore our curated collection of articles, recipes, and expert insights designed to empower you to make informed choices for your well-being.</h4>
-        <img src="https://www.plattershare.com/storage/2023/12/Food-as-Medicine.jpg" alt="Reference Photo 1" class="reference-photo">
-        <h2>The Power of Healthy Medicine Foods in Daily Life</h2>
-        <h4>In today's fast-paced world, where convenience often takes precedence over health, it's crucial to remember the profound impact that our dietary choices can have on our overall well-being. This homepage is dedicated to exploring the realm of healthy medicine foods and their transformative effects on our daily lives.</h4>
-        <img src="https://locable-assets-production.s3.amazonaws.com/uploads/resource/file/828651/food-as-vitamin-sources.jpg?timestamp=1711890968" alt="Reference Photo 2" class="reference-photo">
-        <h2>Discover the Healing Power of Food:</h2>
-        <h4>Dive into the science behind how certain foods can act as medicine, promoting vitality and longevity.</h4>
-        <h4>Learn about the nutritional benefits of incorporating superfoods into your daily diet to boost immunity and overall health.</h4>
-        <img src="https://megunprocessed.com/wp-content/uploads/2017/01/How-To-Heal-Yourself-With-Food.jpg" alt="Reference Photo 3" class="reference-photo">
-        <h2>Nutritious Recipes for Every Meal:</h2>
-        <h4>Explore our diverse range of delicious and nutrient-rich recipes, from energizing breakfast smoothies to wholesome dinner options.</h4>
-        <h4>Find inspiration for incorporating medicinal herbs and spices into your cooking to enhance flavor and wellness.</h4>
-        <img src="https://img.delicious.com.au/bHw5OikO/del/2023/11/smoked-kingfish-salad-with-tamarind-dressing-202998-1.jpg" alt="Reference Photo 4" class="reference-photo">
-        <h2>Expert Guidance for Optimal Health:</h2>
-        <h4>Gain valuable insights from healthcare professionals and nutritionists on how to optimize your diet for vitality and disease prevention.</h4>
-        <h4>Stay informed about the latest research and trends in holistic health and nutrition.</h4>
-        <img src="https://static.wixstatic.com/media/15a72b_1573b56d170c49e48572d41d7cd4c8b4~mv2.png/v1/fill/w_640,h_444,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/15a72b_1573b56d170c49e48572d41d7cd4c8b4~mv2.png" alt="Reference Photo 5" class="reference-photo">
-        <h2>Join Our Community:</h2>
-        <h4>Connect with like-minded individuals who are passionate about harnessing <br>the power of food for health and well-being.</h4>
-        <h4>Share your own journey towards a healthier lifestyle and inspire others to prioritize self-care through nutritious eating habits.</h4>
-        <h4>Start your journey towards a healthier, more vibrant life today with Healthy Medicine Foods.<br>Embrace the transformative potential of food and experience the profound benefits of nourishing your body from within.</h4>
+<div class="portal-container">
+
+    <!-- ==================== HOME / MEMBER DASHBOARD SECTION ==================== -->
+    <section id="home" class="portal-section" style="display: block;">
+        
+        <!-- Member Hero Greeting Banner -->
+        <div class="member-hero-banner">
+            <div class="member-hero-text">
+                <span class="member-badge-chip">🌿 Verified Member Access</span>
+                <h1 style="margin-top: 10px;">Welcome back, <span id="welcomeUserName">Deepak Nandhakumar</span> 👋</h1>
+                <p>Your full access is unlocked. Explore 22 condition remedy protocols, calculate metric body composition and REM sleep architecture, and browse peer-reviewed clinical research.</p>
+            </div>
+            <div>
+                <button class="btn-calc" onclick="showSection('tools')">Open Health Calculators ➔</button>
+            </div>
+        </div>
+
+        <!-- Quick Access Feature Cards -->
+        <div class="quick-action-grid">
+            <div class="quick-action-card" onclick="showSection('conditions')">
+                <div class="action-card-header">
+                    <div class="action-card-icon">🩺</div>
+                    <h4>22 Condition Remedies</h4>
+                </div>
+                <p>Evidence-informed whole-food protocols for blood pressure, glycemic balance, joints, and gut motility.</p>
+                <div class="action-link-text">Browse Directory ➔</div>
+            </div>
+
+            <div class="quick-action-card" onclick="showSection('tools')">
+                <div class="action-card-header">
+                    <div class="action-card-icon">⚖️</div>
+                    <h4>Metric BMI Assessment</h4>
+                </div>
+                <p>Calculate your precise BMI index with animated graphical spectrum gauge and tailored healthy weight ranges.</p>
+                <div class="action-link-text">Calculate BMI ➔</div>
+            </div>
+
+            <div class="quick-action-card" onclick="showSection('tools'); switchTools('sleep');">
+                <div class="action-card-header">
+                    <div class="action-card-icon">🌙</div>
+                    <h4>Sleep Architecture</h4>
+                </div>
+                <p>Plan optimal sleep cycles based on 90-minute REM windows to eliminate morning grogginess.</p>
+                <div class="action-link-text">Calculate Sleep Cycles ➔</div>
+            </div>
+
+            <div class="quick-action-card" onclick="showSection('research')">
+                <div class="action-card-header">
+                    <div class="action-card-icon">📚</div>
+                    <h4>Clinical Research</h4>
+                </div>
+                <p>Peer-reviewed guidelines and scientific publications from WHO, NIN, and PubMed Central.</p>
+                <div class="action-link-text">Read Publications ➔</div>
+            </div>
+        </div>
+
+        <!-- Main Educational Editorial -->
+        <div class="content-card">
+            <h2 class="section-title">Welcome to Healthy Medicine Foods: Nourish Your Body Daily</h2>
+            <p>In a world where health is paramount, our mission is to guide you towards a balanced and nourished life through the power of medicinal foods. Explore our curated collection of articles, recipes, and expert insights designed to empower you to make informed choices for your well-being.</p>
+            <img src="https://www.plattershare.com/storage/2023/12/Food-as-Medicine.jpg" alt="Healthy whole foods and ingredients" class="reference-photo" loading="lazy">
+            
+            <h3>The Power of Healthy Medicine Foods in Daily Life</h3>
+            <p>In today's fast-paced world, where convenience often takes precedence over health, it's crucial to remember the profound impact that our dietary choices can have on our overall well-being. This portal is dedicated to exploring the realm of healthy medicine foods and their transformative effects on our daily lives.</p>
+            <img src="https://locable-assets-production.s3.amazonaws.com/uploads/resource/file/828651/food-as-vitamin-sources.jpg?timestamp=1711890968" alt="Vitamin sources in medicinal foods" class="reference-photo" loading="lazy">
+            
+            <h3>Discover the Healing Power of Food</h3>
+            <p>Dive into the science behind how certain foods can act as medicine, promoting vitality and longevity. Learn about the nutritional benefits of incorporating superfoods into your daily diet to boost immunity and overall health.</p>
+            <img src="https://megunprocessed.com/wp-content/uploads/2017/01/How-To-Heal-Yourself-With-Food.jpg" alt="Nutritional healing" class="reference-photo" loading="lazy">
+            
+            <h3>Nutritious Recipes for Every Meal</h3>
+            <p>Explore our diverse range of delicious and nutrient-rich recipes, from energizing breakfast smoothies to wholesome dinner options. Find inspiration for incorporating medicinal herbs and spices into your cooking to enhance flavor and wellness.</p>
+            <img src="https://img.delicious.com.au/bHw5OikO/del/2023/11/smoked-kingfish-salad-with-tamarind-dressing-202998-1.jpg" alt="Healthy dining recipes" class="reference-photo" loading="lazy">
+            
+            <h3>Expert Guidance for Optimal Health</h3>
+            <p>Gain valuable insights from healthcare professionals and nutritionists on how to optimize your diet for vitality and disease prevention. Stay informed about the latest research and trends in holistic health and nutrition.</p>
+            <img src="https://static.wixstatic.com/media/15a72b_1573b56d170c49e48572d41d7cd4c8b4~mv2.png/v1/fill/w_640,h_444,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/15a72b_1573b56d170c49e48572d41d7cd4c8b4~mv2.png" alt="Community health education" class="reference-photo" loading="lazy">
+            
+            <div class="advisory-box">
+                <p><strong>Medical Disclaimer:</strong> The nutritional information provided by Healthline Insight is strictly educational and is not intended to substitute professional medical diagnosis, treatment, or physician consultation.</p>
+            </div>
+        </div>
     </section>
-</div>
 
-
-
-<section id="health_condition" style="text-align: left;">
-    <h2>Health Conditions</h2>
-    <h4>Welcome to our health conditions information page. Here, you can find valuable insights and resources about various health conditions. Explore our website to learn more about these health conditions and discover valuable resources for managing and preventing them. Remember, always consult with a healthcare professional for personalized medical advice and treatment.</h4>
-    <h4>Explore the causes and their solution:</h4>
-    <!-- Health conditions with bullet point descriptions -->
-    <div>
-        <select id="photo-selection" onchange="revealSelectedPhoto()">
-            <option value="Select" hidden>Select</option>
-            <option value="photo1">Autoimmune disease</option>
-            <option value="photo2">Back pain</option>
-            <option value="photo3">Blood pressure</option>
-            <option value="photo4">Brain power</option>
-            <option value="photo5">Breast cancer</option>
-            <option value="photo6">Bronchial asthma</option>
-            <option value="photo7">Cough</option>
-            <option value="photo8">Eyesight</option>
-            <option value="photo9">Food poisoning</option>
-            <option value="photo10">Heart</option>
-            <option value="photo11">Headache</option>
-            <option value="photo12">Human immunodeficiency virus (HIV)</option>
-            <option value="photo13">Indigestion</option>
-            <option value="photo14">Jaundice</option>
-            <option value="photo15">Kidney pain</option>
-            <option value="photo16">Leg pain</option>
-            <option value="photo17">Normal and viral fever</option>
-            <option value="photo18">Shoulder pain</option>
-            <option value="photo19">Stone relief</option>
-            <option value="photo20">Stomach ulcer</option>
-            <option value="photo21">Sugar</option>
-            <option value="photo22">Vomiting</option>
-        </select>
-    </div>
-
-    
-<div id="cause-details" style="display: none;">
-     <div id="photo1-details" style="display: none;">
-            <h2>Autoimmune Disease</h2>
-            <h4>Autoimmune diseases occur when the immune system mistakenly attacks the body's own tissues. Examples include rheumatoid arthritis, lupus, and multiple sclerosis.</h4>
-        </div>
-        <div id="photo2-details" style="display: none;">
-            <h2>Back Pain</h2>
-            <h4>Back pain is a common ailment that can range from mild discomfort to severe, debilitating pain. It can be caused by various factors such as poor posture, muscle strain, or underlying medical conditions.</h4>
-        </div>
-        <div id="photo3-details" style="display: none;">
-            <h2>Blood Pressure</h2>
-            <h4>Blood pressure refers to the force of blood pushing against the walls of the arteries as the heart pumps blood. High blood pressure (hypertension) and low blood pressure (hypotension) can both have significant health implications.</h4>
-        </div>
-        <div id="photo4-details" style="display: none;">
-            <h2>Brain Power</h2>
-            <h4>Maintaining cognitive function and brain health is essential for overall well-being. Strategies such as a balanced diet, regular exercise, mental stimulation, and adequate sleep can help enhance brain power.</h4>
-        </div>   
-		<div id="photo5-details" style="display: none;">
-    <h2>Breast Cancer</h2>
-    <h4>Breast cancer is a type of cancer that forms in the cells of the breasts. Early detection through screening tests like mammograms can improve treatment outcomes.</h4>
-</div>
-<div id="photo6-details" style="display: none;">
-    <h2>Bronchial Asthma</h2>
-    <h4>Bronchial asthma is a chronic respiratory condition characterized by inflammation and narrowing of the airways, leading to symptoms such as wheezing, coughing, and shortness of breath.</h4>
-</div>
-<div id="photo7-details" style="display: none;">
-    <h2>Cough</h2>
-    <h4>Coughing is the body's natural reflex to clear the airways of irritants or mucus. However, persistent or severe coughing may indicate an underlying health issue that requires medical attention.</h4>
-</div>
-<div id="photo8-details" style="display: none;">
-    <h2>Eyesight</h2>
-    <h4>Maintaining good eyesight is essential for performing daily tasks and enjoying a high quality of life. Regular eye exams, wearing protective eyewear, and adopting healthy lifestyle habits can help preserve vision.</h4>
-</div>
-<div id="photo9-details" style="display: none;">
-    <h2>Food Poisoning</h2>
-    <h4>Food poisoning occurs when contaminated food or water is consumed, leading to symptoms such as nausea, vomiting, diarrhea, and abdominal pain. Proper food handling and hygiene practices can help prevent foodborne illnesses.</h4>
-</div>
-<div id="photo10-details" style="display: none;">
-    <h2>Heart</h2>
-    <h4>The heart is a vital organ responsible for pumping oxygen-rich blood throughout the body. Taking steps to maintain heart health, such as eating a balanced diet, exercising regularly, managing stress, and avoiding tobacco use, can reduce the risk of heart disease.</h4>
-</div>
-<div id="photo11-details" style="display: none;">
-    <h2>Headache</h2>
-    <h4>Headaches can be caused by various factors, including tension, stress, dehydration, or underlying health conditions. Identifying triggers and implementing relaxation techniques or medications can help alleviate headache symptoms.</h4>
-</div>
-<div id="photo12-details" style="display: none;">
-    <h2>Human Immunodeficiency Virus (HIV)</h2>
-    <h4>HIV is a virus that attacks the body's immune system, specifically targeting CD4 cells, which play a crucial role in fighting infections. Early diagnosis and proper medical treatment can help manage HIV and prevent its progression to AIDS.</h4>
-</div>
-<div id="photo13-details" style="display: none;">
-    <h2>Indigestion</h2>
-    <h4>Indigestion, also known as dyspepsia, refers to discomfort or pain in the upper abdomen that occurs during or after eating. Lifestyle changes, dietary modifications, and over-the-counter medications can help alleviate indigestion symptoms.</h4>
-</div>
-<div id="photo14-details" style="display: none;">
-    <h2>Jaundice</h2>
-    <h4>Jaundice is a condition characterized by yellowing of the skin and eyes due to elevated levels of bilirubin in the blood. It can be caused by various underlying medical conditions affecting the liver, gallbladder, or bile ducts.</h4>
-</div>
-<div id="photo15-details" style="display: none;">
-    <h2>Kidney Pain</h2>
-    <h4>Kidney pain typically manifests as dull, aching discomfort in the back or side, usually below the ribs. It can be caused by kidney infections, kidney stones, or other kidney-related conditions.</h4>
-</div>
-<div id="photo16-details" style="display: none;">
-    <h2>Leg Pain</h2>
-    <h4>Leg pain can be caused by muscle cramps, injuries, overuse, or underlying medical conditions such as peripheral artery disease or sciatica. Proper diagnosis and treatment are essential for managing leg pain effectively.</h4>
-</div>
-<div id="photo17-details" style="display: none;">
-    <h2>Normal and Viral Fever</h2>
-    <h4>Fever is a temporary increase in body temperature, often indicating that the body is fighting off an infection or illness. While most fevers are caused by viral or bacterial infections and resolve on their own, persistent or high fevers may require medical attention.</h4>
-</div>
-<div id="photo18-details" style="display: none;">
-    <h2>Shoulder Pain</h2>
-    <h4>Shoulder pain can result from various factors, including rotator cuff injuries, tendonitis, arthritis, or shoulder impingement syndrome. Physical therapy, medication, and in some cases, surgical intervention may be necessary to alleviate shoulder pain and restore mobility.</h4>
-</div>
-<div id="photo19-details" style="display: none;">
-    <h2>Stone Relief</h2>
-    <h4>Kidney stones are hard deposits that form in the kidneys and can cause severe pain when passing through the urinary tract. Drinking plenty of water, dietary modifications, and certain medications can help prevent and alleviate kidney stones.</h4>
-</div>
-<div id="photo20-details" style="display: none;">
-    <h2>Stomach Ulcer</h2>
-    <h4>Stomach ulcers, also known as peptic ulcers, are open sores that develop on the inner lining of the stomach or the upper part of the small intestine. Treatment typically involves medications to reduce stomach acid production and promote ulcer healing.</h4>
-</div>
-<div id="photo21-details" style="display: none;">
-    <h2>Sugar</h2>
-    <h4>Maintaining healthy blood sugar levels is crucial for overall health, especially for individuals with diabetes. Monitoring carbohydrate intake, regular physical activity, and medication adherence are key components of diabetes management.</h4>
-</div>
-<div id="photo22-details" style="display: none;">
-    <h2>Vomiting</h2>
-    <h4>Vomiting, or emesis, is the forceful expulsion of stomach contents through the mouth and sometimes the nose. It can be caused by various factors such as infections, food poisoning, motion sickness, or underlying medical conditions.</h4>
-</div>
-
-		
-</div>
-    <div class="centered-photos">
-    <img id="photo1" src="https://static.wixstatic.com/media/8be72a_21cc2685dfa741dc8015075a6ed61bc3~mv2.jpg/v1/fill/w_480,h_470,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/8be72a_21cc2685dfa741dc8015075a6ed61bc3~mv2.jpg" alt="Hidden Photo 1" style="display: none; width: 360px; height: 360px;">
-    <img id="photo2" src="https://freshclub.co.in/cdn/shop/products/cumin_seeds_100g-850x850.jpg?v=1660189247" alt="Hidden Photo 2" style="display: none; width: 360px; height: 360px;">
-    <img id="photo3" src="https://ministryofcurry.com/wp-content/uploads/2018/11/pomegranate-juice-1.jpg" alt="Hidden Photo 3" style="display: none; width: 360px; height: 360px;">
-    <img id="photo4" src="https://upload.wikimedia.org/wikipedia/commons/c/cb/Centella_asiatica_2zz.jpg" alt="Hidden Photo 4" style="display: none; width: 360px; height: 360px;">
-    <img id="photo5" src="https://static.toiimg.com/photo/76891362.cms" alt="Hidden Photo 5" style="display: none; width: 360px; height: 360px;">
-    <img id="photo6" src="https://static.toiimg.com/thumb/msid-105708696,width-1280,height-720,resizemode-4/105708696.jpg" alt="Hidden Photo 6" style="display: none; width: 360px; height: 360px;">
-    <img id="photo7" src="https://janescafemissionvalley.com/wp-content/uploads/2022/08/different-kinds-of-grapes-for-eating-hdr.webp" alt="Hidden Photo 7" style="display: none; width: 360px; height: 360px;">
-    <img id="photo8" src="https://images.everydayhealth.com/images/diet-nutrition/all-about-zucchini-nutrition-benefits-side-effects-1440x810.jpg" alt="Hidden Photo 8" style="display: none; width: 360px; height: 360px;">
-    <img id="photo9" src="https://images.herzindagi.info/image/2023/Nov/ginger-tea-recipe.jpg" alt="Hidden Photo 9" style="display: none; width: 360px; height: 360px;">
-    <img id="photo10" src="https://www.indianhealthyrecipes.com/wp-content/uploads/2022/02/apple-juice-recipe.jpg" alt="Hidden Photo 10" style="display: none; width: 360px; height: 360px;">
-    <img id="photo11" src="https://upload.wikimedia.org/wikipedia/commons/9/99/Piper_betle_plant.jpg" alt="Hidden Photo 11" style="display: none; width: 360px; height: 360px;">
-    <img id="photo12" src="https://cdn.wikifarmer.com/wp-content/uploads/2023/09/iStock-1068858270.jpg" alt="Hidden Photo 12" style="display: none; width: 360px; height: 360px;">
-    <img id="photo13" src="https://cdn-prod.medicalnewstoday.com/content/images/articles/275/275944/mint-on-a-wooden-table.jpg" alt="Hidden Photo 13" style="display: none; width: 360px; height: 360px;">
-    <img id="photo14" src="https://www.wildturmeric.net/wp-content/uploads/2014/12/chanca-piedra-health-benefits-1440x954.jpg" alt="Hidden Photo 14" style="display: none; width: 360px; height: 360px;">
-    <img id="photo15" src="https://www.tastingtable.com/img/gallery/is-cauliflower-flour-actually-worth-stocking-in-your-kitchen/l-intro-1704736309.jpg" alt="Hidden Photo 15" style="display: none; width: 360px; height: 360px;">
-    <img id="photo16" src="https://nawon.com.vn/wp-content/uploads/2023/10/Avocado-juice-for-Weight-Loss-1224x800.jpg" alt="Hidden Photo 16" style="display: none; width: 360px; height: 360px;">
-    <img id="photo17" src="https://zestysouthindiankitchen.com/wp-content/uploads/2013/11/papaya-juice-5.jpg" alt="Hidden Photo 17" style="display: none; width: 360px; height: 360px;">
-    <img id="photo18" src="https://post.healthline.com/wp-content/uploads/2021/04/pineapple-juice-1296x728-header-.jpg" alt="Hidden Photo 18" style="display: none; width: 360px; height: 360px;">
-    <img id="photo19" src="https://tamil.cdn.zeenews.com/tamil/sites/default/files/2023/03/03/276613-mar303.png" alt="Hidden Photo 19" style="display: none; width: 360px; height: 360px;">
-    <img id="photo20" src="https://media.post.rvohealth.io/wp-content/uploads/2020/08/blueberries-1200x628-facebook-1200x628.jpg" alt="Hidden Photo 20" style="display: none; width: 360px; height: 360px;">
-    <img id="photo21" src="https://5.imimg.com/data5/SELLER/Default/2023/7/324514603/NM/PY/QZ/11104951/indian-fenugreek-seeds.jpg" alt="Hidden Photo 21" style="display: none; width: 360px; height: 360px;">
-    <img id="photo22" src="https://cdn.britannica.com/84/188484-050-F27B0049/lemons-tree.jpg" alt="Hidden Photo 22" style="display: none; width: 360px; height: 360px;">
-</div>
-</section>
-
-
- 
-<section id="discover">
-    <div class="container">
-        <h2>Discover What We Do</h2>
-        <h4>At Healthline Foods, we are dedicated to helping individuals achieve optimal health through nutritious eating habits and lifestyle choices. Here's what we offer:</h4>
-        
-        <h4>Whether you're looking to improve your eating habits, manage a health condition, or simply live a healthier life, Healthline Foods is here to support you every step of the way.</h4>
-        <p><a href="cb2431en.pdf" target="_blank">Cost and affordability of healthy diets</a></p>
-		<p>                                           <br>                                                 </p>
-        <p><a href="_var_www_nin.res.in_downloads_DietaryGuidelinesforNINwebsite (1).pdf" target="_blank">Dietary guidelines for indians</a></p> 
-        <p>                                           <br>                                                 </p>
-		<p><a href="Etile_FoodConsumptionandHealth_OHAE_Chapter30_2010.pdf" target="_blank">Food consumption and health</a></p>	
-		<p>                                           <br>                                                 </p>
-        <p><a href="FigueroaHoughtalingibae005.pdf" target="_blank">Food is Medicine and implementation science</a></p>
-		<p>                                           <br>                                                 </p>
-		<p><a href="EMROPUB_2019_en_23536.pdf" target="_blank">Healthy diet</a></p>
-		<p>                                           <br>                                                 </p>
-		<p><a href="s41598-017-17262-9.pdf" target="_blank">Healthy food choices are happy food choices</a></p>
-		<p>                                           <br>                                                 </p>
-        <p><a href="Healthy_food_to_support_healthy_life.pdf" target="_blank">Healthy food to support healthy life</a></p>
-		<p>                                           <br>                                                 </p>
-        <p><a href="Nutrients_Foods_Diets_People_Promoting_Healthy_Eat.pdf" target="_blank">Nutrients, Foods, Diets, People: Promoting Healthy Eating</a></p>	
-    </div>
-</section>
-
-<section id="tools">
-    <div class="container">
-        <h2>Tools</h2>
-        <!-- Add buttons for BMI calculator and sleep calculator -->
-        <button onclick="showBMI()">BMI Calculator</button>
-        <button onclick="showSleep()">Sleep Calculator</button>
-
-        <!-- Section for BMI calculator -->
-    <section id="bmiCalculator" style="display: none; text-align: left;">
-    <h2 style="font-weight: bold;">BMI Calculator:</h2>
-    <h4>Body mass index (BMI) uses a person’s height and weight to help determine if they are a moderate weight. BMI charts also display the ranges for the categories of underweight, overweight, and obesity.</h4>
-    <h4>Carrying too much or too little weight can increase a person’s risk of health problems, either in the present or the future.</h4>
-    <h4>A person’s BMI is not the only factor that affects this risk. Other tools for assessing whether or not a person has a healthy weight or body composition for them include waist-to-hip ratio, waist-to-height ratio, and body fat percentage.</h4>
-    <h4>However, BMI may be a useful starting point. This article provides some tools for people to work out their BMI.</h4>
-	<div class="bmi-calculator-box">
-    <h2>BMI Calculator</h2>
-    <form id="bmi-form">
-        <div class="form-group">
-            <label for="height-cm">Height in cm:</label>
-            <input type="number" id="height-cm" placeholder="Enter your height in cm" required>
-            <label for="weight-kg">Weight in kg:</label>
-            <input type="number" id="weight-kg" placeholder="Enter your weight in kg" required>
-        </div>
-        <button type="button" onclick="calculateBMI()">Calculate BMI</button>
-    </form>
-    <div id="bmi-result"></div>
-</div>
-    
-    <h2 style="font-weight: bold;">The flaws of BMI</h2>
-    <h4>BMI is a calculation of a person’s body fat based on their height and weight. However, studies suggest it is a poor indicator of a person’s body fat percentage.</h4>
-    <h4>It can be misleading because the measure does not account for overall body composition. The BMI measurement overlooks bone density, muscle mass, and other considerations.</h4>
-    <h4>For additional information, talk with your doctor about other body fat assessment methods.</h4>
-    
-    <h2 style="font-weight: bold;">BMI charts</h2>
-    <h4>To use the charts below, a person can find their weight in pounds along the top and their height in feet and inches down the side. They can then look across to find their BMI.</h4>
-    <h4>There are two charts. If a person’s weight is 245 pounds (lb) or under, they should use the first chart. If their weight is over 250 lb, they should look at the second one.</h4>
-    <h4>The shaded areas correspond to BMI values that indicate either a moderate weight, overweight, or obesity.</h4>
-	<h4>Researchers and doctors divide obesity into three categories:</h4>
-    <ul>
-        <li><h4><strong>Class 1: BMI is 30–34.9.</strong></h4></li>
-        <li><h4><strong>Class 2: BMI is 35–39.9.</strong></h4></li>
-        <li><h4><strong>Class 3: BMI is 40 and above.</strong></h4></li>
-    </ul><br>
-	<h4><strong>BMI chart: Weight of 95–245 lb</strong></h4>
-    <img src="https://cdn-prod.medicalnewstoday.com/content/images/info/obesity/bmi-chart-underweight-to-overweight.png" alt="BMI Chart: Weight of 95–245 lb">
-	<h4>Adult BMI chart showing ranges “under healthy weight: BMI < 18.5,” “healthy weight: BMI 18.5–24.9,” and “overweight: BMI 25–29.9.”</h4>
-    
-    <h4><strong>BMI chart: Weight of 250–400 lb</strong></h4>
-    <img src="https://cdn-prod.medicalnewstoday.com/content/images/info/obesity/obese-bmi-chart.png" alt="BMI Chart: Weight of 250–400 lb">
-	<h4>Adult BMI chart showing ranges “obese 1: BMI 30–34.9,” “obese 2: BMI 35–39.9,” and “obese 3: BMI ≥ 40.”</h4>
-
-    
-    
-    
-    
-    <!-- Include BMI charts images here -->
-    
-    <h2 style="font-weight: bold;">BMI categories</h2>
-    <h4>The following table shows the standard weight status categories associated with BMI ranges for adults:</h4>
-    <table style="font-size: 1.2em; border-collapse: collapse; width: 50%;">
-    <tr>
-        <th style="border: 1px solid #333;">BMI Range</th>
-        <th style="border: 1px solid #333;">Weight Status</th>
-    </tr>
-    <tr>
-        <td style="border: 1px solid #333;">Below 18.5</td>
-        <td style="border: 1px solid #333;">Underweight</td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid #333;">18.5–24.9</td>
-        <td style="border: 1px solid #333;">Healthy</td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid #333;">25–29.9</td>
-        <td style="border: 1px solid #333;">Overweight</td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid #333;">30 and above</td>
-        <td style="border: 1px solid #333;">Obese</td>
-    </tr>
-    
-</table>
-
-
-    <h4 style="font-weight: bold;">BMI of under 18.5</h4>
-    <h4>A BMI of under 18.5 indicates that a person has insufficient weight, so they may need to put on some weight. They should ask a doctor or dietitian for advice.</h4>
-    
-    <h4 style="font-weight: bold;">BMI of 18.5–24.9</h4>
-    <h4>A BMI of 18.5–24.9 indicates that a person has a healthy weight for their height. By maintaining a healthy weight, they can lower their risk of developing serious health problems.</h4>
-    
-    <h4 style="font-weight: bold;">BMI of 25–29.9</h4>
-    <h4>A BMI of 25–29.9 indicates that a person is slightly overweight. A doctor may advise them to lose some weight for health reasons. They should talk with a doctor or dietitian for advice.</h4>
-    
-    <h4 style="font-weight: bold;">BMI of over 30</h4>
-    <h4>A BMI of over 30 indicates that a person has obesity. Their health may be at risk if they do not lose weight. They should talk with a doctor or dietitian for advice.</h4>
-    
-	<h2 style="font-weight: bold;">Varying cutoff points</h2>
-    <h4>Some evidence suggests that the associations between BMI, body fat percentage, and body fat distribution may differ across populations due to variations in sex, race, and ethnicity.</h4>
-    <h4>A Brazilian study from 2017 looked at the correlation between BMI and body fat percentage in 856 adult males and females.</h4>
-    <h4>They concluded that to predict obesity-type body fat percentage, the standard BMI threshold of 29.9 kilograms per square meter (kg/m2) was appropriate for males but that a more suitable cutoff point for females appeared to be 24.9 kg/m2.</h4>
-    <h4>In 2017, Korean researchers pointed out that people in the Asia-Pacific region often have a higher risk of type 2 diabetes and cardiovascular disease at a BMI below the existing World Health Organization (WHO) cutoff point of 25 kg/m2.</h4>
-    <h4>In Korea, they added, there is evidence to suggest that almost twice as many people have features of metabolic obesity but a moderate weight compared with the United States.</h4>
-    <h4>The results of one 2011 study found that Asian American people within the healthy weight range were more likely to have symptoms of metabolic syndrome than their non-Hispanic white counterparts.</h4>
-    <h4>The following table by the WHO shows some comparisons and cutoff points that may apply. Doctors may use these variations when advising or treating conditions in specific people.</h4>
-    <table style="font-size: 1.5em; border-collapse: collapse; border: 1px solid #333; width: 100%;">
-    <tr>
-        <th style="border: 1px solid #333;">Weight Status</th>
-        <th style="border: 1px solid #333;">Male</th>
-        <th style="border: 1px solid #333;">Female</th>
-    </tr>
-    <tr>
-        <td style="border: 1px solid #333;">Underweight</td>
-        <td style="border: 1px solid #333;">&lt; 18.50</td>
-        <td style="border: 1px solid #333;">&lt; 18.50</td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid #333;">Severe thinness</td>
-        <td style="border: 1px solid #333;">&lt; 16</td>
-        <td style="border: 1px solid #333;">&lt; 16</td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid #333;">Moderate thinness</td>
-        <td style="border: 1px solid #333;">16–16.99</td>
-        <td style="border: 1px solid #333;">16–16.99</td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid #333;">Mild thinness</td>
-        <td style="border: 1px solid #333;">17–18.49</td>
-        <td style="border: 1px solid #333;">17–18.49</td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid #333;">Normal range</td>
-        <td style="border: 1px solid #333;">18.5–24.99</td>
-        <td style="border: 1px solid #333;">18.5–22.99</td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid #333;">Overweight</td>
-        <td style="border: 1px solid #333;">≥ 25</td>
-        <td style="border: 1px solid #333;">≥ 25</td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid #333;">Pre-obese</td>
-        <td style="border: 1px solid #333;">25–29.99</td>
-        <td style="border: 1px solid #333;">25–27.49</td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid #333;">Obese</td>
-        <td style="border: 1px solid #333;">≥ 30</td>
-        <td style="border: 1px solid #333;">≥ 30</td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid #333;">Obese class 1</td>
-        <td style="border: 1px solid #333;">30–34.99</td>
-        <td style="border: 1px solid #333;">30–32.49</td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid #333;">Obese class 2</td>
-        <td style="border: 1px solid #333;">35–39.99</td>
-        <td style="border: 1px solid #333;">35–37.49</td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid #333;">Obese class 3</td>
-        <td style="border: 1px solid #333;">≥ 40</td>
-        <td style="border: 1px solid #333;">≥ 40</td>
-    </tr>
-</table>
-
-
-    <h2 style="font-weight: bold;">Summary:</h2>
-    <h4>BMI is a useful tool that gives a general idea about whether or not a person’s weight is healthy for them. However, it is a simple tool that does not tell the whole story about people’s individual weight and health risks. Anyone who is concerned about their weight should speak with a doctor, who may also consider their body fat distribution and the ratio of their waist size to their height. The doctor will also be able to offer advice to suit every individual.</h4>
-</section>
-
-
-
-
-        <!-- Section for Sleep Calculator -->
-<section id="sleepCalculator" style="display: none; text-align: left;">
-    <h2 style="font-weight: bold;">Sleep Calculator: </h2>
-    <h4>Different factors influence how much sleep a person requires. Guidelines can help a person figure out how much sleep they need, which can help them determine a sleep routine for optimal health.</h4>
-    <h4>Experts believe that sleep is just as important to a person’s health as food and water. Getting the right amount of sleep can help prevent disease, boost immunity, and improve mental health.</h4>
-    <h4>Still, many of us are not getting enough sleep. The Centers for Disease Control and Prevention (CDC) estimate that about one-third of adults consistently do not get the sleep that they need.</h4>
-    <h4>Building a healthy sleep pattern may require tweaking the schedule or lifestyle. While this can be challenging at first, the benefits of proper sleep are worth the effort.</h4>
-    
-    <h2>How much should you sleep?</h2>
-    <img src="https://1.bp.blogspot.com/-Qm28FE-if6E/XS3r5cQIbPI/AAAAAAAARyE/4tfcWapWaUoANX6aTPeOygKN9FJoyHm4wCLcBGAs/s1600/OLDER%2BADULT%2BSLEEPING%2BiStock-1029339248.jpg" style="width: 1000px;" alt="Image Description"><h4>A person’s age can affect the amount of sleep that they need.</h4>
-<h4>Though there are general guidelines, some people need more sleep than others, due to their lifestyle, any health conditions, and their genetic makeup.</h4>
-<h4>The National Sleep Foundation (NSF) recommend that people of different ages get the following amounts of sleep every 24 hours:</h4>
-<table style="border-collapse: collapse; width: 100%;">
-    <tr>
-        <th style="border: 1px solid black; padding: 8px;">Age Group</th>
-        <th style="border: 1px solid black; padding: 8px;">Hours of Sleep</th>
-    </tr>
-    <tr>
-        <td style="border: 1px solid black; padding: 8px;">Newborns (0–3 months)</td>
-        <td style="border: 1px solid black; padding: 8px;">14–17 hours</td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid black; padding: 8px;">Infants (4–11 months)</td>
-        <td style="border: 1px solid black; padding: 8px;">12–15 hours</td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid black; padding: 8px;">Toddlers (1–2 years)</td>
-        <td style="border: 1px solid black; padding: 8px;">11–14 hours</td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid black; padding: 8px;">Preschoolers (3–5 years)</td>
-        <td style="border: 1px solid black; padding: 8px;">10–13 hours</td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid black; padding: 8px;">School-age Children (6–13 years)</td>
-        <td style="border: 1px solid black; padding: 8px;">9–11 hours</td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid black; padding: 8px;">Teenagers (14–17 years)</td>
-        <td style="border: 1px solid black; padding: 8px;">8–10 hours</td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid black; padding: 8px;">Younger Adults (18–25 years)</td>
-        <td style="border: 1px solid black; padding: 8px;">7–9 hours</td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid black; padding: 8px;">Adults (26–64 years)</td>
-        <td style="border: 1px solid black; padding: 8px;">7–9 hours</td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid black; padding: 8px;">Older Adults (65 years and above)</td>
-        <td style="border: 1px solid black; padding: 8px;">7–8 hours</td>
-    </tr>
-</table>
-
-    
-    <h2>How to get the right amount</h2>
-<h4>The following chart can help a person figure out when they need to be going to bed to get 8 hours of sleep a night:</h4>
-<table style="border-collapse: collapse; width: 100%;">
-    <tr>
-        <th style="border: 1px solid black; padding: 8px;">Wake-up time</th>
-        <th style="border: 1px solid black; padding: 8px;">Bedtime (to get 8 hours of sleep)</th>
-    </tr>
-    <tr>
-        <td style="border: 1px solid black; padding: 8px;">4:00 a.m.</td>
-        <td style="border: 1px solid black; padding: 8px;">7:45 p.m.</td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid black; padding: 8px;">4:30 a.m.</td>
-        <td style="border: 1px solid black; padding: 8px;">8:15 p.m.</td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid black; padding: 8px;">5:00 a.m.</td>
-        <td style="border: 1px solid black; padding: 8px;">8:45 p.m.</td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid black; padding: 8px;">5:30 a.m.</td>
-        <td style="border: 1px solid black; padding: 8px;">9:15 p.m.</td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid black; padding: 8px;">6:00 a.m.</td>
-        <td style="border: 1px solid black; padding: 8px;">9:45 p.m.</td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid black; padding: 8px;">6:30 a.m.</td>
-        <td style="border: 1px solid black; padding: 8px;">10:15 p.m.</td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid black; padding: 8px;">7:00 a.m.</td>
-        <td style="border: 1px solid black; padding: 8px;">10:45 p.m.</td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid black; padding: 8px;">7:30 a.m.</td>
-        <td style="border: 1px solid black; padding: 8px;">11:15 p.m.</td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid black; padding: 8px;">8:00 a.m.</td>
-        <td style="border: 1px solid black; padding: 8px;">11:45 p.m.</td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid black; padding: 8px;">8:30 a.m.</td>
-        <td style="border: 1px solid black; padding: 8px;">12:15 a.m.</td>
-    </tr>
-</table>
-
-<h2>Sleep cycles</h2>
-<h4>To be properly rested, the body must go through several sleep cycles per night, including rapid eye movement (REM) sleep and non-REM sleep.</h4>
-<h4>The stages of sleep include:</h4>
-<ul>
-    <li><h4><strong>Stage 1 non-REM:</strong> This lasts for only a few minutes. Breathing, heart rate, and brain waves begin to slow.</h4></li>
-    <li><h4><strong>Stage 2 non-REM:</strong> This stage occurs before the body enters deep sleep. The muscles relax even more, and body temperature drops.</h4></li>
-    <li><h4><strong>Stage 3 non-REM:</strong> A person needs to reach this stage of deep sleep to feel rested, and it lasts longer in the first half of the night. Breathing and heart rate slow to their lowest levels.</h4></li>
-    <li><h4><strong>REM sleep:</strong> Within 90 minutes of falling asleep, a person enters REM sleep. The brain becomes more active, the most dreaming occurs, and the arms and legs become temporarily paralyzed.</h4></li>
-</ul>
-
-<h4>If the body does not go through these stages several times a night, the person may wake feeling fatigued and unfocused.</h4>
-
-   <h2>How to get better sleep</h2>
-<h4>Getting quality sleep sometimes requires only simple tweaks in a routine. Other times, a person may need to put sleep ahead of other activities.</h4>
-<h4>Here are some ways to improve the quality and quantity of sleep:</h4>
-<ul>
-    <li><h4><strong>Be consistent:</strong> Going to bed and waking up at the same times every day helps the body develop a rhythm, which may make it easier to fall asleep and wake up feeling rested.</h4></li>
-    <li><h4><strong>Get exercise each day:</strong> Exercise may improve sleep quality and help people who have chronic insomnia.</h4></li>
-    <li><h4><strong>Avoid caffeine and nicotine:</strong> Avoid these stimulants later in the day, as both can take several hours or longer to leave the bloodstream, potentially interfering with sleep.</h4></li>
-    <li><h4><strong>Drown out sound and light:</strong> Using earplugs, a white noise machine, and room-darkening curtains or window treatments can help. Various white noise machines are available for purchase online.</h4></li>
-    <li><h4><strong>Turn off TVs, smartphones, and tablets at least 2 hours before bed:</strong> The blue light that these devices can emit can suppress melatonin, a hormone necessary for sleep.</h4></li>
-    <li><h4><strong>Try relaxing alternatives:</strong> Instead of looking at screens, try taking a warm bath, reading a book, or meditating.</h4></li>
-</ul>
-<h2>Summary</h2>
-<h4>Sleep is vital to health — being well-rested can help people lose weight and prevent certain health conditions.</h4>
-
-<h4>To get the recommended 7–9 hours each night, it is important to get to bed at the right time, which may involve rearranging a routine. For many people, this can make a big difference.</h4>
-
-<h4>If a person has tried various recommendations and strategies and exhaustion or trouble sleeping persists, they should see a doctor.</h4>
-
-</section>
-
-    </div>
-</section>
-
-<section id="contactus" style="background-color: #f9f9f9; padding: 50px 0;">
-    <div class="container" style="max-width: 800px; margin: 0 auto; text-align: center;">
-        <h2>Contact Us</h2>
-        <p style="font-size: 25px; margin-bottom: 30px;">We value your feedback and inquiries. Please feel free to reach out to us using the form below.</p>
-        
-        <!-- Contact Form -->
-        <form action="#" method="post" class="contact-form" style="max-width: 600px; margin: 0 auto;" onsubmit="return false;">
-            <div class="form-group" style="margin-bottom: 20px;">
-                <input type="text" id="name" name="name" placeholder="Your Name" style="width: 100%; padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px;" required>
-            </div>
-            <div class="form-group" style="margin-bottom: 20px;">
-                <input type="email" id="email" name="email" placeholder="Your Email" style="width: 100%; padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px;" required>
-            </div>
-            <div class="form-group" style="margin-bottom: 20px;">
-                <textarea id="message" name="message" placeholder="Your Message" rows="4" style="width: 100%; padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px;" required></textarea>
-            </div>
-            <button type="submit" style="background-color: #ADD8E6; color: #000; padding: 14px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;" onclick="submitForm()">Submit</button>
-        </form>
-    </div>
-</section>
-
-<section id="aboutus">
-    <div class="container">
-        <h2 style="text-align: left;">About Us</h2>
+    <!-- ==================== HEALTH CONDITIONS SECTION ==================== -->
+    <section id="conditions" class="portal-section">
+        <div class="content-card">
+            <h2 class="section-title">Health Conditions Directory & Nutritional Guidance</h2>
+            <p>Explore traditional and science-backed nutritional remedies for 22 specific health concerns. Select a condition from the directory or choose a category chip below to view physiological insights and recommended whole-food options.</p>
+            
+            <div class="explorer-filter-box">
+                <label for="conditionSearchInput">🔍 Search or Select a Health Concern:</label>
                 
-        <h4 style="text-align: left;">At Healthline Insight, we understand the importance of nutrition in promoting overall well-being. Our platform offers personalized recommendations and curated resources to support you in adopting healthier eating habits and lifestyle choices.</h4>
-        
-        <h4 style="text-align: left;">With a focus on evidence-based content, we provide informative articles, expert advice, and actionable tips tailored to your specific health needs. Whether you're looking to manage a health condition, improve your diet, or simply enhance your well-being, [Your Website Name] is here to guide you every step of the way.</h4>
-        
-        <h4 style="text-align: left;">In addition to our comprehensive articles and resources, we offer a convenient health calculator tool to help you assess your current health status and track your progress towards your wellness goals.</h4>
-        
-        <h4 style="text-align: left;">Explore our website to discover our curated selection of foods to address various health concerns, dive into informative articles relevant to your interests, and utilize our health calculator to take charge of your well-being.</h4>
-        
-        <h4 style="text-align: left;">Join our community today and embark on a journey towards a healthier and happier you with Healthline Insight.</h4>
-        
-        <h3>Follow Us</h3>
-        <div class="app-icons">
-            <a href="https://www.facebook.com/" target="_blank"><img src="icons8-facebook-48.png" alt="Facebook" style="width: 40px; height: 40px;"></a>
-            <a href="https://www.instagram.com/" target="_blank"><img src="icons8-instagram-48.png" alt="Instagram" style="width: 40px; height: 40px;"></a>
-            <a href="https://twitter.com/" target="_blank"><img src="icons8-twitter-48.png" alt="Twitter" style="width: 40px; height: 40px;"></a>
-            <a href="https://www.linkedin.com/" target="_blank"><img src="icons8-linkedin-48.png" alt="LinkedIn" style="width: 40px; height: 40px;"></a>
+                <div class="search-control-wrap">
+                    <input type="text" id="conditionSearchInput" placeholder="Type to filter conditions (e.g., Blood Pressure, Fever, Digestion)..." oninput="filterConditionsList()">
+                    <select id="photo-selection" onchange="displaySelectedCondition()">
+                        <option value="" disabled selected>— Choose from 22 Health Topics —</option>
+                        <option value="photo1">Autoimmune Disease</option>
+                        <option value="photo2">Back Pain</option>
+                        <option value="photo3">Blood Pressure</option>
+                        <option value="photo4">Brain Power & Cognition</option>
+                        <option value="photo5">Breast Health</option>
+                        <option value="photo6">Bronchial Asthma</option>
+                        <option value="photo7">Cough & Throat Irritation</option>
+                        <option value="photo8">Eyesight & Vision</option>
+                        <option value="photo9">Food Poisoning Recovery</option>
+                        <option value="photo10">Heart Health</option>
+                        <option value="photo11">Headache & Tension</option>
+                        <option value="photo12">Human Immunodeficiency Virus (HIV)</option>
+                        <option value="photo13">Indigestion & Dyspepsia</option>
+                        <option value="photo14">Jaundice & Liver Support</option>
+                        <option value="photo15">Kidney Pain</option>
+                        <option value="photo16">Leg Pain & Cramps</option>
+                        <option value="photo17">Normal & Viral Fever</option>
+                        <option value="photo18">Shoulder & Joint Pain</option>
+                        <option value="photo19">Stone Relief & Urinary Care</option>
+                        <option value="photo20">Stomach Ulcer</option>
+                        <option value="photo21">Blood Sugar & Glycemic Balance</option>
+                        <option value="photo22">Nausea & Vomiting</option>
+                    </select>
+                </div>
+
+                <!-- Category Filter Chips -->
+                <div class="category-chips-row">
+                    <span class="cat-chip active" onclick="filterByCategory('all')">🌟 All (22)</span>
+                    <span class="cat-chip" onclick="filterByCategory('cardio')">🩸 Cardiovascular</span>
+                    <span class="cat-chip" onclick="filterByCategory('metabolic')">📊 Metabolic</span>
+                    <span class="cat-chip" onclick="filterByCategory('digestive')">🌿 Digestive</span>
+                    <span class="cat-chip" onclick="filterByCategory('respiratory')">🫁 Respiratory</span>
+                    <span class="cat-chip" onclick="filterByCategory('musculo')">🦴 Joints & Pain</span>
+                    <span class="cat-chip" onclick="filterByCategory('neuro')">🧠 Brain & Vision</span>
+                </div>
+            </div>
+
+            <!-- Dynamic Condition Showcase Card -->
+            <div id="conditionDisplayCard" style="display: block;">
+                <div class="condition-detail-card">
+                    <div class="condition-img-wrapper">
+                        <img id="activeImg" src="https://ministryofcurry.com/wp-content/uploads/2018/11/pomegranate-juice-1.jpg" alt="Pomegranate juice for blood pressure" loading="lazy">
+                    </div>
+                    <div class="condition-text">
+                        <span class="evidence-tag" id="activeTag">Potassium & Nitric Oxide</span>
+                        <h3 id="activeTitle">Blood Pressure & Endothelial Health</h3>
+                        <p id="activeDesc">Hypertension strains cardiovascular arterial walls. Pomegranate juice, rich in punicalagins and potassium, supports endothelial elasticity, vasodilation, and healthy arterial blood pressure.</p>
+                        <div class="nutrition-dosage-box" id="activeDosage">
+                            <strong>💡 Nutritional Recommendation:</strong> 150–200ml freshly squeezed pomegranate juice in the morning.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visual 22-Condition Cards Grid -->
+            <h3 style="margin-top: 40px;">Complete 22 Clinical Conditions Grid</h3>
+            <p>Click on any condition card below to inspect its dedicated botanical remedy and dosage protocol:</p>
+            
+            <div class="conditions-directory-grid" id="conditionsDirectoryGrid">
+                <!-- Rendered dynamically by JavaScript -->
+            </div>
+
+            <div class="advisory-box" style="margin-top: 36px;">
+                <p><strong>Clinical Notice:</strong> Natural foods and spices are supportive dietary practices. Always seek qualified medical evaluation for persistent symptoms, acute emergencies, or severe conditions.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== RESEARCH LIBRARY SECTION ==================== -->
+    <section id="research" class="portal-section">
+        <div class="content-card">
+            <h2 class="section-title">Evidence-Based Research & Clinical Guidelines</h2>
+            <p>Access peer-reviewed research publications, international health agency frameworks, and public dietary guidelines on nutrition and disease prevention.</p>
+            
+            <div class="research-grid">
+                <div class="research-card">
+                    <div>
+                        <span class="evidence-tag">World Health Organization</span>
+                        <h3>Healthy Diet Factsheet & Global Norms</h3>
+                        <p>Authoritative global recommendations on macronutrient balance, limiting free sugars, managing sodium, and optimizing healthy dietary fats for chronic disease prevention.</p>
+                    </div>
+                    <a href="https://www.who.int/news-room/fact-sheets/detail/healthy-diet" target="_blank" rel="noopener noreferrer" class="research-btn-link">
+                        <span>Read WHO Guidelines</span> <span>↗</span>
+                    </a>
+                </div>
+
+                <div class="research-card">
+                    <div>
+                        <span class="evidence-tag">ICMR — NIN India</span>
+                        <h3>Dietary Guidelines for Indians</h3>
+                        <p>Comprehensive nutrient requirements, Recommended Dietary Allowances (RDA), and food group balance curated by the National Institute of Nutrition.</p>
+                    </div>
+                    <a href="https://www.nin.res.in" target="_blank" rel="noopener noreferrer" class="research-btn-link">
+                        <span>Access NIN Guidelines</span> <span>↗</span>
+                    </a>
+                </div>
+
+                <div class="research-card">
+                    <div>
+                        <span class="evidence-tag">FAO & United Nations</span>
+                        <h3>Cost and Affordability of Healthy Diets</h3>
+                        <p>Global analyses examining dietary affordability, food systems resilience, and nutritional accessibility across diverse global demographics.</p>
+                    </div>
+                    <a href="https://www.fao.org/nutrition/en/" target="_blank" rel="noopener noreferrer" class="research-btn-link">
+                        <span>Explore FAO Research</span> <span>↗</span>
+                    </a>
+                </div>
+
+                <div class="research-card">
+                    <div>
+                        <span class="evidence-tag">Nature / Scientific Reports</span>
+                        <h3>Nutritional Psychiatry & Food Choices</h3>
+                        <p>Peer-reviewed investigation into how unrefined, antioxidant-rich foods positively impact neurochemical synthesis, mood, and cognitive health.</p>
+                    </div>
+                    <a href="https://www.nature.com/articles/s41598-017-17262-9" target="_blank" rel="noopener noreferrer" class="research-btn-link">
+                        <span>View Publication</span> <span>↗</span>
+                    </a>
+                </div>
+
+                <div class="research-card">
+                    <div>
+                        <span class="evidence-tag">PubMed Central</span>
+                        <h3>Food is Medicine: Clinical Implementation</h3>
+                        <p>Comprehensive review on integrating food-based nutritional interventions into formal clinical healthcare workflows for cardiometabolic disease.</p>
+                    </div>
+                    <a href="https://pubmed.ncbi.nlm.nih.gov/" target="_blank" rel="noopener noreferrer" class="research-btn-link">
+                        <span>Explore PubMed Studies</span> <span>↗</span>
+                    </a>
+                </div>
+
+                <div class="research-card">
+                    <div>
+                        <span class="evidence-tag">Nutrition Reviews</span>
+                        <h3>Promoting Whole Food Dietary Patterns</h3>
+                        <p>Examining plant-forward, fiber-rich, and polyphenol-dense dietary patterns that foster metabolic longevity and gut microbiome health.</p>
+                    </div>
+                    <a href="https://academic.oup.com/nutritionreviews" target="_blank" rel="noopener noreferrer" class="research-btn-link">
+                        <span>Read Journal Articles</span> <span>↗</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== HEALTH CALCULATORS SECTION ==================== -->
+    <section id="tools" class="portal-section">
+        <div class="content-card">
+            <h2 class="section-title">Clinical Health Calculators & Tools</h2>
+            <p>Access accurate metric calculation tools to assess your Body Mass Index (BMI) and calculate optimal 90-minute sleep cycle windows.</p>
+
+            <div class="tools-tab-bar">
+                <button class="tool-tab active" id="tabBtnBmi" onclick="switchTools('bmi')">
+                    <span>⚖️</span>
+                    <span>BMI Calculator</span>
+                </button>
+                <button class="tool-tab" id="tabBtnSleep" onclick="switchTools('sleep')">
+                    <span>🌙</span>
+                    <span>Sleep Cycle Architecture</span>
+                </button>
+            </div>
+
+            <!-- BMI TOOL WRAPPER -->
+            <div id="bmiToolWrapper">
+                <div class="calculator-card">
+                    <h3 style="margin-top: 0;">Body Mass Index (BMI) Assessment</h3>
+                    <p>Enter your measurements to calculate your BMI, view your interactive gauge, and discover your personalized healthy weight range.</p>
+                    
+                    <div class="form-grid-2col">
+                        <div class="input-field">
+                            <label for="height-cm">Height (Centimeters):</label>
+                            <input type="number" id="height-cm" placeholder="e.g. 175" min="50" max="260" required>
+                        </div>
+                        <div class="input-field">
+                            <label for="weight-kg">Weight (Kilograms):</label>
+                            <input type="number" id="weight-kg" placeholder="e.g. 70" min="20" max="300" required>
+                        </div>
+                    </div>
+
+                    <button class="btn-calc" onclick="calculateBMI()">Calculate BMI</button>
+
+                    <!-- Interactive BMI Results Box -->
+                    <div id="bmiResultsBox" class="results-card">
+                        <div class="results-header-bar">
+                            <div>
+                                <span style="font-size: 14px; font-weight: 700; color: var(--text-muted);">Calculated BMI:</span>
+                                <div style="font-family: 'Outfit', sans-serif; font-size: 34px; font-weight: 800; color: var(--dark);" id="bmiNumberDisplay">22.9</div>
+                            </div>
+                            <div>
+                                <span id="bmiBadgeDisplay" class="badge-pill badge-normal">Healthy Weight</span>
+                            </div>
+                        </div>
+
+                        <!-- Graphical Gauge Meter Bar -->
+                        <div class="bmi-meter-container">
+                            <div class="bmi-meter-track">
+                                <div class="bmi-meter-pointer" id="bmiPointer" style="left: 45%;"></div>
+                            </div>
+                            <div class="bmi-meter-labels">
+                                <span>Underweight (&lt;18.5)</span>
+                                <span>Normal (18.5–24.9)</span>
+                                <span>Overweight (25–29.9)</span>
+                                <span>Obese (≥30)</span>
+                            </div>
+                        </div>
+
+                        <div style="background: #f8fafc; padding: 16px; border-radius: 10px; margin-top: 16px; border-left: 4px solid var(--secondary);">
+                            <p style="margin: 0; font-size: 14.5px; font-weight: 700; color: var(--secondary-dark);" id="bmiRangeDisplay">🎯 For your height of 175 cm, the standard healthy weight range is 56.7 – 76.3 kg.</p>
+                            <p style="margin: 8px 0 0; font-size: 14px; color: #475569;" id="bmiAdviceDisplay">Your BMI is within the standard healthy weight range. Continue supporting your metabolic vitality through balanced meals and regular physical activity.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Standard Adult BMI Classification</h3>
+                <p>Based on World Health Organization (WHO) international guidelines:</p>
+                <div style="overflow-x: auto; margin-top: 16px;">
+                    <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 14.5px;">
+                        <thead>
+                            <tr style="background: #f1f5f9; color: var(--dark);">
+                                <th style="padding: 12px 16px; border: 1px solid var(--border);">Category</th>
+                                <th style="padding: 12px 16px; border: 1px solid var(--border);">BMI Range (kg/m²)</th>
+                                <th style="padding: 12px 16px; border: 1px solid var(--border);">Health Risk Category</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 12px 16px; border: 1px solid var(--border); font-weight: 700; color: #0284c7;">Underweight</td>
+                                <td style="padding: 12px 16px; border: 1px solid var(--border);">&lt; 18.5</td>
+                                <td style="padding: 12px 16px; border: 1px solid var(--border);">Nutritional deficiency, lower bone density</td>
+                            </tr>
+                            <tr style="background: #f0fdf4;">
+                                <td style="padding: 12px 16px; border: 1px solid var(--border); font-weight: 700; color: var(--primary);">Healthy Weight</td>
+                                <td style="padding: 12px 16px; border: 1px solid var(--border); font-weight: 700;">18.5 – 24.9</td>
+                                <td style="padding: 12px 16px; border: 1px solid var(--border);">Lowest risk for chronic metabolic diseases</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px 16px; border: 1px solid var(--border); font-weight: 700; color: #ea580c;">Overweight</td>
+                                <td style="padding: 12px 16px; border: 1px solid var(--border);">25.0 – 29.9</td>
+                                <td style="padding: 12px 16px; border: 1px solid var(--border);">Moderate cardiovascular and blood pressure risk</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px 16px; border: 1px solid var(--border); font-weight: 700; color: #dc2626;">Obesity (Class I–III)</td>
+                                <td style="padding: 12px 16px; border: 1px solid var(--border);">&ge; 30.0</td>
+                                <td style="padding: 12px 16px; border: 1px solid var(--border);">Elevated risk for cardiometabolic disorders</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- SLEEP ARCHITECTURE WRAPPER -->
+            <div id="sleepToolWrapper" style="display: none;">
+                <div class="calculator-card">
+                    <h3 style="margin-top: 0;">90-Minute REM Sleep Cycle Architecture</h3>
+                    <p>Natural sleep occurs in 90-minute ultradian cycles. Waking up in the middle of a deep sleep phase causes grogginess, while waking between cycles leaves you feeling alert and revitalized.</p>
+                    
+                    <div class="form-grid-2col">
+                        <div class="input-field">
+                            <label for="sleepModeSelect">Select Calculation Mode:</label>
+                            <select id="sleepModeSelect" onchange="updateSleepInputs()">
+                                <option value="wakeAt">I want to wake up refreshed at a specific time</option>
+                                <option value="bedAt">I am going to sleep at a specific time</option>
+                                <option value="sleepNow">I am going to sleep right now</option>
+                            </select>
+                        </div>
+                        <div class="input-field" id="sleepTimeWrapper">
+                            <label id="sleepTimeInputLabel" for="sleepTimeInput">Target Wake-up Time:</label>
+                            <input type="time" id="sleepTimeInput" value="07:00">
+                        </div>
+                    </div>
+
+                    <button class="btn-calc" onclick="calculateSleepCycles()">Calculate Sleep Windows</button>
+
+                    <!-- Sleep Results Display -->
+                    <div id="sleepResultsBox" class="results-card">
+                        <h4 style="margin: 0 0 12px; font-size: 18px; color: var(--dark);" id="sleepResultsHeading">Suggested Sleep Windows:</h4>
+                        <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 16px;">(Calculations include an average 15-minute natural latency window to fall asleep)</p>
+                        
+                        <div class="sleep-timeline-grid" id="sleepGridOutput"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ==================== ABOUT US SECTION ==================== -->
+    <section id="about" class="portal-section">
+        <div class="content-card">
+            <h2 class="section-title">About Healthline Insight</h2>
+            <p><strong>Healthline Insight</strong> is dedicated to advancing public health literacy through evidence-backed nutritional guidance, natural whole-food therapies, and modern clinical health calculators.</p>
+            
+            <p>Our platform synthesizes peer-reviewed scientific literature and traditional nutritional wisdom to deliver clear, actionable lifestyle insights. Whether you are addressing specific health topics, assessing your BMI, or planning your sleep schedule, Healthline Insight empowers your daily health journey.</p>
+
+            <h3>Our Pillars of Excellence</h3>
+            <ul style="padding-left: 20px; color: #475569; font-size: 15.5px; line-height: 1.9; margin-bottom: 24px;">
+                <li><strong>Scientific Integrity:</strong> Content referenced from reputable health organizations and clinical research.</li>
+                <li><strong>Practical Nutrition:</strong> Focusing on accessible whole foods, medicinal spices, and balanced living.</li>
+                <li><strong>Empowerment & Safety:</strong> Offering transparent tools while advocating for professional healthcare partnerships.</li>
+            </ul>
+
+            <!-- Interactive Frequently Asked Questions -->
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-accordion">
+                <div class="faq-item active">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>How does "Food as Medicine" work in daily life?</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        Whole foods contain synergistic combinations of vitamins, minerals, dietary fibers, and phytochemicals (such as flavonoids, carotenoids, and glucosinolates) that support cellular repair, modulate inflammatory pathways, and nourish gut microbiome health.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>Why does the sleep calculator use 90-minute cycles?</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        Human sleep naturally progresses through ultradian cycles consisting of NREM (stages 1, 2, and slow-wave deep sleep) and REM sleep. Completing full 90-minute cycles minimizes "sleep inertia"—the groggy feeling caused by waking up mid-deep sleep.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>Is BMI alone enough to judge health?</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        BMI is a helpful screening metric for population weight ranges, but it does not measure muscle mass, bone density, or visceral fat distribution. Combining BMI with waist circumference and clinical biomarker blood tests provides a complete picture.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>How frequently is the research database updated?</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        Our research directory is updated continuously as major clinical guidelines and peer-reviewed journals publish updated dietary recommendations and nutritional biochemistry papers.
+                    </div>
+                </div>
+            </div>
+
+            <h3>Connect with Our Network</h3>
+            <p>Follow our educational publications and research updates:</p>
+            
+            <div class="social-channel-strip">
+                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="social-channel-btn" title="Facebook" aria-label="Facebook">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8H6v4h3v12h5V12h3.642L18 8h-4V6.333C14 5.374 14.5 5 15.667 5H18V0h-3.833C10.667 0 9 1.667 9 4.667V8z"/></svg>
+                </a>
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-channel-btn" title="Instagram" aria-label="Instagram">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                </a>
+                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="social-channel-btn" title="X (Twitter)" aria-label="X (Twitter)">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </a>
+                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="social-channel-btn" title="LinkedIn" aria-label="LinkedIn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== CONTACT SECTION ==================== -->
+    <section id="contact" class="portal-section">
+        <div class="content-card" style="text-align: center;">
+            <h2 class="section-title" style="justify-content: center;">Contact Healthline Insight</h2>
+            <p style="max-width: 600px; margin: 0 auto 24px;">Have questions, research inquiries, or feedback? Send a direct message to our editorial team.</p>
+            
+            <form id="contactForm" class="contact-form-container" onsubmit="handleContactSubmit(event)">
+                <div id="contactStatusBox" style="display: none; padding: 14px; border-radius: 10px; margin-bottom: 20px; font-size: 14px; font-weight: 600;"></div>
+                
+                <div class="form-row">
+                    <label for="contactFullName">Full Name:</label>
+                    <input type="text" id="contactFullName" placeholder="Your Name" required>
+                </div>
+                <div class="form-row">
+                    <label for="contactEmailAddr">Email Address:</label>
+                    <input type="email" id="contactEmailAddr" placeholder="name@domain.com" required>
+                </div>
+                <div class="form-row">
+                    <label for="contactMessageText">Your Message:</label>
+                    <textarea id="contactMessageText" rows="5" placeholder="Write your inquiry or feedback here..." required></textarea>
+                </div>
+                <button type="submit" id="submitBtn" class="btn-calc" style="width: 100%;">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+</div>
+
+<!-- Footer -->
+<footer>
+    <div class="footer-content">
+        <div class="footer-about">
+            <h4>Healthline Insight</h4>
+            <p>Advancing evidence-informed nutritional guidance, clinical health calculators, and lifestyle intelligence for a healthier, more vibrant tomorrow.</p>
+        </div>
+        <div class="footer-nav-col">
+            <h5>Navigation</h5>
+            <ul>
+                <li><a onclick="showSection('home')">Home Dashboard</a></li>
+                <li><a onclick="showSection('conditions')">Health Topics</a></li>
+                <li><a onclick="showSection('research')">Research Library</a></li>
+                <li><a onclick="showSection('tools')">Calculators & Tools</a></li>
+            </ul>
+        </div>
+        <div class="footer-nav-col">
+            <h5>Clinical Tools</h5>
+            <ul>
+                <li><a onclick="showSection('tools'); switchTools('bmi');">BMI Assessment</a></li>
+                <li><a onclick="showSection('tools'); switchTools('sleep');">Sleep Cycle Planner</a></li>
+                <li><a onclick="showSection('conditions')">22 Condition Directory</a></li>
+            </ul>
+        </div>
+        <div class="footer-nav-col">
+            <h5>Organization</h5>
+            <ul>
+                <li><a onclick="showSection('about')">About Healthline</a></li>
+                <li><a onclick="showSection('contact')">Contact Editorial</a></li>
+                <li><a href="index.html">Public Landing Page</a></li>
+            </ul>
         </div>
     </div>
-</section>
-
-
-
-
-<div class="full-width-line"></div>
-
-<footer>
-    <p>© 2024 Healthline Insight Private Limited. All rights reserved.</p>
+    <div class="footer-bottom-bar">
+        <p>© 2024–2026 Healthline Insight Private Limited. Evidence-based clinical intelligence. All rights reserved.</p>
+    </div>
 </footer>
+
+<!-- JavaScript Logic -->
 <script>
-    // Function to show BMI calculator content and hide sleep calculator content
-    function showBMI() {
-        document.getElementById("bmiCalculator").style.display = "block";
-        document.getElementById("sleepCalculator").style.display = "none";
-    }
-
-    // Function to show sleep calculator content and hide BMI calculator content
-    function showSleep() {
-        document.getElementById("bmiCalculator").style.display = "none";
-        document.getElementById("sleepCalculator").style.display = "block";
-    }
-</script>
-<script>
-    function calculateBMI() {
-        var heightCm = parseFloat(document.getElementById('height-cm').value);
-        var weightKg = parseFloat(document.getElementById('weight-kg').value);
-
-        var bmi = calculateBMIMetric(heightCm, weightKg);
-        var bmiCategory = getBMICategory(bmi);
-        var weightRange = getNormalWeightRange(heightCm);
-
-        displayBMIResult(bmi, bmiCategory, weightRange);
-    }
-
-    function calculateBMIMetric(heightCm, weightKg) {
-        var heightInMeters = heightCm / 100;
-        var bmi = weightKg / (heightInMeters * heightInMeters);
-        return bmi;
-    }
-
-    function getBMICategory(bmi) {
-        if (bmi < 18.5) {
-            return "Underweight";
-        } else if (bmi >= 18.5 && bmi < 25) {
-            return "Normal";
-        } else if (bmi >= 25 && bmi < 30) {
-            return "Overweight";
-        } else {
-            return "Obese";
+    const conditionDatabase = {
+        photo1: {
+            title: "Autoimmune Disease Support",
+            tag: "Anti-Inflammatory Nutrition",
+            category: "metabolic",
+            desc: "Autoimmune conditions occur when the immune system mistakenly targets healthy tissues. Diets rich in polyphenols, omega-3 fatty acids, and leafy antioxidants help modulate immune pathways and minimize systemic inflammation.",
+            dosage: "Focus on cruciferous greens, wild turmeric, and polyphenol-rich berries.",
+            img: "https://static.wixstatic.com/media/8be72a_21cc2685dfa741dc8015075a6ed61bc3~mv2.jpg/v1/fill/w_480,h_470,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/8be72a_21cc2685dfa741dc8015075a6ed61bc3~mv2.jpg"
+        },
+        photo2: {
+            title: "Back Pain & Muscle Tension",
+            tag: "Circulation & Phytochemicals",
+            category: "musculo",
+            desc: "Back discomfort often stems from postural strain or micro-inflammation. Bioactive spices like cumin seeds (Jeera) and ginger promote smooth digestion, reduce muscular cramping, and aid circulation.",
+            dosage: "Drink warm cumin-infused water (Jeera water) daily to promote systemic ease.",
+            img: "https://freshclub.co.in/cdn/shop/products/cumin_seeds_100g-850x850.jpg?v=1660189247"
+        },
+        photo3: {
+            title: "Blood Pressure & Endothelial Health",
+            tag: "Potassium & Nitric Oxide",
+            category: "cardio",
+            desc: "Hypertension strains cardiovascular arterial walls. Pomegranate juice, rich in punicalagins and potassium, supports endothelial elasticity, vasodilation, and healthy arterial blood pressure.",
+            dosage: "150–200ml freshly squeezed pomegranate juice in the morning.",
+            img: "https://ministryofcurry.com/wp-content/uploads/2018/11/pomegranate-juice-1.jpg"
+        },
+        photo4: {
+            title: "Brain Power & Cognitive Function",
+            tag: "Neuroprotective Botanicals",
+            category: "neuro",
+            desc: "Gotu Kola (Centella asiatica) and Brahmi have strong traditional and clinical reputations for supporting cerebral microcirculation, memory retention, and antioxidant neuron protection.",
+            dosage: "Fresh leaf extracts or herbal teas taken with a balanced morning meal.",
+            img: "https://upload.wikimedia.org/wikipedia/commons/c/cb/Centella_asiatica_2zz.jpg"
+        },
+        photo5: {
+            title: "Breast Health & Cellular Protection",
+            tag: "Glucosinolates & Flavonoids",
+            category: "metabolic",
+            desc: "Cruciferous vegetables, berries, and green tea deliver sulforaphane and anthocyanins that support natural estrogen metabolism and cellular detoxification pathways.",
+            dosage: "Include 1–2 daily servings of steamed broccoli, cabbage, or dark berries.",
+            img: "https://static.toiimg.com/photo/76891362.cms"
+        },
+        photo6: {
+            title: "Bronchial Asthma & Airway Comfort",
+            tag: "Respiratory Botanicals",
+            category: "respiratory",
+            desc: "Asthma involves bronchial hyper-reactivity. Warm herbal infusions containing ginger, Holy Basil (Tulsi), and licorice provide demulcent soothing and bronchodilatory support.",
+            dosage: "Warm herbal brew with ginger, crushed tulsi leaves, and raw honey.",
+            img: "https://static.toiimg.com/thumb/msid-105708696,width-1280,height-720,resizemode-4/105708696.jpg"
+        },
+        photo7: {
+            title: "Cough & Upper Respiratory Ease",
+            tag: "Mucosal Demulcents",
+            category: "respiratory",
+            desc: "Dark grapes and raw honey contain natural bioflavonoids and soothing enzymes that alleviate dry vocal cords and reduce throat mucosal irritation.",
+            dosage: "Fresh unpeeled dark seeded grapes or warm water with organic raw honey.",
+            img: "https://janescafemissionvalley.com/wp-content/uploads/2022/08/different-kinds-of-grapes-for-eating-hdr.webp"
+        },
+        photo8: {
+            title: "Eyesight & Ocular Protection",
+            tag: "Lutein & Zeaxanthin",
+            category: "neuro",
+            desc: "Zucchini, spinach, and dark squash are abundant in lutein and zeaxanthin carotenoids that concentrate in the macula to protect retinal cells from blue light oxidation.",
+            dosage: "Lightly sautéed green squash or dark spinach with healthy olive oil.",
+            img: "https://images.everydayhealth.com/images/diet-nutrition/all-about-zucchini-nutrition-benefits-side-effects-1440x810.jpg"
+        },
+        photo9: {
+            title: "Food Poisoning & Gastric Recovery",
+            tag: "Digestive Antimicrobial Support",
+            category: "digestive",
+            desc: "Gingerol compounds in fresh ginger soothe gastric contractions, ease nausea, and provide gentle antimicrobial support during gastrointestinal recovery.",
+            dosage: "Warm ginger tea with pinch of rock salt; pair with adequate electrolytes.",
+            img: "https://images.herzindagi.info/image/2023/Nov/ginger-tea-recipe.jpg"
+        },
+        photo10: {
+            title: "Heart Health & Lipid Balance",
+            tag: "Soluble Pectin & Polyphenols",
+            category: "cardio",
+            desc: "Apples provide soluble pectin and quercetin flavonoids, assisting in regulating LDL cholesterol levels, supporting gut microbiome health, and promoting arterial flexibility.",
+            dosage: "1 whole crisp organic apple with peel daily before noon.",
+            img: "https://www.indianhealthyrecipes.com/wp-content/uploads/2022/02/apple-juice-recipe.jpg"
+        },
+        photo11: {
+            title: "Headache & Cranial Tension",
+            tag: "Vascular & Calming Herbs",
+            category: "neuro",
+            desc: "Betel leaf and peppermint compounds possess cooling properties that aid in relieving tension-type cranial vascular fluctuations and mental fatigue.",
+            dosage: "Herbal steam inhalation or fresh aromatic infusions.",
+            img: "https://upload.wikimedia.org/wikipedia/commons/9/99/Piper_betle_plant.jpg"
+        },
+        photo12: {
+            title: "Human Immunodeficiency Virus (HIV) Nutrition",
+            tag: "Metabolic & Immune Density",
+            category: "metabolic",
+            desc: "Maintaining cellular body mass and immune resilience is essential alongside medical antiretroviral therapies. Calorie-dense whole grains, clean proteins, and vitamins provide essential metabolic support.",
+            dosage: "High-protein legumes, healthy seeds, and diverse cooked vegetables.",
+            img: "https://cdn.wikifarmer.com/wp-content/uploads/2023/09/iStock-1068858270.jpg"
+        },
+        photo13: {
+            title: "Indigestion & Dyspepsia Relief",
+            tag: "Carminative Menthol",
+            category: "digestive",
+            desc: "Fresh mint (Pudina) stimulates bile flow and relaxes intestinal smooth muscle tissues, reducing bloating, gas, and post-meal fullness.",
+            dosage: "Fresh mint chutney or lukewarm crushed mint tea after heavy meals.",
+            img: "https://cdn-prod.medicalnewstoday.com/content/images/articles/275/275944/mint-on-a-wooden-table.jpg"
+        },
+        photo14: {
+            title: "Jaundice & Hepatic Support",
+            tag: "Hepatoprotective Botanicals",
+            category: "digestive",
+            desc: "Phyllanthus niruri (Keelanelli / Chanca Piedra) is traditionally respected for supporting hepatic enzymes, bile excretion, and cellular liver regeneration.",
+            dosage: "Take traditional leaf infusion under professional ayurvedic guidance.",
+            img: "https://www.wildturmeric.net/wp-content/uploads/2014/12/chanca-piedra-health-benefits-1440x954.jpg"
+        },
+        photo15: {
+            title: "Kidney Health & Urinary Flow",
+            tag: "Alkalizing Nutrition",
+            category: "metabolic",
+            desc: "Steamed cauliflower and abundant hydration provide gentle, low-potassium, fiber-rich nutrition that eases renal filtration load.",
+            dosage: "Steamed cauliflower florets prepared without heavy sodium.",
+            img: "https://www.tastingtable.com/img/gallery/is-cauliflower-flour-actually-worth-stocking-in-your-kitchen/l-intro-1704736309.jpg"
+        },
+        photo16: {
+            title: "Leg Pain & Muscle Cramps",
+            tag: "Potassium & Magnesium",
+            category: "musculo",
+            desc: "Avocados deliver concentrated potassium, magnesium, and healthy fats that balance neuromuscular electrical potentials and prevent nocturnal leg cramps.",
+            dosage: "Half fresh ripe avocado daily with salads or smoothies.",
+            img: "https://nawon.com.vn/wp-content/uploads/2023/10/Avocado-juice-for-Weight-Loss-1224x800.jpg"
+        },
+        photo17: {
+            title: "Normal & Viral Fever Recovery",
+            tag: "Enzymatic Papain & Vitamin C",
+            category: "metabolic",
+            desc: "Fresh papaya provides the proteolytic enzyme papain and rich bioavailable vitamin C to facilitate cellular recovery and gentle nutrient uptake during fevers.",
+            dosage: "Fresh ripe papaya slices or blended juice during convalescence.",
+            img: "https://zestysouthindiankitchen.com/wp-content/uploads/2013/11/papaya-juice-5.jpg"
+        },
+        photo18: {
+            title: "Shoulder & Musculoskeletal Ease",
+            tag: "Proteolytic Bromelain",
+            category: "musculo",
+            desc: "Pineapple contains bromelain, a natural proteolytic enzyme recognized for helping modulate joint inflammation, tendonitis, and soft tissue swelling.",
+            dosage: "Freshly cut ripe pineapple eaten on an empty stomach for maximum enzymatic effect.",
+            img: "https://post.healthline.com/wp-content/uploads/2021/04/pineapple-juice-1296x728-header-.jpg"
+        },
+        photo19: {
+            title: "Stone Relief & Diuretic Support",
+            tag: "Natural Diuretics & Hydration",
+            category: "digestive",
+            desc: "Botanical diuretics like banana stem juice combined with copious clean water encourage urinary clearance and help prevent crystal precipitation.",
+            dosage: "Freshly strained banana stem juice (100ml) twice weekly.",
+            img: "https://tamil.cdn.zeenews.com/tamil/sites/default/files/2023/03/03/276613-mar303.png"
+        },
+        photo20: {
+            title: "Stomach Ulcer & Mucosal Defense",
+            tag: "Anthocyanins & Flavonoids",
+            category: "digestive",
+            desc: "Blueberries provide concentrated anthocyanin polyphenols that support the protective gastric mucus layer and inhibit H. pylori adherence.",
+            dosage: "1 cup fresh or frozen blueberries blended into smooth porridge.",
+            img: "https://media.post.rvohealth.io/wp-content/uploads/2020/08/blueberries-1200x628-facebook-1200x628.jpg"
+        },
+        photo21: {
+            title: "Blood Sugar & Glycemic Control",
+            tag: "Soluble Galactomannan Fiber",
+            category: "metabolic",
+            desc: "Fenugreek seeds (Methi) contain soluble galactomannan fiber and 4-hydroxyisoleucine, which slow glucose absorption and enhance insulin sensitivity.",
+            dosage: "Soak 1 tsp fenugreek seeds overnight in water; drink water and chew seeds in morning.",
+            img: "https://5.imimg.com/data5/SELLER/Default/2023/7/324514603/NM/PY/QZ/11104951/indian-fenugreek-seeds.jpg"
+        },
+        photo22: {
+            title: "Nausea & Vomiting Relief",
+            tag: "Natural Citric & Electrolyte Balance",
+            category: "digestive",
+            desc: "Fresh lemon water provides natural citric acid and aromatics that settle gastric motility, alleviate nausea sensations, and encourage hydration.",
+            dosage: "Warm water with half a freshly squeezed lemon and pinch of pink salt.",
+            img: "https://cdn.britannica.com/84/188484-050-F27B0049/lemons-tree.jpg"
         }
-    }
-
-    function getNormalWeightRange(heightCm) {
-        var minHeight = 160; // Minimum height for reference weight range in cm
-        var normalWeightLower = 18.5 * (minHeight * minHeight) / 10000;
-        var normalWeightUpper = 24.9 * (minHeight * minHeight) / 10000;
-        return { lower: normalWeightLower.toFixed(1), upper: normalWeightUpper.toFixed(1) };
-    }
-
-    function displayBMIResult(bmi, bmiCategory, weightRange) {
-        var result = "<h3>BMI: " + bmi.toFixed(1) + " (" + bmiCategory + ")</h3>";
-        
-        switch (bmiCategory) {
-            case "Underweight":
-                result += "<h4>This BMI is considered underweight. Being underweight may pose certain health risks, including nutrient deficiencies and hormonal changes. Waist-to-hip ratio, waist-to-height ratio, and body fat percentage measurements can provide a more complete picture of any health risks. A person should consult with their healthcare provider and consider making lifestyle changes through healthy eating and fitness to improve their health indicators.</h4>";
-                result += "<h4>For this height, a weight range of " + weightRange.lower + "–" + weightRange.upper + " kg is a normal BMI.</h4>";
-                break;
-            case "Normal":
-                result += "<h4>This BMI is within the normal range. Individuals with a normal BMI typically have a lower risk of developing weight-related health problems. However, maintaining a balanced diet and regular exercise routine is essential for overall health and well-being.</h4>";
-                break;
-            case "Overweight":
-                result += "<h4>This BMI is considered overweight. Individuals with an overweight BMI may be at increased risk for various health issues, such as heart disease, diabetes, and certain cancers. It's advisable to consult with a healthcare professional to develop a plan for achieving a healthier weight through diet and exercise.</h4>";
-                break;
-            case "Obese":
-                result += "<h4>This BMI is categorized as obese. Obesity is associated with a higher risk of developing serious health conditions, including cardiovascular disease, stroke, type 2 diabetes, and certain cancers. It's crucial to seek guidance from a healthcare provider to address weight management and reduce health risks.</h4>";
-                break;
-            default:
-                break;
-        }
-
-        document.getElementById('bmi-result').innerHTML = result;
-    }
-</script>
-
-<script>
-    // Function to handle form submission
-    function submitForm() {
-        // Get form input values
-        var name = document.getElementById('name').value;
-        var email = document.getElementById('email').value;
-        var message = document.getElementById('message').value;
-        
-        // Here you can add code to send the form data to a server using AJAX
-        
-        // Display a message or animation to indicate that the form is being submitted
-        alert("Thank you, " + name + "! Your message has been submitted.");
-        
-        // Clear form fields after submission
-        document.getElementById('name').value = '';
-        document.getElementById('email').value = '';
-        document.getElementById('message').value = '';
-    }
-    
-    // Add event listener to submit button
-    document.getElementById('submitBtn').addEventListener('click', submitForm);
-</script>
-
-<script>
-    function revealSection(sectionId) {
-        // Hide all sections
-        var sections = document.querySelectorAll('section');
-        sections.forEach(function (section) {
-            section.style.display = 'none';
-        });
-
-        // Deactivate all navigation links
-        var navLinks = document.querySelectorAll('nav ul li a');
-        navLinks.forEach(function (link) {
-            link.classList.remove('active');
-        });
-
-        // Display the selected section
-        document.getElementById(sectionId).style.display = 'block';
-
-        // Scroll to the top of the page
-        window.scrollTo(0, 0);
-
-        // Activate the corresponding navigation link
-        var activeLink = document.querySelector('nav ul li a[href="#' + sectionId + '"]');
-        activeLink.classList.add('active');
-    }
-
-    // Show only the home section initially
-    window.onload = function() {
-        revealSection('home');
     };
 
-    // Scroll to the top of the page when the window is refreshed
-    window.onbeforeunload = function() {
-        window.scrollTo(0, 0);
-    };
-</script>
-<script>
-    function revealSelectedPhoto() {
-        var selectedValue = document.getElementById("photo-selection").value;
-        var causeDetails = document.getElementById("cause-details");
+    function renderConditionsGrid(filterCat = 'all', searchQuery = '') {
+        const grid = document.getElementById('conditionsDirectoryGrid');
+        if (!grid) return;
+        grid.innerHTML = '';
 
-        // Hide all cause details and images
-        var allCauseDetails = document.querySelectorAll("#cause-details > *");
-        allCauseDetails.forEach(function (cause) {
-            cause.style.display = "none";
-        });
+        const search = searchQuery.toLowerCase().trim();
 
-        // Hide all images
-        var allImages = document.querySelectorAll("img[id^='photo']");
-        allImages.forEach(function (img) {
-            img.style.display = "none";
-        });
+        Object.keys(conditionDatabase).forEach(key => {
+            const item = conditionDatabase[key];
+            const matchCategory = (filterCat === 'all' || item.category === filterCat);
+            const matchSearch = (!search || item.title.toLowerCase().includes(search) || item.tag.toLowerCase().includes(search) || item.desc.toLowerCase().includes(search));
 
-        // Show the selected cause details and image
-        if (selectedValue !== "Select") {
-            var selectedCause = document.getElementById(selectedValue);
-            var selectedCauseDetails = document.getElementById(selectedValue + "-details");
-            if (selectedCause && selectedCauseDetails) {
-                selectedCause.style.display = "block";
-                selectedCauseDetails.style.display = "block";
-                causeDetails.style.display = "block";
+            if (matchCategory && matchSearch) {
+                const card = document.createElement('div');
+                card.className = 'condition-grid-item';
+                card.onclick = () => {
+                    document.getElementById('photo-selection').value = key;
+                    displaySelectedCondition();
+                    document.getElementById('conditionDisplayCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                };
+                card.innerHTML = `
+                    <img src="${item.img}" alt="${item.title}" class="condition-grid-img" loading="lazy">
+                    <div class="condition-grid-body">
+                        <div>
+                            <h5>${item.title}</h5>
+                            <span>${item.tag}</span>
+                        </div>
+                        <div style="font-size: 12.5px; color: var(--secondary); font-weight: 700; margin-top: 10px;">View Remedy Protocol ➔</div>
+                    </div>
+                `;
+                grid.appendChild(card);
             }
+        });
+    }
+
+    function filterByCategory(cat) {
+        const chips = document.querySelectorAll('.cat-chip');
+        chips.forEach(c => c.classList.remove('active'));
+        if (event && event.target) {
+            event.target.classList.add('active');
+        }
+        const searchVal = document.getElementById('conditionSearchInput').value;
+        renderConditionsGrid(cat, searchVal);
+    }
+
+    function filterConditionsList() {
+        const query = document.getElementById('conditionSearchInput').value;
+        renderConditionsGrid('all', query);
+    }
+
+    function showSection(sectionId) {
+        // Support aliases
+        if (sectionId === 'health_condition') sectionId = 'conditions';
+        if (sectionId === 'discover') sectionId = 'research';
+        if (sectionId === 'aboutus') sectionId = 'about';
+        if (sectionId === 'contactus') sectionId = 'contact';
+
+        const sections = document.querySelectorAll('.portal-section');
+        sections.forEach(s => s.style.display = 'none');
+
+        const target = document.getElementById(sectionId);
+        if (target) {
+            target.style.display = 'block';
         } else {
-            causeDetails.style.display = "none";
+            document.getElementById('home').style.display = 'block';
+            sectionId = 'home';
+        }
+
+        const navLinks = document.querySelectorAll('nav ul li a');
+        navLinks.forEach(l => l.classList.remove('active'));
+
+        const activeNav = document.getElementById('nav-' + sectionId);
+        if (activeNav) activeNav.classList.add('active');
+
+        const navWrapper = document.getElementById('portalNavWrapper');
+        if (navWrapper) navWrapper.classList.remove('active');
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function displaySelectedCondition() {
+        const val = document.getElementById('photo-selection').value;
+        const card = document.getElementById('conditionDisplayCard');
+
+        if (conditionDatabase[val]) {
+            const data = conditionDatabase[val];
+            document.getElementById('activeImg').src = data.img;
+            document.getElementById('activeImg').alt = data.title;
+            document.getElementById('activeTitle').textContent = data.title;
+            document.getElementById('activeTag').textContent = data.tag;
+            document.getElementById('activeDesc').textContent = data.desc;
+            document.getElementById('activeDosage').innerHTML = `<strong>💡 Nutritional Recommendation:</strong> ${data.dosage}`;
+            card.style.display = 'block';
         }
     }
+
+    function switchTools(tool) {
+        const bmi = document.getElementById('bmiToolWrapper');
+        const sleep = document.getElementById('sleepToolWrapper');
+        const btnBmi = document.getElementById('tabBtnBmi');
+        const btnSleep = document.getElementById('tabBtnSleep');
+
+        if (tool === 'bmi') {
+            bmi.style.display = 'block';
+            sleep.style.display = 'none';
+            btnBmi.classList.add('active');
+            btnSleep.classList.remove('active');
+        } else {
+            bmi.style.display = 'none';
+            sleep.style.display = 'block';
+            btnBmi.classList.remove('active');
+            btnSleep.classList.add('active');
+        }
+    }
+
+    function calculateBMI() {
+        const heightCm = parseFloat(document.getElementById('height-cm').value);
+        const weightKg = parseFloat(document.getElementById('weight-kg').value);
+        const resultsBox = document.getElementById('bmiResultsBox');
+
+        if (!heightCm || !weightKg || heightCm <= 0 || weightKg <= 0) {
+            alert('Please enter valid positive numbers for height and weight.');
+            return;
+        }
+
+        const heightMeters = heightCm / 100;
+        const bmi = weightKg / (heightMeters * heightMeters);
+        const bmiFixed = bmi.toFixed(1);
+
+        const normalMin = (18.5 * (heightCm * heightCm) / 10000).toFixed(1);
+        const normalMax = (24.9 * (heightCm * heightCm) / 10000).toFixed(1);
+
+        let category = '';
+        let badgeClass = '';
+        let advice = '';
+        let meterPercent = 50;
+
+        if (bmi < 18.5) {
+            category = 'Underweight';
+            badgeClass = 'badge-pill badge-underweight';
+            advice = 'Your calculated BMI is in the underweight range. Focus on nutrient-dense meals, healthy fats, and consult a healthcare professional to safely achieve a balanced weight.';
+            meterPercent = Math.max(5, (bmi / 18.5) * 25);
+        } else if (bmi >= 18.5 && bmi < 25) {
+            category = 'Healthy Weight';
+            badgeClass = 'badge-pill badge-normal';
+            advice = 'Your BMI is within the standard healthy weight range. Continue supporting your metabolic vitality through balanced meals and regular physical activity.';
+            meterPercent = 25 + ((bmi - 18.5) / 6.5) * 35;
+        } else if (bmi >= 25 && bmi < 30) {
+            category = 'Overweight';
+            badgeClass = 'badge-pill badge-overweight';
+            advice = 'Your BMI is in the overweight category. Gradual lifestyle refinements, increased physical activity, and nutrient-rich whole foods can help optimize long-term cardiovascular health.';
+            meterPercent = 60 + ((bmi - 25) / 5) * 25;
+        } else {
+            category = 'Obese';
+            badgeClass = 'badge-pill badge-obese';
+            advice = 'Your BMI indicates obesity. Discussing a personalized health plan with your healthcare provider can support sustainable, lasting wellness improvements.';
+            meterPercent = Math.min(96, 85 + ((bmi - 30) / 10) * 12);
+        }
+
+        document.getElementById('bmiNumberDisplay').textContent = bmiFixed;
+        const badgeEl = document.getElementById('bmiBadgeDisplay');
+        badgeEl.className = badgeClass;
+        badgeEl.textContent = category;
+
+        // Position pointer on graphical gauge
+        document.getElementById('bmiPointer').style.left = `${meterPercent}%`;
+
+        document.getElementById('bmiAdviceDisplay').textContent = advice;
+        document.getElementById('bmiRangeDisplay').textContent = `🎯 For your height of ${heightCm} cm, the standard healthy weight range is ${normalMin} – ${normalMax} kg.`;
+
+        resultsBox.style.display = 'block';
+    }
+
+    function updateSleepInputs() {
+        const mode = document.getElementById('sleepModeSelect').value;
+        const wrapper = document.getElementById('sleepTimeWrapper');
+        const label = document.getElementById('sleepTimeInputLabel');
+
+        if (mode === 'sleepNow') {
+            wrapper.style.display = 'none';
+        } else {
+            wrapper.style.display = 'flex';
+            label.textContent = mode === 'wakeAt' ? 'Target Wake-up Time:' : 'Target Bedtime:';
+        }
+    }
+
+    function calculateSleepCycles() {
+        const mode = document.getElementById('sleepModeSelect').value;
+        const timeVal = document.getElementById('sleepTimeInput').value;
+        const resultsBox = document.getElementById('sleepResultsBox');
+        const output = document.getElementById('sleepGridOutput');
+        output.innerHTML = '';
+
+        let baseDate = new Date();
+        if (mode !== 'sleepNow' && timeVal) {
+            const [h, m] = timeVal.split(':').map(Number);
+            baseDate.setHours(h, m, 0, 0);
+        }
+
+        const cycles = [
+            { count: 6, hours: 9, label: "6 Cycles (9h) — Optimal Recovery", highlight: true },
+            { count: 5, hours: 7.5, label: "5 Cycles (7.5h) — Recommended", highlight: true },
+            { count: 4, hours: 6, label: "4 Cycles (6h) — Standard Rest", highlight: false },
+            { count: 3, hours: 4.5, label: "3 Cycles (4.5h) — Power Rest", highlight: false }
+        ];
+
+        cycles.forEach(c => {
+            const cycleMs = (c.hours * 60 + 15) * 60 * 1000;
+            let targetDate = mode === 'wakeAt' 
+                ? new Date(baseDate.getTime() - cycleMs)
+                : new Date(baseDate.getTime() + cycleMs);
+
+            const timeStr = targetDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            const card = document.createElement('div');
+            card.className = c.highlight ? 'sleep-card highlight' : 'sleep-card';
+            card.innerHTML = `
+                <div style="font-size: 13px; font-weight: 800; color: ${c.highlight ? 'var(--primary)' : 'var(--text-muted)'};">${c.label}</div>
+                <div class="sleep-time-digit">${timeStr}</div>
+                <div style="font-size: 12.5px; color: var(--text-muted); font-weight: 700;">${mode === 'wakeAt' ? 'Suggested Bedtime' : 'Suggested Wake-up'}</div>
+            `;
+            output.appendChild(card);
+        });
+
+        document.getElementById('sleepResultsHeading').textContent = mode === 'wakeAt'
+            ? 'Suggested Bedtimes to Wake Up Refreshed:'
+            : 'Suggested Wake-up Windows:';
+
+        resultsBox.style.display = 'block';
+    }
+
+    function toggleFaq(el) {
+        const parent = el.parentElement;
+        parent.classList.toggle('active');
+    }
+
+    function handleContactSubmit(event) {
+        if (event) event.preventDefault();
+        const name = document.getElementById('contactFullName').value.trim();
+        const email = document.getElementById('contactEmailAddr').value.trim();
+        const message = document.getElementById('contactMessageText').value.trim();
+        const status = document.getElementById('contactStatusBox');
+
+        if (!name || !email || !message) {
+            status.style.display = 'block';
+            status.style.background = '#fee2e2';
+            status.style.color = '#991b1b';
+            status.textContent = 'Please fill out all contact form fields.';
+            return;
+        }
+
+        status.style.display = 'block';
+        status.style.background = '#dcfce7';
+        status.style.color = '#166534';
+        status.textContent = `Thank you, ${name}! Your inquiry has been sent to our health editorial team.`;
+
+        document.getElementById('contactFullName').value = '';
+        document.getElementById('contactEmailAddr').value = '';
+        document.getElementById('contactMessageText').value = '';
+    }
+
+    function syncMemberProfile() {
+        const session = localStorage.getItem('healthlineCurrentSession');
+        if (session) {
+            try {
+                const user = JSON.parse(session);
+                if (user.name) {
+                    document.getElementById('memberDisplay').textContent = user.name;
+                    document.getElementById('welcomeUserName').textContent = user.name;
+                    document.getElementById('avatarInitial').textContent = user.name.charAt(0).toUpperCase();
+                }
+            } catch (e) {}
+        }
+    }
+
+    function signOutMember() {
+        localStorage.removeItem('healthlineCurrentSession');
+        window.location.href = 'index.html';
+    }
+
+    const portalMenuToggle = document.getElementById('portalMenuToggle');
+    const portalNavWrapper = document.getElementById('portalNavWrapper');
+    if (portalMenuToggle && portalNavWrapper) {
+        portalMenuToggle.addEventListener('click', () => {
+            portalNavWrapper.classList.toggle('active');
+        });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        syncMemberProfile();
+        renderConditionsGrid('all');
+        const hash = window.location.hash.replace('#', '');
+        if (hash) {
+            showSection(hash);
+        } else {
+            showSection('home');
+        }
+    });
 </script>
 
 </body>

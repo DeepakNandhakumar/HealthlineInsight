@@ -3,224 +3,454 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page - Healthline Foods</title>
+    <title>Member Access & Security Portal — Healthline Insight</title>
+    <meta name="description" content="Sign in to your Healthline Insight member account to access 22 clinical condition remedies, peer-reviewed research, and interactive wellness calculators.">
+    <link rel="icon" type="image/svg+xml" href="healthline-logo.svg">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap');
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        :root {
+            --primary: #059669;
+            --primary-light: #10b981;
+            --primary-glow: rgba(16, 185, 129, 0.25);
+            --secondary: #0284c7;
+            --secondary-light: #38bdf8;
+            --secondary-dark: #0369a1;
+            --dark: #0f172a;
+            --surface: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --bg-mesh: radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.08) 0px, transparent 50%),
+                       radial-gradient(at 100% 0%, rgba(56, 189, 248, 0.12) 0px, transparent 50%),
+                       radial-gradient(at 50% 100%, rgba(99, 102, 241, 0.06) 0px, transparent 50%),
+                       #f8fafc;
+            --card-shadow: 0 16px 40px -10px rgba(15, 23, 42, 0.1), 0 6px 16px -4px rgba(2, 132, 199, 0.08);
+            --card-shadow-hover: 0 24px 50px -10px rgba(2, 132, 199, 0.18), 0 10px 20px -5px rgba(16, 185, 129, 0.12);
+            --radius-xl: 24px;
+            --radius-lg: 16px;
+            --radius-md: 12px;
         }
 
         body {
-            background-color: #c9d6ff;
-            background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+            background: var(--bg-mesh);
+            color: var(--text-main);
+            line-height: 1.65;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Top Announcement Bar */
+        .announcement-bar {
+            background: linear-gradient(90deg, #059669 0%, #0284c7 50%, #4f46e5 100%);
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 8px 20px;
+            text-align: center;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-direction: column;
-            height: 100vh;
+            gap: 10px;
+            letter-spacing: 0.3px;
         }
 
-        .header {
-            margin-bottom: px;
-            font-size: 35px;
-            font-weight: 1000;
-            color: #333;
-            width: 180%; /* Adjusted width */
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 10px 0; /* Adjusted padding */
-            text-align: center;
-            z-index: 999;
+        .announcement-bar a {
+            color: #ffffff;
+            text-decoration: underline;
+            margin-left: 6px;
+            font-weight: 800;
         }
 
-        .container {
-            background-color: #fff;
+        /* Header Navbar */
+        .portal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 44px;
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(16px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+        }
+
+        .brand-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .brand-logo {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .brand-link:hover .brand-logo {
+            transform: scale(1.08) rotate(-2deg);
+        }
+
+        .brand-name {
+            font-family: 'Outfit', sans-serif;
+            font-size: 22px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #059669 0%, #0284c7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-back-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #334155;
+            text-decoration: none;
+            font-size: 14.5px;
+            font-weight: 700;
+            padding: 8px 18px;
             border-radius: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+            background: #ffffff;
+            border: 1px solid var(--border);
+            transition: all 0.25s ease;
+        }
+
+        .nav-back-home:hover {
+            color: var(--secondary);
+            border-color: var(--secondary);
+            background: #f0f9ff;
+            transform: translateX(-3px);
+        }
+
+        /* Center Content Area */
+        .auth-center-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            flex-grow: 1;
+            max-width: 1240px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .auth-notice-banner {
+            display: none;
+            width: 100%;
+            max-width: 900px;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-left: 5px solid var(--secondary);
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            margin-bottom: 24px;
+            font-size: 14.5px;
+            font-weight: 600;
+            color: #1e40af;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.08);
+            animation: fadeIn 0.4s ease;
+        }
+
+        .auth-container-card {
+            background-color: #ffffff;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--card-shadow);
             position: relative;
             overflow: hidden;
-            width: 768px;
+            width: 900px;
             max-width: 100%;
-            min-height: 480px;
+            min-height: 580px;
+            border: 1px solid var(--border);
         }
 
-        .container p {
-            font-size: 14px;
-            line-height: 20px;
-            letter-spacing: 0.3px;
-            margin: 20px 0;
-        }
-
-        .container span {
-            font-size: 12px;
-        }
-
-        .container a {
-            color: #333;
-            font-size: 13px;
-            text-decoration: none;
-            margin: 15px 0 10px;
-        }
-
-        .container button {
-            background-color: orange;
-            color: #fff;
-            font-size: 12px;
-            padding: 10px 45px;
-            border: 1px solid transparent;
-            border-radius: 8px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            margin-top: 10px;
-            cursor: pointer;
-        }
-
-        .container button:hover {
-            background-color: #00a1ff;
-        }
-
-        .container button.hidden {
-            background-color: transparent;
-            border-color: #fff;
-        }
-
-        .container form {
-            background-color: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            padding: 0 40px;
-            height: 100%;
-        }
-
-        .container input {
-            background-color: #eee;
-            border: none;
-            margin: 8px 0;
-            padding: 10px 15px;
-            font-size: 13px;
-            border-radius: 8px;
-            width: 100%;
-            outline: none;
-        }
-
-        .form-container {
+        .form-pane {
             position: absolute;
             top: 0;
             height: 100%;
-            transition: all 0.6s ease-in-out;
+            transition: all 0.65s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
 
-        .sign-in {
+        .sign-in-pane {
             left: 0;
             width: 50%;
             z-index: 2;
         }
 
-        .container.active .sign-in {
+        .auth-container-card.active .sign-in-pane {
             transform: translateX(100%);
         }
 
-        .sign-up {
+        .sign-up-pane {
             left: 0;
             width: 50%;
             opacity: 0;
             z-index: 1;
         }
 
-        .container.active .sign-up {
+        .auth-container-card.active .sign-up-pane {
             transform: translateX(100%);
             opacity: 1;
             z-index: 5;
-            animation: move 0.6s;
+            animation: showPane 0.65s;
         }
 
-        @keyframes move {
-            0%, 49.99% {
-                opacity: 0;
-                z-index: 1;
-            }
-
-            50%, 100% {
-                opacity: 1;
-                z-index: 5;
-            }
+        @keyframes showPane {
+            0%, 49.99% { opacity: 0; z-index: 1; }
+            50%, 100% { opacity: 1; z-index: 5; }
         }
 
-        .social-icons {
-            margin: 20px 0;
+        form {
+            background-color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 0 44px;
+            height: 100%;
+            text-align: center;
         }
 
-        .social-icons a {
-            border: 1px solid #ccc;
-            border-radius: 20%;
+        .form-header-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .form-header-badge img {
+            width: 36px;
+            height: 36px;
+        }
+
+        .form-header-badge span {
+            font-family: 'Outfit', sans-serif;
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--dark);
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 6px;
+            letter-spacing: -0.5px;
+        }
+
+        .form-caption {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        .social-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .social-link {
+            border: 1px solid #e2e8f0;
+            border-radius: 50%;
             display: inline-flex;
             justify-content: center;
             align-items: center;
-            margin: 0 3px;
-            width: 40px;
-            height: 40px;
+            width: 38px;
+            height: 38px;
+            color: #475569;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            background: #f8fafc;
         }
 
-        .toggle-container {
+        .social-link:hover {
+            border-color: var(--secondary);
+            color: var(--secondary);
+            background: #f0f9ff;
+            transform: translateY(-2px);
+        }
+
+        .input-group-row {
+            width: 100%;
+            margin: 6px 0;
+            text-align: left;
+            position: relative;
+        }
+
+        .input-group-row label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: #475569;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .input-group-row input {
+            background-color: #f8fafc;
+            border: 1.5px solid #cbd5e1;
+            padding: 11px 15px;
+            font-size: 14.5px;
+            border-radius: 10px;
+            width: 100%;
+            outline: none;
+            color: var(--dark);
+            transition: all 0.2s ease;
+        }
+
+        .input-group-row input:focus {
+            background-color: #ffffff;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+        }
+
+        .helper-link {
+            color: var(--secondary);
+            font-size: 12.5px;
+            font-weight: 700;
+            text-decoration: none;
+            margin: 6px 0 12px;
+            cursor: pointer;
+            align-self: flex-end;
+        }
+
+        .helper-link:hover {
+            text-decoration: underline;
+        }
+
+        .btn-submit-auth {
+            background: linear-gradient(135deg, #059669 0%, #0284c7 100%);
+            color: #ffffff;
+            font-size: 14px;
+            padding: 12px 36px;
+            border: none;
+            border-radius: 30px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(2, 132, 199, 0.28);
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 6px;
+        }
+
+        .btn-submit-auth:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(2, 132, 199, 0.4);
+        }
+
+        .quick-fill-btn {
+            background: none;
+            border: 1px dashed var(--secondary);
+            color: var(--secondary);
+            font-size: 12.5px;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 20px;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+        }
+
+        .quick-fill-btn:hover {
+            background: #f0f9ff;
+            border-style: solid;
+        }
+
+        .toast-notification {
+            font-size: 12.5px;
+            font-weight: 600;
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            width: 100%;
+            display: none;
+        }
+
+        .toast-err {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        .toast-succ {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+
+        /* Sliding Toggle Overlay Container */
+        .toggle-pane-container {
             position: absolute;
             top: 0;
             left: 50%;
             width: 50%;
             height: 100%;
             overflow: hidden;
-            transition: all 0.6s ease-in-out;
-            border-radius: 150px 0 0 100px;
-            z-index: 1000;
+            transition: transform 0.65s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 100;
         }
 
-        .container.active .toggle-container {
+        .auth-container-card.active .toggle-pane-container {
             transform: translateX(-100%);
-            border-radius: 0 150px 100px 0;
         }
 
-        .toggle {
-            background-color: linear-gradient(to left, #00a1ff, #00ff8f);
-            height: 100%;
-            background: linear-gradient(to right, #C33764, #1D2671);
-            color: #fff;
+        .toggle-pane {
+            background: linear-gradient(135deg, #059669 0%, #0284c7 60%, #4f46e5 100%);
+            color: #ffffff;
             position: relative;
             left: -100%;
             height: 100%;
             width: 200%;
             transform: translateX(0);
-            transition: all 0.6s ease-in-out;
+            transition: transform 0.65s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
 
-        .container.active .toggle {
+        .auth-container-card.active .toggle-pane {
             transform: translateX(50%);
         }
 
         .toggle-panel {
             position: absolute;
-            width: 50%;
-            height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-direction: column;
-            padding: 0 30px;
+            padding: 0 40px;
             text-align: center;
             top: 0;
+            height: 100%;
+            width: 50%;
             transform: translateX(0);
-            transition: all 0.6s ease-in-out;
+            transition: transform 0.65s ease-in-out;
         }
 
         .toggle-left {
             transform: translateX(-200%);
         }
 
-        .container.active .toggle-left {
+        .auth-container-card.active .toggle-left {
             transform: translateX(0);
         }
 
@@ -229,117 +459,442 @@
             transform: translateX(0);
         }
 
-        .container.active .toggle-right {
+        .auth-container-card.active .toggle-right {
             transform: translateX(200%);
+        }
+
+        .toggle-panel h1 {
+            color: #ffffff;
+            font-size: 26px;
+            margin-bottom: 12px;
+        }
+
+        .toggle-panel p {
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 22px;
+            color: rgba(255, 255, 255, 0.92);
+        }
+
+        .btn-toggle-switch {
+            background-color: transparent;
+            border: 2px solid #ffffff;
+            color: #ffffff;
+            font-size: 13.5px;
+            padding: 10px 32px;
+            border-radius: 30px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-toggle-switch:hover {
+            background-color: #ffffff;
+            color: var(--dark);
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        footer {
+            background: #0f172a;
+            color: #94a3b8;
+            padding: 48px 44px 30px;
+            border-top: 1px solid #1e293b;
+        }
+
+        .footer-content {
+            max-width: 1240px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 36px;
+        }
+
+        .footer-about h4 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 20px;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 14px;
+        }
+
+        .footer-about p {
+            font-size: 14px;
+            color: #94a3b8;
+            line-height: 1.7;
+        }
+
+        .footer-nav-col h5 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: #f1f5f9;
+            margin-bottom: 16px;
+        }
+
+        .footer-nav-col ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .footer-nav-col ul li a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .footer-nav-col ul li a:hover {
+            color: var(--secondary-light);
+        }
+
+        .footer-bottom-bar {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding-top: 24px;
+            border-top: 1px solid #1e293b;
+            text-align: center;
+            font-size: 13.5px;
+            color: #64748b;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .portal-header {
+                padding: 14px 20px;
+            }
+            .auth-container-card {
+                min-height: 640px;
+            }
+            .sign-in-pane, .sign-up-pane {
+                width: 100%;
+            }
+            .toggle-pane-container {
+                display: none;
+            }
+            .auth-container-card.active .sign-in-pane {
+                display: none;
+            }
+            .auth-container-card.active .sign-up-pane {
+                transform: none;
+                opacity: 1;
+                display: block;
+            }
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 28px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container" id="container">
-        <div class="form-container sign-up">
-            <form action="#">
-                <div class="header">Healthline Insight</div>
-                <img src="healthline-logo.svg" alt="Healthline Foods Logo" width="100px">
-                <h1>Create Account</h1>
-                <input type="text" id="signupName" placeholder="Name" required>
-                <input type="email" id="email" placeholder="Email" required>
-                <input type="password" id="password" placeholder="Password" minlength="4" required>
-                <button type="button" onclick="handleSignUp(event)">Sign Up</button>
-            </form>
-        </div>
-        <div class="form-container sign-in">
-            <form action="#">
-                <div class="header">Healthline Insight</div>
-                <img src="healthline-logo.svg" alt="Healthline Foods Logo" width="100px"> 
-                <h1>Sign in</h1>
-                <input type="email" id="loginEmail" placeholder="Email">
-                <input type="password" id="loginPassword" placeholder="Password">
-                <a href="#">Forgot your password?</a>
-                <button type="button" onclick="handleLogin(event)">Sign In</button>
 
-            </form>
+    <!-- Top Announcement Bar -->
+    <div class="announcement-bar">
+        <span>✨ Healthline Member Security — Evidence-Based Clinical Nutrition & Wellness Intelligence</span>
+    </div>
+
+    <!-- Header Navbar -->
+    <header class="portal-header">
+        <a href="index.html" class="brand-link">
+            <img src="healthline-logo.svg" alt="Healthline Insight" class="brand-logo">
+            <span class="brand-name">Healthline Insight</span>
+        </a>
+        <a href="index.html" class="nav-back-home">
+            <span>← Back to Public Home</span>
+        </a>
+    </header>
+
+    <!-- Center Content Area -->
+    <div class="auth-center-wrap">
+
+        <!-- Route Guard Notice Banner -->
+        <div class="auth-notice-banner" id="authNoticeBanner">
+            <span>🔒</span>
+            <span id="noticeText"><strong>Member Access Required:</strong> Please sign in to your Healthline Insight account to access clinical condition remedies, calculators, and research publications.</span>
         </div>
-        <div class="toggle-container">
-            <div class="toggle">
-                <div class="toggle-panel toggle-left">
-                    <h1>Welcome Back!</h1>
-                    <p>To keep connected with us please login with your personal info</p>
-                    <button id="login">Sign In</button>
-                </div>
-                <div class="toggle-panel toggle-right">
-                    <h1>Hello, Friend!</h1>
-                    <p>Enter your personal details and start your journey with us</p>
-                    <button id="register">Sign Up</button>
+
+        <div class="auth-container-card" id="authContainerCard">
+            
+            <!-- Sign Up Form Pane -->
+            <div class="form-pane sign-up-pane">
+                <form id="signUpForm" onsubmit="handleRegistration(event)">
+                    <div class="form-header-badge">
+                        <img src="healthline-logo.svg" alt="Healthline">
+                        <span>Healthline Insight</span>
+                    </div>
+                    <h1>Create Member Account</h1>
+                    <p class="form-caption">Unlock clinical health tools and condition remedy intelligence</p>
+                    
+                    <div class="social-row">
+                        <a href="https://google.com" target="_blank" rel="noopener noreferrer" class="social-link" title="Google"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"/></svg></a>
+                        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="social-link" title="Facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8H6v4h3v12h5V12h3.642L18 8h-4V6.333C14 5.374 14.5 5 15.667 5H18V0h-3.833C10.667 0 9 1.667 9 4.667V8z"/></svg></a>
+                        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="social-link" title="LinkedIn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+                    </div>
+
+                    <div id="regAlert" class="toast-notification"></div>
+
+                    <div class="input-group-row">
+                        <label for="regFullName">Full Name</label>
+                        <input type="text" id="regFullName" placeholder="e.g. Deepak Nandhakumar" required>
+                    </div>
+
+                    <div class="input-group-row">
+                        <label for="regEmailAddr">Email Address</label>
+                        <input type="email" id="regEmailAddr" placeholder="name@domain.com" required>
+                    </div>
+
+                    <div class="input-group-row">
+                        <label for="regUserPassword">Password</label>
+                        <input type="password" id="regUserPassword" placeholder="••••••••" required>
+                    </div>
+
+                    <button type="submit" class="btn-submit-auth">Create Account & Enter</button>
+                </form>
+            </div>
+
+            <!-- Sign In Form Pane -->
+            <div class="form-pane sign-in-pane">
+                <form id="signInForm" onsubmit="handleSignIn(event)">
+                    <div class="form-header-badge">
+                        <img src="healthline-logo.svg" alt="Healthline">
+                        <span>Healthline Insight</span>
+                    </div>
+                    <h1>Member Sign In</h1>
+                    <p class="form-caption">Enter your credentials to access your health portal</p>
+                    
+                    <div class="social-row">
+                        <a href="https://google.com" target="_blank" rel="noopener noreferrer" class="social-link" title="Google"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"/></svg></a>
+                        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="social-link" title="Facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8H6v4h3v12h5V12h3.642L18 8h-4V6.333C14 5.374 14.5 5 15.667 5H18V0h-3.833C10.667 0 9 1.667 9 4.667V8z"/></svg></a>
+                        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="social-link" title="LinkedIn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+                    </div>
+
+                    <div id="loginAlertBox" class="toast-notification"></div>
+
+                    <div class="input-group-row">
+                        <label for="userEmailInput">Email Address</label>
+                        <input type="email" id="userEmailInput" placeholder="name@domain.com" required>
+                    </div>
+
+                    <div class="input-group-row">
+                        <label for="userPasswordInput">Password</label>
+                        <input type="password" id="userPasswordInput" placeholder="••••••••" required>
+                    </div>
+
+                    <span class="helper-link" onclick="fillInstantAccess()">Forgot password? (Use preloaded credentials)</span>
+
+                    <button type="submit" class="btn-submit-auth">Sign In</button>
+                    <button type="button" class="quick-fill-btn" onclick="fillInstantAccess()">⚡ Quick-Fill Member (Deepak Nandhakumar)</button>
+                </form>
+            </div>
+
+            <!-- Sliding Toggle Overlay Panels -->
+            <div class="toggle-pane-container">
+                <div class="toggle-pane">
+                    
+                    <!-- Left Panel (Visible when Sign Up active) -->
+                    <div class="toggle-panel toggle-left">
+                        <h1>Welcome Back!</h1>
+                        <p>Already a registered member? Sign in to continue tracking your nutritional protocols and clinical calculations.</p>
+                        <button class="btn-toggle-switch" id="btnSlideToLogin">Sign In</button>
+                    </div>
+
+                    <!-- Right Panel (Visible when Sign In active) -->
+                    <div class="toggle-panel toggle-right">
+                        <h1>New to Healthline?</h1>
+                        <p>Join our member network for evidence-backed remedies across 22 conditions and personalized metabolic tools.</p>
+                        <button class="btn-toggle-switch" id="btnSlideToRegister">Sign Up Free</button>
+                    </div>
+
                 </div>
             </div>
+
         </div>
+
     </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-about">
+                <h4>Healthline Insight</h4>
+                <p>Advancing evidence-informed nutritional guidance, clinical health calculators, and lifestyle intelligence for a healthier, more vibrant tomorrow.</p>
+            </div>
+            <div class="footer-nav-col">
+                <h5>Navigation</h5>
+                <ul>
+                    <li><a href="index.html">Public Home</a></li>
+                    <li><a href="index.html#conditions" onclick="localStorage.getItem('healthlineCurrentSession') ? window.location.href='second page.html#conditions' : null">Health Topics 🔒</a></li>
+                    <li><a href="index.html#research" onclick="localStorage.getItem('healthlineCurrentSession') ? window.location.href='second page.html#research' : null">Research Library 🔒</a></li>
+                    <li><a href="index.html#tools" onclick="localStorage.getItem('healthlineCurrentSession') ? window.location.href='second page.html#tools' : null">Calculators 🔒</a></li>
+                </ul>
+            </div>
+            <div class="footer-nav-col">
+                <h5>Clinical Tools</h5>
+                <ul>
+                    <li><a href="index.html" onclick="localStorage.getItem('healthlineCurrentSession') ? window.location.href='second page.html#tools' : null">BMI Assessment 🔒</a></li>
+                    <li><a href="index.html" onclick="localStorage.getItem('healthlineCurrentSession') ? window.location.href='second page.html#tools' : null">Sleep Cycle Planner 🔒</a></li>
+                    <li><a href="index.html" onclick="localStorage.getItem('healthlineCurrentSession') ? window.location.href='second page.html#conditions' : null">22 Condition Directory 🔒</a></li>
+                </ul>
+            </div>
+            <div class="footer-nav-col">
+                <h5>Organization</h5>
+                <ul>
+                    <li><a href="index.html">About Healthline</a></li>
+                    <li><a href="index.html">Contact Editorial</a></li>
+                    <li><a href="login page.html" style="color: var(--secondary-light); font-weight: 700;">Member Access Portal</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom-bar">
+            <p>© 2024–2026 Healthline Insight Private Limited. Evidence-based clinical intelligence. All rights reserved.</p>
+        </div>
+    </footer>
+
     <script>
-        var container = document.getElementById('container');
-        var registerBtn = document.querySelector('#register');
-        var loginBtn = document.querySelector('#login');
+        const authContainerCard = document.getElementById('authContainerCard');
+        const btnSlideToRegister = document.getElementById('btnSlideToRegister');
+        const btnSlideToLogin = document.getElementById('btnSlideToLogin');
 
-        registerBtn.addEventListener('click', () => {
-            container.classList.add("active");
-        });
+        function slideToSignUp() {
+            authContainerCard.classList.add("active");
+            hideAllToasts();
+        }
 
-        loginBtn.addEventListener('click', () => {
-            container.classList.remove("active");
-        });
+        function slideToSignIn() {
+            authContainerCard.classList.remove("active");
+            hideAllToasts();
+        }
 
-        function handleSignUp(event) {
+        if (btnSlideToRegister) btnSlideToRegister.addEventListener('click', slideToSignUp);
+        if (btnSlideToLogin) btnSlideToLogin.addEventListener('click', slideToSignIn);
+
+        function triggerToast(elementId, message, isError) {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            el.textContent = message;
+            el.className = isError ? 'toast-notification toast-err' : 'toast-notification toast-succ';
+            el.style.display = 'block';
+        }
+
+        function hideAllToasts() {
+            const t1 = document.getElementById('loginAlertBox');
+            const t2 = document.getElementById('regAlert');
+            if (t1) t1.style.display = 'none';
+            if (t2) t2.style.display = 'none';
+        }
+
+        function fillInstantAccess() {
+            document.getElementById('userEmailInput').value = 'deepakdeepak01452@gmail.com';
+            document.getElementById('userPasswordInput').value = 'deepak';
+            triggerToast('loginAlertBox', 'Credentials loaded for Deepak Nandhakumar. Click "Sign In" to enter.', false);
+        }
+
+        function handleRegistration(event) {
             if (event) event.preventDefault();
-            const name = document.getElementById('signupName').value.trim();
-            const email = document.getElementById('email').value.trim().toLowerCase();
-            const password = document.getElementById('password').value;
+            hideAllToasts();
+
+            const name = document.getElementById('regFullName').value.trim();
+            const email = document.getElementById('regEmailAddr').value.trim().toLowerCase();
+            const password = document.getElementById('regUserPassword').value;
 
             if (!name || !email || !password) {
-                alert('Please fill in all fields.');
+                triggerToast('regAlert', 'Please complete all required fields.', true);
                 return;
             }
             if (password.length < 4) {
-                alert('Please use a password with at least 4 characters.');
+                triggerToast('regAlert', 'Password must be at least 4 characters long.', true);
                 return;
             }
+
             if (localStorage.getItem('healthlineUser_' + email)) {
-                alert('An account with this email already exists. Please sign in.');
+                triggerToast('regAlert', 'An account with this email already exists. Please sign in.', true);
                 return;
             }
 
             localStorage.setItem('healthlineUser_' + email, JSON.stringify({ name: name, password: password }));
-            alert('Demo account created in this browser. You can now sign in.');
-            document.getElementById('loginEmail').value = email;
-            document.getElementById('loginPassword').value = '';
-            container.classList.remove('active');
+            localStorage.setItem('healthlineCurrentSession', JSON.stringify({ name: name, email: email }));
+            
+            triggerToast('regAlert', 'Account registered successfully! Redirecting to Member Portal...', false);
+            
+            const params = new URLSearchParams(window.location.search);
+            const redirectSection = params.get('redirect') || 'home';
+
+            setTimeout(() => {
+                window.location.href = `second page.html#${redirectSection}`;
+            }, 600);
         }
 
-        function handleLogin(event) {
+        function handleSignIn(event) {
             if (event) event.preventDefault();
-            const email = document.getElementById('loginEmail').value.trim().toLowerCase();
-            const password = document.getElementById('loginPassword').value;
+            hideAllToasts();
+
+            const email = document.getElementById('userEmailInput').value.trim().toLowerCase();
+            const password = document.getElementById('userPasswordInput').value;
+
+            if (!email || !password) {
+                triggerToast('loginAlertBox', 'Please enter your email and password.', true);
+                return;
+            }
+
             const saved = localStorage.getItem('healthlineUser_' + email);
             let valid = false;
+            let memberName = 'Deepak Nandhakumar';
 
             if (saved) {
                 try {
                     const user = JSON.parse(saved);
-                    valid = user.password === password;
+                    if (user.password === password) {
+                        valid = true;
+                        memberName = user.name || 'Healthline Member';
+                    }
                 } catch (error) {
                     valid = false;
                 }
             }
 
-            // Preserve the original demo credentials.
+            // Built-in account
             if (email === 'deepakdeepak01452@gmail.com' && password === 'deepak') {
                 valid = true;
+                memberName = 'Deepak Nandhakumar';
             }
 
             if (valid) {
-                window.location.href = 'second%20page.html';
+                localStorage.setItem('healthlineCurrentSession', JSON.stringify({ name: memberName, email: email }));
+                triggerToast('loginAlertBox', 'Access verified! Opening your Member Portal...', false);
+                
+                const params = new URLSearchParams(window.location.search);
+                const redirectSection = params.get('redirect') || 'home';
+
+                setTimeout(() => {
+                    window.location.href = `second page.html#${redirectSection}`;
+                }, 500);
             } else {
-                alert('Invalid email or password. First-time users can choose Sign Up to create a demo account.');
+                triggerToast('loginAlertBox', 'Invalid credentials. Please verify your email and password.', true);
             }
         }
+
+        // Check if redirected from a locked feature
+        window.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('auth_required') === 'true') {
+                const noticeBanner = document.getElementById('authNoticeBanner');
+                if (noticeBanner) noticeBanner.style.display = 'flex';
+            }
+            if (params.get('mode') === 'signup') {
+                slideToSignUp();
+            }
+        });
     </script>
 </body>
 </html>
