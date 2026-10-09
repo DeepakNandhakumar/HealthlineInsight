@@ -733,8 +733,7 @@
 
 <!-- Announcement Notification Strip -->
 <div class="announcement-bar">
-    <span>✨ Evidence-Based Clinical Nutrition & Wellness Intelligence |</span>
-    <a href="login%20page.html" id="announcementLink">Sign In for Full Member Access ➔</a>
+    <span>✨ Evidence-Based Clinical Nutrition & Wellness Intelligence</span>
 </div>
 
 <!-- Header Navbar -->
@@ -757,13 +756,7 @@
                 <li><a onclick="requireAuth('contact', 'Contact Editorial')">Contact <span class="nav-lock-badge">🔒</span></a></li>
             </ul>
         </nav>
-        
-        <div id="authSlot">
-            <a href="login%20page.html" class="btn-auth-pill">
-                <span>Sign In / Register</span>
-                <span>➔</span>
-            </a>
-        </div>
+ 
     </div>
 </header>
 
@@ -784,9 +777,9 @@
         </p>
 
         <div class="hero-actions">
-            <a href="login%20page.html" id="heroPrimaryBtn" class="btn-action-primary">
-                <span>Access Member Health Portal</span>
-                <span>➔</span>
+            <a href="#overviewEditorial" id="heroPrimaryBtn" class="btn-action-primary">
+                <span>Explore Health Resources</span>
+                <span>➜</span>
             </a>
             <button type="button" class="btn-action-secondary" onclick="document.getElementById('overviewEditorial').scrollIntoView({ behavior: 'smooth' })">
                 <span>Explore Nutrition Principles</span>
@@ -946,42 +939,8 @@
 </footer>
 
 <script>
-    function checkActiveSession() {
-        const session = localStorage.getItem('healthlineCurrentSession');
-        if (session) {
-            try {
-                const user = JSON.parse(session);
-                if (user.name) {
-                    const slot = document.getElementById('authSlot');
-                    slot.innerHTML = `
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <div class="user-account-chip">
-                                <span class="user-avatar-badge">${user.name.charAt(0).toUpperCase()}</span>
-                                <span>${user.name}</span>
-                                <button class="btn-signout" onclick="signOutMember()" title="Sign Out">Sign Out</button>
-                            </div>
-                            <a href="second%20page.html" class="btn-auth-pill">
-                                <span>Member Portal</span>
-                                <span>➔</span>
-                            </a>
-                        </div>
-                    `;
-
-                    const annLink = document.getElementById('announcementLink');
-                    if (annLink) {
-                        annLink.textContent = `Open Member Portal (${user.name}) ➔`;
-                        annLink.href = 'second page.html';
-                    }
-
-                    const heroBtn = document.getElementById('heroPrimaryBtn');
-                    if (heroBtn) {
-                        heroBtn.innerHTML = `<span>Go to Member Portal (${user.name})</span><span>➔</span>`;
-                        heroBtn.href = 'second page.html';
-                    }
-                }
-            } catch (e) {}
-        }
-    }
+    // The homepage is a public landing page. Account access remains available
+    // only when a user selects a protected feature that requires sign-in.
 
     function requireAuth(sectionKey, featureTitle) {
         const session = localStorage.getItem('healthlineCurrentSession');
@@ -1013,7 +972,7 @@
         });
     }
 
-    window.addEventListener('DOMContentLoaded', checkActiveSession);
+    // No member-portal CTA or signed-in account chip is rendered on the homepage.
 </script>
 
 </body>
